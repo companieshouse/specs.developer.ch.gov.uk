@@ -4,6 +4,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/swaggertooling/pom.xml" />
+        <option value="$PROJECT_DIR$/openapi3render/pom.xml" />
       </list>
     </option>
   </component>

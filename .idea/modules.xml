@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/swaggertooling/Swagger-1-2-Fixer/Swagger12Fixer.iml" filepath="$PROJECT_DIR$/swaggertooling/Swagger-1-2-Fixer/Swagger12Fixer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openapi3render/openapi3render.iml" filepath="$PROJECT_DIR$/openapi3render/openapi3render.iml" />
       <module fileurl="file://$PROJECT_DIR$/specs.developer.ch.gov.uk.iml" filepath="$PROJECT_DIR$/specs.developer.ch.gov.uk.iml" />
       <module fileurl="file://$PROJECT_DIR$/swaggertooling/swaggertooling.iml" filepath="$PROJECT_DIR$/swaggertooling/swaggertooling.iml" />
     </modules>
