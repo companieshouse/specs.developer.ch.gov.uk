@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/specs.developer.ch.gov.uk.iml" filepath="$PROJECT_DIR$/specs.developer.ch.gov.uk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swaggertooling/swaggertooling.iml" filepath="$PROJECT_DIR$/swaggertooling/swaggertooling.iml" />
+    </modules>
+  </component>
+</project>
