@@ -1,53 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>Swagger-1-2-Fixer</artifactId>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>${maven-compiler-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <artifactId>junit-platform-surefire-provider</artifactId>
-            <groupId>org.junit.platform</groupId>
-            <version>${junit-platform-surefire-provider.version}</version>
-          </dependency>
-        </dependencies>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>${maven-surefire-plugin.version}</version>
-      </plugin>
-    </plugins>
-  </build>
-
   <dependencies>
     <dependency>
       <artifactId>jackson-databind</artifactId>
       <groupId>com.fasterxml.jackson.core</groupId>
       <version>2.9.10</version>
     </dependency>
-    <dependency>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <groupId>org.junit.jupiter</groupId>
-      <scope>test</scope>
-      <version>${junit-jupiter-engine.version}</version>
-    </dependency>
-
-    <!--    <dependency>-->
-    <!--      <artifactId>mockito-junit-jupiter</artifactId>-->
-    <!--      <groupId>org.mockito</groupId>-->
-    <!--      <scope>test</scope>-->
-    <!--      <version>${mockito-junit-jupiter.version}</version>-->
-    <!--    </dependency>-->
     <dependency>
       <artifactId>junit-jupiter</artifactId>
       <groupId>org.junit.jupiter</groupId>

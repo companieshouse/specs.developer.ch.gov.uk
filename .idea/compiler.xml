@@ -11,7 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
       <module name="ch-spec" target="1.5" />
-      <module name="Swagger-1-2-Fixer" target="8" />
+      <module name="Swagger-1-2-Fixer" target="1.8" />
       <module name="swagger-tooling" target="1.5" />
     </bytecodeTargetLevel>
   </component>
