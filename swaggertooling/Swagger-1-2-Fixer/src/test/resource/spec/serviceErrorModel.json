@@ -1,0 +1,24 @@
+{
+  "models": {
+    "serviceError": {
+      "id": "serviceError",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "The error that occured."
+        },
+        "error_description": {
+          "type": "string",
+          "description": "A description of the error."
+        },
+        "exception_id": {
+          "type": "string",
+          "description": "A unique ID referencing the occurrence of the error."
+        }
+      }
+    }
+  }
+}

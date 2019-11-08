@@ -1,0 +1,25 @@
+{
+  "models": {
+    "dateOfBirth": {
+      "id": "dateOfBirth",
+      "properties": {
+        "day": {
+          "description": "The day of the date of birth.",
+          "type": "integer"
+        },
+        "month": {
+          "description": "The month of date of birth.",
+          "type": "integer"
+        },
+        "year": {
+          "description": "The year of date of birth.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "month",
+        "year"
+      ]
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "swaggerVersion": "1.2",
+  "basePath": "@@api_url",
+  "resourcePath": "/company/{company_number}/registered-office-address",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "path": "/company/{company_number}/registered-office-address",
+      "description": "Registered office address",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the current address of a company",
+          "nickname": "readRegisteredOfficeAddress",
+          "type": "registeredOfficeAddress",
+          "parameters": [
+            {
+              "name": "company_number",
+              "description": "The number of the company to create an address for.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Requested resource returned"
+            },
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 404,
+              "message": "Not found",
+              "responseModel": "error"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "registeredOfficeAddress": {
+      "id": "registeredOfficeAddress",
+      "properties": {
+        "etag": {
+          "type": "string",
+          "description": "The ETag of the resource.",
+          "notes": "Read only."
+        },
+        "premises": {
+          "type": "string",
+          "description": "The property name or number."
+        },
+        "address_line_1": {
+          "type": "string",
+          "description": "The first line of the address."
+        },
+        "address_line_2": {
+          "type": "string",
+          "description": "The second line of the address."
+        },
+        "locality": {
+          "type": "string",
+          "description": "The locality e.g London."
+        },
+        "region": {
+          "type": "string",
+          "description": "The region e.g Surrey."
+        },
+        "postal_code": {
+          "type": "string",
+          "description": "The postal code e.g CF14 3UZ."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country.",
+          "enum": [
+            "England",
+            "Wales",
+            "Scotland",
+            "Northern Ireland",
+            "Great Britain",
+            "United Kingdom",
+            "Not specified"
+          ]
+        },
+        "po_box": {
+          "type": "string",
+          "description": "The post-office box number."
+        }
+      },
+      "required": [
+        "etag",
+        "premises",
+        "address_line_1",
+        "locality",
+        "country"
+      ]
+    }
+  },
+  "externalModels": [
+    {
+      "path": "/spec/errorModel.json"
+    },
+    {
+      "path": "/spec/serviceErrorModel.json"
+    }
+  ]
+}

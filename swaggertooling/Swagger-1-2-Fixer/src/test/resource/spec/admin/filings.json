@@ -1,0 +1,169 @@
+{
+  "swaggerVersion": "1.2",
+  "basePath": "http://example.com/api_url",
+  "resourcePath": "/admin/filings/{barcode}",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "path": "/admin/filings/{barcode}",
+      "description": "Query and modification of a filing",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the current filing",
+          "nickname": "getFiling",
+          "type": "filing",
+          "parameters": [
+            {
+              "name": "barcode",
+              "description": "The barcode to query.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "access_token",
+              "description": "OAuth 2 access token.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Get successful"
+            },
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 404,
+              "message": "Filing not found"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update a filing",
+          "nickname": "updateFiling",
+          "type": "void",
+          "notes": "A filing would be updated to set its status to queued and unsetting the barcode, thus committing the data changes it encapsulates and queuing them on the backend.",
+          "parameters": [
+            {
+              "name": "barcode",
+              "description": "The barcode to query.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "access_token",
+              "description": "OAuth 2 access token.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "transaction_id",
+              "description": "The transaction id.",
+              "paramType": "path",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "description": "The status of the filing.",
+              "notes": "An in-progress,queued or processing filing may be updated to be queued.",
+              "paramType": "body",
+              "required": true,
+              "allowMultiple": false,
+              "enum": [
+                "queued"
+              ]
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Update successful"
+            },
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "serviceError"
+            },
+            {
+              "code": 404,
+              "message": "Filing not updated"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "filing": {
+      "id": "filing",
+      "required": [
+        "transaction_id",
+        "status"
+      ],
+      "properties": {
+        "transaction_id": {
+          "type": "string",
+          "description": "The transactionID, to be used in subsequent transaction related requests.",
+          "notes": "Read only."
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the filing.",
+          "notes": "Read only.",
+          "enum": [
+            "in-progress",
+            "queued",
+            "processing"
+          ]
+        },
+        "barcode": {
+          "type": "string",
+          "required": false,
+          "description": "The barcode assigned to the filing.",
+          "notes": "Read only."
+        }
+      }
+    },
+    "serviceError": {
+      "id": "serviceError",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "The error that occured."
+        },
+        "error_description": {
+          "type": "string",
+          "description": "A description of the error."
+        },
+        "exception_id": {
+          "type": "string",
+          "description": "A unique ID referencing the occurrence of the error."
+        }
+      }
+    }
+  }
+}

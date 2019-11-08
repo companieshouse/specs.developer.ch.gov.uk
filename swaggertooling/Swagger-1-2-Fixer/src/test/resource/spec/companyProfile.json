@@ -1,0 +1,804 @@
+{
+  "swaggerVersion": "1.2",
+  "basePath": "@@api_url",
+  "resourcePath": "/company/{company_number}",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "externalModels": [
+    {
+      "path": "/spec/errorModel.json"
+    },
+    {
+      "path": "/spec/dateOfBirthModel.json"
+    }
+  ],
+  "apis": [
+    {
+      "description": "Basic company information",
+      "operations": [
+        {
+          "method": "GET",
+          "nickname": "readCompanyProfile",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the basic information to return.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "Get the basic company information",
+          "type": "companyProfile"
+        }
+      ],
+      "path": "/company/{company_number}"
+    }
+  ],
+  "models": {
+    "accountingReferenceDate": {
+      "id": "accountingReferenceDate",
+      "properties": {
+        "day": {
+          "description": "The Accounting Reference Date (ARD) day.",
+          "type": "integer"
+        },
+        "month": {
+          "description": "The Accounting Reference Date (ARD) month.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "day",
+        "month"
+      ]
+    },
+    "accountsInformation": {
+      "id": "accountsInformation",
+      "properties": {
+        "accounting_reference_date": {
+          "description": "The Accounting Reference Date (ARD) of the company.",
+          "items": {
+            "$ref": "accountingReferenceDate"
+          },
+          "type": "List"
+        },
+        "last_accounts": {
+          "description": "The last company accounts filed.",
+          "items": {
+            "$ref": "lastAccounts"
+          },
+          "type": "List"
+        },
+        "next_accounts": {
+          "description": "The next company accounts filed.",
+          "items": {
+            "$ref": "nextAccounts"
+          },
+          "type": "List"
+        },
+        "next_due": {
+          "description": "Deprecated. Please use next_accounts.due_on.",
+          "type": "date"
+        },
+        "next_made_up_to": {
+          "description": "Deprecated. Please use next_accounts.period_end_on.",
+          "type": "date"
+        },
+        "overdue": {
+          "description": "Deprecated. Please use next_accounts.overdue",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "overdue",
+        "next_made_up_to",
+        "accounting_reference_date"
+      ]
+    },
+    "annualReturnInformation": {
+      "id": "annualReturnInformation",
+      "properties": {
+        "last_made_up_to": {
+          "description": "The date the last annual return was made up to.",
+          "type": "date"
+        },
+        "next_due": {
+          "description": "The date the next annual return is due. This member will only be returned if a confirmation statement has not been filed and the date is before 28th July 2016, otherwise refer to <code>confirmation_statement.next_due</code>",
+          "type": "date"
+        },
+        "next_made_up_to": {
+          "description": "The date the next annual return should be made up to. This member will only be returned if a confirmation statement has not been filed and the date is before 30th July 2016, otherwise refer to <code>confirmation_statement.next_made_up_to</code>",
+          "type": "date"
+        },
+        "overdue": {
+          "description": "Flag indicating if the annual return is overdue.",
+          "type": "boolean"
+        }
+      }
+    },
+    "confirmationOfStatementInformation": {
+      "id": "confirmationOfInformation",
+      "properties": {
+        "last_made_up_to": {
+          "description": "The date to which the company last made a confirmation statement.",
+          "type": "date"
+        },
+        "next_due": {
+          "description": "The date by which the next confimation statement must be received.",
+          "type": "date"
+        },
+        "next_made_up_to": {
+          "description": "The date to which the company must next make a confirmation statement.",
+          "type": "date"
+        },
+        "overdue": {
+          "description": "Flag indicating if the confirmation statement is overdue.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "next_made_up_to",
+        "next_due"
+      ]
+    },
+    "companyProfile": {
+      "id": "companyProfile",
+      "properties": {
+        "accounts": {
+          "description": "Company accounts information.",
+          "items": {
+            "$ref": "accountsInformation"
+          },
+          "type": "List"
+        },
+        "annual_return": {
+          "description": "Annual return information. This member is only returned if a confirmation statement has not be filed.",
+          "items": {
+            "$ref": "annualReturnInformation"
+          },
+          "type": "List"
+        },
+        "can_file": {
+          "description": "Flag indicating whether this company can file.",
+          "type": "boolean"
+        },
+        "confirmation_statement": {
+          "description": "Confirmation statement information.",
+          "items": {
+            "$ref": "confirmationOfStatementInformation"
+          },
+          "type": "List"
+        },
+        "company_name": {
+          "description": "The name of the company.",
+          "type": "string"
+        },
+        "company_number": {
+          "description": "The number of the company.",
+          "type": "string"
+        },
+        "date_of_creation": {
+          "description": "The date when the company was created.",
+          "type": "date"
+        },
+        "date_of_cessation": {
+          "description": "The date which the company was converted/closed or dissolved. Please refer to company status to determine which.",
+          "type": "date"
+        },
+        "etag": {
+          "description": "The ETag of the resource.",
+          "notes": "Read only",
+          "type": "string"
+        },
+        "has_been_liquidated": {
+          "description": "The flag indicating if the company has been liquidated in the past.",
+          "type": "boolean"
+        },
+        "has_charges": {
+          "description": "Deprecated. Please use links.charges",
+          "type": "boolean"
+        },
+        "is_community_interest_company": {
+          "description": "Deprecated. Please use subtype",
+          "type": "boolean"
+        },
+        "subtype": {
+          "description": "The subtype of the company.",
+          "enum": [
+            "community-interest-company",
+            "private-fund-limited-partnership"
+          ],
+          "type": "string"
+        },
+        "jurisdiction": {
+          "description": "The jurisdiction specifies the political body responsible for the company.",
+          "enum": [
+            "england-wales",
+            "wales",
+            "scotland",
+            "northern-ireland",
+            "european-union",
+            "united-kingdom",
+            "england",
+            "noneu"
+          ],
+          "type": "string"
+        },
+        "last_full_members_list_date": {
+          "description": "The date of last full members list update.",
+          "type": "date"
+        },
+        "foreign_company_details": {
+          "description": "Foreign company details.",
+          "items": {
+            "$ref": "foreignCompanyDetails"
+          },
+          "type": "List"
+        },
+        "registered_office_address": {
+          "description": "The address of the company's registered office.",
+          "items": {
+            "$ref": "registeredOfficeAddress"
+          },
+          "type": "List"
+        },
+        "sic_codes": {
+          "description": "SIC codes for this company.",
+          "items": {
+            "type": "string"
+          },
+          "type": "Array"
+        },
+        "previous_company_names": {
+          "description": "The previous names of this company.",
+          "items": {
+            "$ref": "previousCompanyNames"
+          },
+          "type": "array"
+        },
+        "company_status": {
+          "description": "The status of the company. <br /><br /> For enumeration descriptions see <code>company_status</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br />",
+          "type": "string",
+          "enum": [
+            "active",
+            "dissolved",
+            "liquidation",
+            "receivership",
+            "administration",
+            "voluntary-arrangement",
+            "converted-closed",
+            "insolvency-proceedings"
+          ]
+        },
+        "company_status_detail": {
+          "description": "Extra details about the status of the company. <br /><br /> For enumeration descriptions see <code>company_status_detail</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br />",
+          "enum": [
+            "transferred-from-uk",
+            "active-proposal-to-strike-off",
+            "petition-to-restore-dissolved",
+            "transformed-to-se",
+            "converted-to-plc"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the company. <br /><br /> For enumeration descriptions see <code>company_type</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br /><br />",
+          "enum": [
+            "private-unlimited",
+            "ltd",
+            "protected-cell-company",
+            "plc",
+            "old-public-company",
+            "private-limited-guarant-nsc-limited-exemption",
+            "limited-partnership",
+            "private-limited-guarant-nsc",
+            "converted-or-closed",
+            "private-unlimited-nsc",
+            "private-limited-shares-section-30-exemption",
+            "assurance-company",
+            "oversea-company",
+            "eeig",
+            "icvc-securities",
+            "icvc-warrant",
+            "icvc-umbrella",
+            "industrial-and-provident-society",
+            "northern-ireland",
+            "northern-ireland-other",
+            "llp",
+            "royal-charter",
+            "investment-company-with-variable-capital",
+            "unregistered-company",
+            "llp",
+            "other",
+            "european-public-limited-liability-company-se",
+            "scottish-partnership",
+            "charitable-incorporated-organisation",
+            "scottish-charitable-incorporated-organisation",
+            "further-education-or-sixth-form-college-corporation"
+          ],
+          "type": "string"
+        },
+        "external_registration_number": {
+          "description": "The number given by an external registration body.",
+          "notes": "",
+          "type": "string"
+        },
+        "has_insolvency_history": {
+          "description": "Deprecated. Please use links.insolvency",
+          "notes": "",
+          "type": "boolean"
+        },
+        "undeliverable_registered_office_address": {
+          "description": "Flag indicating whether post can be delivered to the registered office.",
+          "type": "boolean"
+        },
+        "registered_office_is_in_dispute": {
+          "description": "Flag indicating registered office address as been replaced.",
+          "type": "boolean"
+        },
+        "branch_company_details": {
+          "description": "UK branch of a foreign company.",
+          "items": {
+            "$ref": "branchCompanyDetails"
+          }
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "linksType"
+          },
+          "type": "list"
+        },
+        "partial_data_available": {
+          "description": "Returned if Companies House is not the primary source of data for this company. <br /><br /> For enumeration descriptions see <code>partial_data_available</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br /><br />",
+          "enum": [
+            "full-data-available-from-financial-conduct-authority",
+            "full-data-available-from-department-of-the-economy",
+            "full-data-available-from-the-company"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "company_name",
+        "company_number",
+        "status",
+        "type",
+        "jurisdiction",
+        "can_file",
+        "links"
+      ]
+    },
+    "lastAccounts": {
+      "id": "lastAccounts",
+      "properties": {
+        "made_up_to": {
+          "description": "Deprecated. Please use period_end_on.",
+          "type": "date"
+        },
+        "period_start_on": {
+          "description": "The first day of the most recently filed accounting period",
+          "type": "date"
+        },
+        "period_end_on": {
+          "description": "The last day of the most recently filed accounting period",
+          "type": "date"
+        },
+        "type": {
+          "description": "The type of the last company accounts filed. <br /><br /> For enumeration descriptions see <code>account_type</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br /><br />",
+          "enum": [
+            "null",
+            "full",
+            "small",
+            "medium",
+            "group",
+            "dormant",
+            "interim",
+            "initial",
+            "total-exemption-full",
+            "total-exemption-small",
+            "partial-exemption",
+            "audit-exemption-subsidiary",
+            "filing-exemption-subsidiary",
+            "micro-entity"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "made_up_to"
+      ]
+    },
+    "nextAccounts": {
+      "id": "nextAccounts",
+      "properties": {
+        "period_start_on": {
+          "description": "The first day of the next accounting period to be filed.",
+          "type": "date"
+        },
+        "period_end_on": {
+          "description": "The last day of the next accounting period to be filed.",
+          "type": "date"
+        },
+        "due_on": {
+          "description": "The date the next company accounts are due.",
+          "type": "date"
+        },
+        "overdue": {
+          "description": "Flag indicating if the company accounts are overdue.",
+          "type": "boolean"
+        }
+      }
+    },
+    "officerSummary": {
+      "id": "officerSummary",
+      "properties": {
+        "appointed_on": {
+          "description": "The date the officer was appointed.",
+          "type": "date"
+        },
+        "date_of_birth": {
+          "description": "Details of director date of birth.",
+          "items": {
+            "$ref": "dateOfBirth"
+          },
+          "type": "List"
+        },
+        "officer_role": {
+          "enum": [
+            "cic-manager",
+            "corporate-director",
+            "corporate-llp-designated-member",
+            "corporate-llp-member",
+            "corporate-manager-of-an-eeig",
+            "corporate-member-of-a-management-organ",
+            "corporate-member-of-a-supervisory-organ",
+            "corporate-member-of-an-administrative-organ",
+            "corporate-nominee-director",
+            "corporate-nominee-secretary",
+            "corporate-secretary",
+            "director",
+            "general-partner-in-a-limited-partnership",
+            "judicial-factor",
+            "limited-partner-in-a-limited-partnership",
+            "llp-designated-member",
+            "llp-member",
+            "manager-of-an-eeig",
+            "member-of-a-management-organ",
+            "member-of-a-supervisory-organ",
+            "member-of-an-administrative-organ",
+            "nominee-director",
+            "nominee-secretary",
+            "person-authorised-to-accept",
+            "person-authorised-to-represent",
+            "person-authorised-to-represent-and-accept",
+            "receiver-and-manager",
+            "secretary"
+          ],
+          "type": "string",
+          "description": "<br /><br /> For enumeration descriptions see <code>officer_role</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br /><br />"
+        },
+        "name": {
+          "description": "Corporate or natural officer name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "officer_role",
+        "name",
+        "appointed_on"
+      ]
+    },
+    "foreignCompanyDetails": {
+      "id": "foreignCompanyDetails",
+      "properties": {
+        "originating_registry": {
+          "description": "Company origin informations",
+          "items": {
+            "$ref": "originatingRegistry"
+          },
+          "type": "List"
+        },
+        "registration_number": {
+          "description": "Registration number in company of incorporation.",
+          "required": false,
+          "type": "string"
+        },
+        "governed_by": {
+          "description": "Law governing the company in country of incorporation.",
+          "required": false,
+          "type": "string"
+        },
+        "company_type": {
+          "description": "Legal form of the company in the country of incorporation.",
+          "required": false,
+          "type": "string"
+        },
+        "is_a_credit_finance_institution": {
+          "description": "Is it a financial or credit institution.",
+          "required": false,
+          "type": "boolean"
+        },
+        "accounts": {
+          "description": "Foreign company account information.",
+          "items": {
+            "$ref": "accountInformation"
+          },
+          "type": "List"
+        },
+        "business_activity": {
+          "description": "Type of business undertaken by the company.",
+          "required": false,
+          "type": "string"
+        },
+        "accounting_requirement": {
+          "description": "Accounts requirement.",
+          "items": {
+            "$ref": "accountsRequired"
+          },
+          "type": "string"
+        }
+      }
+    },
+    "originatingRegistry": {
+      "id": "originatingRegistry",
+      "properties": {
+        "country": {
+          "description": "Country in which company was incorporated.",
+          "required": false,
+          "type": "string"
+        },
+        "name": {
+          "description": "Identity of register in country of incorporation.",
+          "required": false,
+          "type": "string"
+        }
+      }
+    },
+    "previousCompanyNames": {
+      "id": "previousCompanyNames",
+      "properties": {
+        "name": {
+          "description": "The previous company name",
+          "type": "string"
+        },
+        "effective_from": {
+          "description": "The date from which the company name was effective.",
+          "type": "date"
+        },
+        "ceased_on": {
+          "description": "The date on which the company name ceased.",
+          "type": "date"
+        }
+      },
+      "required": [
+        "name",
+        "effective_from",
+        "ceased_on"
+      ]
+    },
+    "accountInformation": {
+      "id": "accountInformation",
+      "properties": {
+        "account_period_from": {
+          "description": "Date account period starts under parent law.",
+          "items": {
+            "$ref": "accountPeriodFrom"
+          },
+          "type": "List"
+        },
+        "account_period_to": {
+          "description": "Date account period ends under parent law.",
+          "items": {
+            "$ref": "accountPeriodTo"
+          },
+          "type": "List"
+        },
+        "must_file_within": {
+          "description": "Time allowed from period end for disclosure of accounts under parent law.",
+          "items": {
+            "$ref": "fileWithin"
+          },
+          "type": "List"
+        }
+      }
+    },
+    "accountPeriodFrom": {
+      "id": "accountPeriodFrom",
+      "properties": {
+        "day": {
+          "description": "Day on which accounting period starts under parent law.",
+          "type": "integer"
+        },
+        "month": {
+          "description": "Month in which accounting period starts under parent law.",
+          "type": "integer"
+        }
+      }
+    },
+    "accountPeriodTo": {
+      "id": "accountPeriodTo",
+      "properties": {
+        "day": {
+          "description": "Day on which accounting period ends under parent law.",
+          "type": "integer"
+        },
+        "month": {
+          "description": "Month in which accounting period ends under parent law.",
+          "type": "integer"
+        }
+      }
+    },
+    "fileWithin": {
+      "id": "fileWithin",
+      "properties": {
+        "months": {
+          "description": "Number of months within which to file.",
+          "type": "integer"
+        }
+      }
+    },
+    "accountsRequired": {
+      "id": "accountsRequired",
+      "properties": {
+        "foreign_account_type": {
+          "description": "Type of accounting requirement that applies. <br /><br /> For enumeration descriptions see <code>foreign_account_type</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br />",
+          "enum": [
+            "accounting-requirements-of-originating-country-apply",
+            "accounting-requirements-of-originating-country-do-not-apply"
+          ],
+          "type": "string"
+        },
+        "terms_of_account_publication": {
+          "description": "Describes how the publication date is derived. <br /><br /> For enumeration descriptions see <code>terms_of_account_publication</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/constants.yml' rel='external'/>enumeration mappings</a>.<br />",
+          "enum": [
+            "accounts-publication-date-supplied-by-company",
+            "accounting-publication-date-does-not-need-to-be-supplied-by-company",
+            "accounting-reference-date-allocated-by-companies-house"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "registeredOfficeAddress": {
+      "id": "registeredOfficeAddress",
+      "properties": {
+        "care_of": {
+          "description": "The care of name.",
+          "required": false,
+          "type": "string"
+        },
+        "address_line_1": {
+          "description": "The first line of the address.",
+          "required": false,
+          "type": "string"
+        },
+        "address_line_2": {
+          "description": "The second line of the address.",
+          "required": false,
+          "type": "string"
+        },
+        "country": {
+          "description": "The country.",
+          "enum": [
+            "Wales",
+            "England",
+            "Scotland",
+            "Great Britain",
+            "Not specified",
+            "United Kingdom",
+            "Northern Ireland"
+          ],
+          "required": false,
+          "type": "string"
+        },
+        "locality": {
+          "description": "The locality e.g London.",
+          "required": false,
+          "type": "string"
+        },
+        "po_box": {
+          "description": "The post-office box number.",
+          "required": false,
+          "type": "string"
+        },
+        "postal_code": {
+          "description": "The postal code e.g CF14 3UZ.",
+          "required": false,
+          "type": "string"
+        },
+        "premises": {
+          "description": "The property name or number.",
+          "required": false,
+          "type": "string"
+        },
+        "region": {
+          "description": "The region e.g Surrey.",
+          "required": false,
+          "type": "string"
+        }
+      }
+    },
+    "branchCompanyDetails": {
+      "id": "branchCompanyDetails",
+      "properties": {
+        "business_activity": {
+          "description": "Type of business undertaken by the UK establishment.",
+          "type": "string"
+        },
+        "parent_company_number": {
+          "description": "Parent company number.",
+          "required": true,
+          "type": "string"
+        },
+        "parent_company_name": {
+          "description": "Parent company name.",
+          "required": true,
+          "type": "string"
+        }
+      }
+    },
+    "linksType": {
+      "id": "linksType",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "description": "The URL of the resource.",
+          "type": "string"
+        },
+        "persons_with_significant_control": {
+          "description": "The URL of the company's persons with significant control list resource.",
+          "type": "string"
+        },
+        "persons_with_significant_control_statements": {
+          "description": "The URL of the company's persons with significant control statements list resource.",
+          "type": "string"
+        },
+        "filing_history": {
+          "description": "The URL of the company's filing history list resource.",
+          "type": "string"
+        },
+        "officers": {
+          "description": "The URL of the company's officer list resource.",
+          "type": "string"
+        },
+        "insolvency": {
+          "description": "The URL of the company's insolvency list resource",
+          "type": "string"
+        },
+        "charges": {
+          "description": "The URL of the company's charge resource",
+          "type": "string"
+        },
+        "registers": {
+          "description": "The URL of the registers resource for this company",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
