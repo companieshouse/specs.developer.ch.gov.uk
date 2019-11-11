@@ -36,7 +36,7 @@ class OpenApiConverter {
         return openAPI.getComponents().getSchemas();
     }
 
-    void codeGenUpgrade(String... args) {
+    void codeGenUpgrade(final String... args) {
         final String oas3 = CLIHelper.loadResourceOAS3File();
         if (StringUtils.isBlank(oas3)) {
             LOGGER.error("Could not load resource file.");
@@ -93,7 +93,6 @@ class OpenApiConverter {
             codegenParser.parseArgs(args, inputArgs);
         } catch (ArgumentParserException e) {
             LOGGER.error(String.format("Problem: ", e.getLocalizedMessage()));
-            //codegenParser.handleError(e);
             return;
         }
         final String userInputCommand = CLIHelper.detectCommand(args);

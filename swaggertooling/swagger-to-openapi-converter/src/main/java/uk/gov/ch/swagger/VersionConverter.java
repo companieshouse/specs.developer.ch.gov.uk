@@ -1,7 +1,10 @@
 package uk.gov.ch.swagger;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,7 +33,7 @@ public class VersionConverter {
      * Using Swagger Codegen libraries, convert each input file. Note that the Codegen libraries
      * always output a file called <q>openapi.json</q> in the output directory. To enable this to
      * work with multiple input files, each file is created in a unique output directory. The file
-     * is then copied to its final destination when
+     * is then copied to its final destination when a final patch is applied
      */
     private void convertVersion() throws Exception {
         final Map<String, Exception> errors = new TreeMap<>();
@@ -43,11 +46,15 @@ public class VersionConverter {
                 final String[] aParams = createParameters(inputFile, tmpdir);
                 final OpenApiConverter openApiConverter = new OpenApiConverter();
                 openApiConverter.codeGenUpgrade(aParams);
-                Path createdFile = tmpdir.resolve("openapi.json");
+                final Path createdFile = tmpdir.resolve("openapi.json");
+
+                final JsonNode repaired = repairInfo(createdFile, inputFile);
 
                 final Path targetPath = Paths.get(source.getOutputDir())
                         .resolve(inputFile.getName());
-                Files.move(createdFile, targetPath);
+                writeFile(repaired, targetPath);
+
+                //  Files.move(createdFile, targetPath);
             } catch (Exception e) {
                 if (null == firstException) {
                     firstException = e;
@@ -63,6 +70,20 @@ public class VersionConverter {
             }
             throw firstException;
         }
+    }
+
+    private void writeFile(final JsonNode repaired, final Path targetPath)
+            throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        // final ObjectMapper enable = objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        final String fixedString = objectMapper.writeValueAsString(repaired);
+        final byte[] bytes = fixedString.getBytes(StandardCharsets.UTF_8);
+        Files.write(targetPath, bytes);
+    }
+
+    private JsonNode repairInfo(final Path createdFile, final File inputFile) {
+        final JsonPatcher patcher = new JsonPatcher(createdFile, inputFile);
+        return patcher.patchInfo();
     }
 
     /**
