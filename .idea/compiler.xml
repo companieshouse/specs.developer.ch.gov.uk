@@ -6,13 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="swagger-to-openapi-converter" />
         <module name="Swagger-1-2-Fixer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="ch-spec" target="1.5" />
+      <module name="ch-spec" target="1.8" />
       <module name="Swagger-1-2-Fixer" target="1.8" />
-      <module name="swagger-tooling" target="1.5" />
+      <module name="swagger-to-openapi-converter" target="1.8" />
+      <module name="swagger-tooling" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
