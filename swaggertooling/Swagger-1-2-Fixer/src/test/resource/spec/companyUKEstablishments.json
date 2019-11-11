@@ -1,0 +1,146 @@
+{
+  "swaggerVersion": "1.2",
+  "basePath": "@@api_url",
+  "resourcePath": "/company/{company_number}/uk-establishments",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "path": "/company/{company_number}/uk-establishments",
+      "description": "List of uk-establishments companies",
+      "operations": [
+        {
+          "method": "GET",
+          "displayMethod": "list",
+          "nickname": "getCompanyUKEstablishments",
+          "summary": "Get a list of UK Establishment companies",
+          "type": "companyUKEstablishments",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "Company number.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Resource returned"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "companyUKEstablishments": {
+      "id": "companyUKEstablishments",
+      "properties": {
+        "etag": {
+          "type": "string",
+          "description": "The ETag of the resource.",
+          "required": true,
+          "notes": "Read only"
+        },
+        "kind": {
+          "type": "string",
+          "description": "UK Establishment companies.",
+          "required": true,
+          "notes": "Read only",
+          "enum": [
+            "ukestablishment-companies"
+          ]
+        },
+        "links": {
+          "description": "UK Establishment Resources related to this company.",
+          "type": "List",
+          "items": {
+            "$ref": "self_links"
+          }
+        },
+        "items": {
+          "type": "Array",
+          "description": "List of UK Establishment companies",
+          "required": true,
+          "items": {
+            "$ref": "companyDetails"
+          }
+        }
+      }
+    },
+    "companyDetails": {
+      "id": "companyDetails",
+      "required": [
+        "company_number",
+        "company_name",
+        "company_status",
+        "links"
+      ],
+      "properties": {
+        "company_number": {
+          "description": "The number of the company.",
+          "type": "string"
+        },
+        "company_name": {
+          "description": "The name of the company.",
+          "type": "string"
+        },
+        "company_status": {
+          "description": "company status.",
+          "type": "string"
+        },
+        "locality": {
+          "description": "The locality e.g London.",
+          "type": "string"
+        },
+        "links": {
+          "description": "Resources related to this company.",
+          "type": "List",
+          "items": {
+            "$ref": "links"
+          }
+        }
+      }
+    },
+    "self_links": {
+      "id": "self_links",
+      "required": [],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "Link to this company.",
+          "required": true
+        }
+      }
+    },
+    "links": {
+      "id": "links",
+      "properties": {
+        "company": {
+          "type": "string",
+          "description": "The link to the company.",
+          "required": true
+        }
+      }
+    }
+  }
+}

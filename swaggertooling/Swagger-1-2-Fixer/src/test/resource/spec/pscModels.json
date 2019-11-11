@@ -1,0 +1,1043 @@
+{
+  "models": {
+    "address": {
+      "id": "pscAddress",
+      "required": [
+        "address_line_1",
+        "postal_code",
+        "premises"
+      ],
+      "properties": {
+        "address_line_1": {
+          "description": "The first line of the address.",
+          "type": "string"
+        },
+        "address_line_2": {
+          "description": "The second line of the address.",
+          "type": "string"
+        },
+        "care_of": {
+          "description": "Care of name.",
+          "type": "string"
+        },
+        "country": {
+          "description": "The country. For example, UK.",
+          "type": "string"
+        },
+        "locality": {
+          "description": "The locality. For example London.",
+          "type": "string"
+        },
+        "po_box": {
+          "description": "The post-officer box number.",
+          "type": "string"
+        },
+        "postal_code": {
+          "description": "The postal code. For example CF14 3UZ.",
+          "type": "string"
+        },
+        "premises": {
+          "description": "The property name or number.",
+          "type": "string"
+        },
+        "region": {
+          "description": "The region. For example Surrey.",
+          "type": "string"
+        }
+      }
+    },
+    "list": {
+      "id": "list",
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "items_per_page": {
+          "description": "The number of persons with significant control to return per page.",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "persons-with-significant-control#list"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "description": "The list of persons with significant control.",
+          "items": {
+            "$ref": "listSummary"
+          },
+          "type": "array"
+        },
+        "start_index": {
+          "description": "The offset into the entire result set that this page starts.",
+          "type": "integer"
+        },
+        "total_results": {
+          "description": "The total number of persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "active_count": {
+          "description": "The number of active persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "ceased_count": {
+          "description": "The number of ceased persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscListLinksType"
+          },
+          "type": "list"
+        }
+      },
+      "required": [
+        "etag",
+        "items_per_page",
+        "kind",
+        "items",
+        "start_index",
+        "total_results",
+        "active_count",
+        "ceased_count",
+        "links"
+      ]
+    },
+    "individualList": {
+      "id": "individualList",
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "items_per_page": {
+          "description": "The number of individual persons with significant control to return per page.",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "persons-with-significant-control#list-individual"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "description": "The list of individual persons with significant control.",
+          "items": {
+            "$ref": "listSummary"
+          },
+          "type": "array"
+        },
+        "start_index": {
+          "description": "The offset into the entire result set that this page starts.",
+          "type": "integer"
+        },
+        "total_results": {
+          "description": "The total number of individual persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "active_count": {
+          "description": "The number of active persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "ceased_count": {
+          "description": "The number of ceased persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscListLinksType"
+          },
+          "type": "list"
+        }
+      },
+      "required": [
+        "etag",
+        "items_per_page",
+        "kind",
+        "items",
+        "start_index",
+        "total_results",
+        "active_count",
+        "ceased_count",
+        "links"
+      ]
+    },
+    "corporateEntityList": {
+      "id": "corporateEntityList",
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "items_per_page": {
+          "description": "The number of corporate entity persons with significant control to return per page.",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "persons-with-significant-control#list-corporate-entity"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "description": "The list of corporate entity persons with significant control.",
+          "items": {
+            "$ref": "listSummary"
+          },
+          "type": "array"
+        },
+        "start_index": {
+          "description": "The offset into the entire result set that this page starts.",
+          "type": "integer"
+        },
+        "total_results": {
+          "description": "The total number of corporate entity persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "active_count": {
+          "description": "The number of active persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "ceased_count": {
+          "description": "The number of ceased persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscListLinksType"
+          },
+          "type": "list"
+        }
+      },
+      "required": [
+        "etag",
+        "items_per_page",
+        "kind",
+        "items",
+        "start_index",
+        "total_results",
+        "active_count",
+        "ceased_count",
+        "links"
+      ]
+    },
+    "legalPersonList": {
+      "id": "legalPersonList",
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "items_per_page": {
+          "description": "The number of legal persons with significant control to return per page.",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "persons-with-significant-control#list-legal-person"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "description": "The list of legal persons with significant control.",
+          "items": {
+            "$ref": "listSummary"
+          },
+          "type": "array"
+        },
+        "start_index": {
+          "description": "The offset into the entire result set that this page starts.",
+          "type": "integer"
+        },
+        "total_results": {
+          "description": "The total number of legal persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "active_count": {
+          "description": "The number of active persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "ceased_count": {
+          "description": "The number of ceased persons with significant control in this result set.",
+          "type": "integer"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscListLinksType"
+          },
+          "type": "list"
+        }
+      },
+      "required": [
+        "etag",
+        "items_per_page",
+        "kind",
+        "items",
+        "start_index",
+        "total_results",
+        "active_count",
+        "ceased_count",
+        "links"
+      ]
+    },
+    "pscLinksType": {
+      "id": "pscLinksType",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "description": "The URL of the resource.",
+          "type": "string"
+        },
+        "statement": {
+          "description": "The URL of the statement linked to this person with significant control.",
+          "type": "string"
+        }
+      }
+    },
+    "pscListLinksType": {
+      "id": "pscListLinksType",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "description": "The URL of the resource.",
+          "type": "string"
+        },
+        "persons_with_significant_control_statements_list": {
+          "description": "The URL of the persons with significant control statements list resource.",
+          "type": "string"
+        }
+      }
+    },
+    "statementListLinksType": {
+      "id": "statementListLinksType",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "description": "The URL of the resource.",
+          "type": "string"
+        },
+        "persons_with_significant_control_list": {
+          "description": "The URL of the persons with significant control list resource.",
+          "type": "string"
+        }
+      }
+    },
+    "statementLinksType": {
+      "id": "statementLinksType",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "description": "The URL of the resource.",
+          "type": "string"
+        },
+        "person_with_significant_control": {
+          "notes": "Only given when the statement is psc_has_failed_to_confirm_changed_details",
+          "description": "The URL of the person with significant control linked to this statement.",
+          "type": "string"
+        }
+      }
+    },
+    "superSecureLinksType": {
+      "id": "superSecureLinksType",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "description": "The URL of the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "listSummary": {
+      "id": "listSummary",
+      "required": [
+        "etag",
+        "name",
+        "links",
+        "address",
+        "notified_on",
+        "natures_of_control"
+      ],
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "notified_on": {
+          "description": "The date that Companies House was notified about this person with significant control.",
+          "type": "date"
+        },
+        "ceased_on": {
+          "description": "The date that Companies House was notified about the cessation of this person with significant control.",
+          "type": "date"
+        },
+        "country_of_residence": {
+          "description": "The country of residence of the person with significant control.",
+          "type": "string"
+        },
+        "date_of_birth": {
+          "description": "The date of birth of the person with significant control.",
+          "notes": "The day field will only be returned when properly authenticated.",
+          "items": {
+            "$ref": "dateOfBirth"
+          },
+          "type": "List"
+        },
+        "name": {
+          "description": "Name of the person with significant control.",
+          "notes": "",
+          "type": "string"
+        },
+        "name_elements": {
+          "description": "A document encapsulating the seperate elements of a person with significant control's name.",
+          "notes": "Mandatory for an individual person with significant control.",
+          "items": {
+            "$ref": "nameElements"
+          },
+          "type": "list"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscLinksType"
+          },
+          "type": "list"
+        },
+        "nationality": {
+          "description": "The nationality of the person with significant control.",
+          "type": "string"
+        },
+        "address": {
+          "description": "The service address of the person with significant control. If given, this address will be shown on the public record instead of the residential address.",
+          "items": {
+            "$ref": "address"
+          },
+          "type": "List"
+        },
+        "natures_of_control": {
+          "description": "Indicates the nature of control the person with significant control holds. <br /><br /> For enumeration descriptions see <code>description</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/psc_descriptions.yml'/>enumeration mappings</a> file.<br /><br />",
+          "items": {
+            "enum": [
+              "ownership-of-shares-25-to-50-percent",
+              "ownership-of-shares-50-to-75-percent",
+              "ownership-of-shares-75-to-100-percent",
+              "ownership-of-shares-25-to-50-percent-as-trust",
+              "ownership-of-shares-50-to-75-percent-as-trust",
+              "ownership-of-shares-75-to-100-percent-as-trust",
+              "ownership-of-shares-25-to-50-percent-as-firm",
+              "ownership-of-shares-50-to-75-percent-as-firm",
+              "ownership-of-shares-75-to-100-percent-as-firm",
+              "voting-rights-25-to-50-percent",
+              "voting-rights-50-to-75-percent",
+              "voting-rights-75-to-100-percent",
+              "voting-rights-25-to-50-percent-as-trust",
+              "voting-rights-50-to-75-percent-as-trust",
+              "voting-rights-75-to-100-percent-as-trust",
+              "voting-rights-25-to-50-percent-as-firm",
+              "voting-rights-50-to-75-percent-as-firm",
+              "voting-rights-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-directors",
+              "right-to-appoint-and-remove-directors-as-trust",
+              "right-to-appoint-and-remove-directors-as-firm",
+              "significant-influence-or-control",
+              "significant-influence-or-control-as-trust",
+              "significant-influence-or-control-as-firm",
+              "right-to-share-surplus-assets-25-to-50-percent",
+              "right-to-share-surplus-assets-50-to-75-percent",
+              "right-to-share-surplus-assets-75-to-100-percent",
+              "right-to-share-surplus-assets-25-to-50-percent-as-trust",
+              "right-to-share-surplus-assets-50-to-75-percent-as-trust",
+              "right-to-share-surplus-assets-75-to-100-percent-as-trust",
+              "right-to-share-surplus-assets-25-to-50-percent-as-firm",
+              "right-to-share-surplus-assets-50-to-75-percent-as-firm",
+              "right-to-share-surplus-assets-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-members",
+              "right-to-appoint-and-remove-members-as-trust",
+              "right-to-appoint-and-remove-members-as-firm"
+            ],
+            "type": "string"
+          },
+          "type": "Array"
+        }
+      }
+    },
+    "statementList": {
+      "id": "statementList",
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "items_per_page": {
+          "description": "The number of persons with significant control statements to return per page.",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "persons-with-significant-control#statements-list"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "description": "The list of persons with significant control statements.",
+          "items": {
+            "$ref": "statement"
+          },
+          "type": "array"
+        },
+        "start_index": {
+          "description": "The offset into the entire result set that this page starts.",
+          "type": "integer"
+        },
+        "total_results": {
+          "description": "The total number of persons with significant control statements in this result set.",
+          "type": "integer"
+        },
+        "active_count": {
+          "description": "The number of active persons with significant control statements in this result set.",
+          "type": "integer"
+        },
+        "ceased_count": {
+          "description": "The number of ceased persons with significant control statements in this result set.",
+          "type": "integer"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "statementListLinksType"
+          },
+          "type": "list"
+        }
+      },
+      "required": [
+        "etag",
+        "items_per_page",
+        "kind",
+        "items",
+        "start_index",
+        "total_results",
+        "active_count",
+        "ceased_count",
+        "links"
+      ]
+    },
+    "statement": {
+      "id": "statement",
+      "required": [
+        "etag",
+        "kind",
+        "notified_on",
+        "statement",
+        "links"
+      ],
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "person-with-significant-control-statement"
+          ],
+          "type": "string"
+        },
+        "notified_on": {
+          "description": "The date that the person with significant control statement was processed by Companies House.",
+          "type": "date"
+        },
+        "ceased_on": {
+          "description": "The date that Companies House was notified about the cessation of this person with significant control.",
+          "type": "date"
+        },
+        "restrictions_notice_withdrawal_reason": {
+          "description": "The reason for the company withdrawing a <code>restrictions-notice-issued-to-psc</code> statement",
+          "enum": [
+            "restrictions-notice-withdrawn-by-court-order",
+            "restrictions-notice-withdrawn-by-company"
+          ],
+          "type": "string"
+        },
+        "statement": {
+          "description": "Indicates the type of statement filed. <br /><br /> For enumeration descriptions see <code>statement_description</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/psc_descriptions.yml'/>enumeration mappings</a> file.<br /><br />",
+          "enum": [
+            "no-individual-or-entity-with-signficant-control",
+            "steps-to-find-psc-not-yet-completed",
+            "psc-exists-but-not-identified",
+            "psc-details-not-confirmed",
+            "psc-contacted-but-no-response",
+            "restrictions-notice-issued-to-psc",
+            "psc-has-failed-to-confirm-changed-details"
+          ],
+          "type": "string"
+        },
+        "linked_psc_name": {
+          "notes": "Only given when the statement is psc_has_failed_to_confirm_changed_details",
+          "description": "The name of the psc linked to this statement.",
+          "type": "string"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "statementLinksType"
+          },
+          "type": "list"
+        }
+      }
+    },
+    "superSecure": {
+      "id": "superSecure",
+      "required": [
+        "etag",
+        "kind",
+        "description",
+        "links"
+      ],
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "super-secure-person-with-significant-control"
+          ],
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the super secure legal statement <br />",
+          "enum": [
+            "super-secure-persons-with-significant-control"
+          ],
+          "type": "string"
+        },
+        "ceased": {
+          "description": "Presence of that indicator means the super secure person status is ceased <br />",
+          "type": "boolean"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "superSecureLinksType"
+          },
+          "type": "list"
+        }
+      }
+    },
+    "individual": {
+      "id": "individual",
+      "required": [
+        "etag",
+        "notified_on",
+        "kind",
+        "country_of_residence",
+        "date_of_birth",
+        "name",
+        "name_elements",
+        "links",
+        "nationality",
+        "address",
+        "natures_of_control"
+      ],
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "notified_on": {
+          "description": "The date that Companies House was notified about this person with significant control.",
+          "type": "date"
+        },
+        "ceased_on": {
+          "description": "The date that Companies House was notified about the cessation of this person with significant control.",
+          "type": "date"
+        },
+        "kind": {
+          "enum": [
+            "individual-person-with-significant-control"
+          ],
+          "type": "string"
+        },
+        "country_of_residence": {
+          "description": "The country of residence of the person with significant control.",
+          "type": "string"
+        },
+        "date_of_birth": {
+          "description": "The date of birth of the person with significant control.",
+          "notes": "The day field will only be returned when properly authenticated.",
+          "items": {
+            "$ref": "dateOfBirth"
+          },
+          "type": "List"
+        },
+        "name": {
+          "description": "Name of the person with significant control.",
+          "notes": "",
+          "type": "string"
+        },
+        "name_elements": {
+          "description": "A document encapsulating the seperate elements of a person with significant control's name.",
+          "items": {
+            "$ref": "nameElements"
+          },
+          "type": "list"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscLinksType"
+          },
+          "type": "list"
+        },
+        "nationality": {
+          "description": "The nationality of the person with significant control.",
+          "type": "string"
+        },
+        "address": {
+          "description": "The service address of the person with significant control. If given, this address will be shown on the public record instead of the residential address.",
+          "items": {
+            "$ref": "address"
+          },
+          "type": "List"
+        },
+        "natures_of_control": {
+          "description": "Indicates the nature of control the person with significant control holds. <br /><br /> For enumeration descriptions see <code>description</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/psc_descriptions.yml'/>enumeration mappings</a> file.<br /><br />",
+          "items": {
+            "enum": [
+              "ownership-of-shares-25-to-50-percent",
+              "ownership-of-shares-50-to-75-percent",
+              "ownership-of-shares-75-to-100-percent",
+              "ownership-of-shares-25-to-50-percent-as-trust",
+              "ownership-of-shares-50-to-75-percent-as-trust",
+              "ownership-of-shares-75-to-100-percent-as-trust",
+              "ownership-of-shares-25-to-50-percent-as-firm",
+              "ownership-of-shares-50-to-75-percent-as-firm",
+              "ownership-of-shares-75-to-100-percent-as-firm",
+              "voting-rights-25-to-50-percent",
+              "voting-rights-50-to-75-percent",
+              "voting-rights-75-to-100-percent",
+              "voting-rights-25-to-50-percent-as-trust",
+              "voting-rights-50-to-75-percent-as-trust",
+              "voting-rights-75-to-100-percent-as-trust",
+              "voting-rights-25-to-50-percent-as-firm",
+              "voting-rights-50-to-75-percent-as-firm",
+              "voting-rights-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-directors",
+              "right-to-appoint-and-remove-directors-as-trust",
+              "right-to-appoint-and-remove-directors-as-firm",
+              "significant-influence-or-control",
+              "significant-influence-or-control-as-trust",
+              "significant-influence-or-control-as-firm",
+              "right-to-share-surplus-assets-25-to-50-percent",
+              "right-to-share-surplus-assets-50-to-75-percent",
+              "right-to-share-surplus-assets-75-to-100-percent",
+              "right-to-share-surplus-assets-25-to-50-percent-as-trust",
+              "right-to-share-surplus-assets-50-to-75-percent-as-trust",
+              "right-to-share-surplus-assets-75-to-100-percent-as-trust",
+              "right-to-share-surplus-assets-25-to-50-percent-as-firm",
+              "right-to-share-surplus-assets-50-to-75-percent-as-firm",
+              "right-to-share-surplus-assets-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-members",
+              "right-to-appoint-and-remove-members-as-trust",
+              "right-to-appoint-and-remove-members-as-firm"
+            ],
+            "type": "string"
+          },
+          "type": "Array"
+        }
+      }
+    },
+    "corporateEntity": {
+      "id": "corporateEntity",
+      "required": [
+        "etag",
+        "notified_on",
+        "kind",
+        "name",
+        "links",
+        "address",
+        "identification",
+        "natures_of_control"
+      ],
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "notified_on": {
+          "description": "The date that Companies House was notified about this person with significant control.",
+          "type": "date"
+        },
+        "ceased_on": {
+          "description": "The date that Companies House was notified about the cessation of this person with significant control.",
+          "type": "date"
+        },
+        "kind": {
+          "enum": [
+            "corporate-entity-person-with-significant-control"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the person with significant control.",
+          "notes": "",
+          "type": "string"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscLinksType"
+          },
+          "type": "list"
+        },
+        "address": {
+          "description": "The address of the person with significant control.",
+          "items": {
+            "$ref": "address"
+          },
+          "type": "List"
+        },
+        "identification": {
+          "description": "",
+          "items": {
+            "$ref": "corporateEntityIdent"
+          },
+          "type": "List"
+        },
+        "natures_of_control": {
+          "description": "Indicates the nature of control the person with significant control holds. <br /><br /> For enumeration descriptions see <code>description</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/psc_descriptions.yml'/>enumeration mappings</a> file.<br /><br />",
+          "items": {
+            "enum": [
+              "ownership-of-shares-25-to-50-percent",
+              "ownership-of-shares-50-to-75-percent",
+              "ownership-of-shares-75-to-100-percent",
+              "ownership-of-shares-25-to-50-percent-as-trust",
+              "ownership-of-shares-50-to-75-percent-as-trust",
+              "ownership-of-shares-75-to-100-percent-as-trust",
+              "ownership-of-shares-25-to-50-percent-as-firm",
+              "ownership-of-shares-50-to-75-percent-as-firm",
+              "ownership-of-shares-75-to-100-percent-as-firm",
+              "voting-rights-25-to-50-percent",
+              "voting-rights-50-to-75-percent",
+              "voting-rights-75-to-100-percent",
+              "voting-rights-25-to-50-percent-as-trust",
+              "voting-rights-50-to-75-percent-as-trust",
+              "voting-rights-75-to-100-percent-as-trust",
+              "voting-rights-25-to-50-percent-as-firm",
+              "voting-rights-50-to-75-percent-as-firm",
+              "voting-rights-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-directors",
+              "right-to-appoint-and-remove-directors-as-trust",
+              "right-to-appoint-and-remove-directors-as-firm",
+              "significant-influence-or-control",
+              "significant-influence-or-control-as-trust",
+              "significant-influence-or-control-as-firm",
+              "right-to-share-surplus-assets-25-to-50-percent",
+              "right-to-share-surplus-assets-50-to-75-percent",
+              "right-to-share-surplus-assets-75-to-100-percent",
+              "right-to-share-surplus-assets-25-to-50-percent-as-trust",
+              "right-to-share-surplus-assets-50-to-75-percent-as-trust",
+              "right-to-share-surplus-assets-75-to-100-percent-as-trust",
+              "right-to-share-surplus-assets-25-to-50-percent-as-firm",
+              "right-to-share-surplus-assets-50-to-75-percent-as-firm",
+              "right-to-share-surplus-assets-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-members",
+              "right-to-appoint-and-remove-members-as-trust",
+              "right-to-appoint-and-remove-members-as-firm"
+            ],
+            "type": "string"
+          },
+          "type": "Array"
+        }
+      }
+    },
+    "legalPerson": {
+      "id": "legalPerson",
+      "required": [
+        "etag",
+        "notified_on",
+        "kind",
+        "name",
+        "links",
+        "address",
+        "identification",
+        "natures_of_control"
+      ],
+      "properties": {
+        "etag": {
+          "description": "The ETag of the resource.",
+          "type": "string"
+        },
+        "notified_on": {
+          "description": "The date that Companies House was notified about this person with significant control.",
+          "type": "date"
+        },
+        "ceased_on": {
+          "description": "The date that Companies House was notified about the cessation of this person with significant control.",
+          "type": "date"
+        },
+        "kind": {
+          "enum": [
+            "legal-person-with-significant-control"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the person with significant control.",
+          "notes": "",
+          "type": "string"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "pscLinksType"
+          },
+          "type": "list"
+        },
+        "address": {
+          "description": "The address of the person with significant control.",
+          "items": {
+            "$ref": "address"
+          },
+          "type": "List"
+        },
+        "identification": {
+          "description": "",
+          "items": {
+            "$ref": "legalPersonIdent"
+          },
+          "type": "List"
+        },
+        "natures_of_control": {
+          "description": "Indicates the nature of control the person with significant control holds. <br /><br /> For enumeration descriptions see <code>description</code> section in the <a href='https://github.com/companieshouse/api-enumerations/blob/master/psc_descriptions.yml'/>enumeration mappings</a> file.<br /><br />",
+          "items": {
+            "enum": [
+              "ownership-of-shares-25-to-50-percent",
+              "ownership-of-shares-50-to-75-percent",
+              "ownership-of-shares-75-to-100-percent",
+              "ownership-of-shares-25-to-50-percent-as-trust",
+              "ownership-of-shares-50-to-75-percent-as-trust",
+              "ownership-of-shares-75-to-100-percent-as-trust",
+              "ownership-of-shares-25-to-50-percent-as-firm",
+              "ownership-of-shares-50-to-75-percent-as-firm",
+              "ownership-of-shares-75-to-100-percent-as-firm",
+              "voting-rights-25-to-50-percent",
+              "voting-rights-50-to-75-percent",
+              "voting-rights-75-to-100-percent",
+              "voting-rights-25-to-50-percent-as-trust",
+              "voting-rights-50-to-75-percent-as-trust",
+              "voting-rights-75-to-100-percent-as-trust",
+              "voting-rights-25-to-50-percent-as-firm",
+              "voting-rights-50-to-75-percent-as-firm",
+              "voting-rights-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-directors",
+              "right-to-appoint-and-remove-directors-as-trust",
+              "right-to-appoint-and-remove-directors-as-firm",
+              "significant-influence-or-control",
+              "significant-influence-or-control-as-trust",
+              "significant-influence-or-control-as-firm",
+              "right-to-share-surplus-assets-25-to-50-percent",
+              "right-to-share-surplus-assets-50-to-75-percent",
+              "right-to-share-surplus-assets-75-to-100-percent",
+              "right-to-share-surplus-assets-25-to-50-percent-as-trust",
+              "right-to-share-surplus-assets-50-to-75-percent-as-trust",
+              "right-to-share-surplus-assets-75-to-100-percent-as-trust",
+              "right-to-share-surplus-assets-25-to-50-percent-as-firm",
+              "right-to-share-surplus-assets-50-to-75-percent-as-firm",
+              "right-to-share-surplus-assets-75-to-100-percent-as-firm",
+              "right-to-appoint-and-remove-members",
+              "right-to-appoint-and-remove-members-as-trust",
+              "right-to-appoint-and-remove-members-as-firm"
+            ],
+            "type": "string"
+          },
+          "type": "Array"
+        }
+      }
+    },
+    "nameElements": {
+      "id": "nameElements",
+      "properties": {
+        "forename": {
+          "description": "The forename of the person with significant control.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Title of the person with significant control.",
+          "type": "string"
+        },
+        "other_forenames": {
+          "description": "Other forenames of the person with significant control.",
+          "type": "string"
+        },
+        "surname": {
+          "description": "The surname of the person with significant control.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "surname"
+      ]
+    },
+    "corporateEntityIdent": {
+      "id": "corporateEntityIdent",
+      "properties": {
+        "legal_authority": {
+          "description": "The legal authority supervising the corporate entity with significant control.",
+          "type": "string"
+        },
+        "legal_form": {
+          "description": "The legal form of the corporate entity with significant control as defined by its country of registration.",
+          "type": "string"
+        },
+        "place_registered": {
+          "description": "The place the corporate entity with significant control is registered.",
+          "type": "string"
+        },
+        "registration_number": {
+          "description": "The registration number of the corporate entity with significant control.",
+          "type": "string"
+        },
+        "country_registered": {
+          "description": "The country or state the corporate entity with significant control is registered in.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "legal_authority",
+        "legal_form"
+      ]
+    },
+    "legalPersonIdent": {
+      "id": "legalPersonIdent",
+      "properties": {
+        "legal_authority": {
+          "description": "The legal authority supervising the legal person with significant control.",
+          "type": "string"
+        },
+        "legal_form": {
+          "description": "The legal form of the legal person with significant control as defined by its country of registration.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "legal_authority",
+        "legal_form"
+      ]
+    }
+  }
+}

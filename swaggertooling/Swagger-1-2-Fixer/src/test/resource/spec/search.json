@@ -1,0 +1,869 @@
+{
+  "resourcePath": "/search-overview",
+  "apis": [
+    {
+      "path": "/search",
+      "description": "Search Companies House",
+      "operations": [
+        {
+          "method": "GET",
+          "displayMethod": "Search all",
+          "summary": "Search Companies House",
+          "notes": "Search across all indexed information. To search against specific resource types, see <a href=\"/api/docs/search/companies/companysearch.html\">company search</a>, <a href=\"/api/docs/search/officers/officersearch.html\">officer search</a> or <a href=\"/api/docs/search/disqualified-officers/disqualifiedofficersearch.html\">disqualified officer search</a>",
+          "type": "Search",
+          "nickname": "search",
+          "parameters": [
+            {
+              "name": "q",
+              "description": "The term being searched for.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "items_per_page",
+              "description": "The number of search results to return per page.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            },
+            {
+              "name": "start_index",
+              "description": "The index of the first result item to return.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid query string supplied."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/search/companies",
+      "description": "Search company information",
+      "operations": [
+        {
+          "method": "GET",
+          "displayMethod": "Search company",
+          "summary": "Search companies",
+          "type": "CompanySearch",
+          "nickname": "companysearch",
+          "parameters": [
+            {
+              "name": "q",
+              "description": "The term being searched for.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "items_per_page",
+              "description": "The number of search results to return per page.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            },
+            {
+              "name": "start_index",
+              "description": "The index of the first result item to return.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid query string supplied."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/search/officers",
+      "description": "Search for officer information",
+      "operations": [
+        {
+          "method": "GET",
+          "displayMethod": "Search officer",
+          "summary": "Search company officers",
+          "type": "OfficerSearch",
+          "nickname": "officersearch",
+          "parameters": [
+            {
+              "name": "q",
+              "description": "The term being searched for.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "items_per_page",
+              "description": "The number of search results to return per page.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            },
+            {
+              "name": "start_index",
+              "description": "The index of the first result item to return.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid query string supplied."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/search/disqualified-officers",
+      "description": "Search for disqualified officer information",
+      "operations": [
+        {
+          "method": "GET",
+          "displayMethod": "Search disqualified officer",
+          "summary": "Search disqualified officers",
+          "type": "DisqualifiedOfficerSearch",
+          "nickname": "disqualifiedofficersearch",
+          "parameters": [
+            {
+              "name": "q",
+              "description": "The term being searched for.",
+              "paramType": "query",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string"
+            },
+            {
+              "name": "items_per_page",
+              "description": "The number of search results to return per page.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            },
+            {
+              "name": "start_index",
+              "description": "The index of the first result item to return.",
+              "paramType": "query",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer"
+            }
+          ],
+          "errorResponses": [
+            {
+              "code": 400,
+              "reason": "Invalid query string supplied."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "CompanySearch": {
+      "id": "CompanySearch",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "required": false,
+          "description": "The type of search response returned.",
+          "enum": [
+            "search#companies"
+          ]
+        },
+        "etag": {
+          "type": "string",
+          "required": false,
+          "description": "The ETag of the resource."
+        },
+        "items": {
+          "type": "array",
+          "description": "The results of the completed search.",
+          "items": {
+            "$ref": "CompanySearchItems"
+          }
+        },
+        "total_results": {
+          "type": "integer",
+          "required": false,
+          "description": "The number of further search results available for the current search."
+        },
+        "start_index": {
+          "type": "integer",
+          "required": false,
+          "description": "The index into the entire result set that this result page starts."
+        },
+        "items_per_page": {
+          "type": "integer",
+          "required": false,
+          "description": "The number of search items returned per page."
+        }
+      }
+    },
+    "Search": {
+      "id": "Search",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "required": false,
+          "description": "The type of search response returned.",
+          "enum": [
+            "search#all"
+          ]
+        },
+        "etag": {
+          "type": "string",
+          "required": false,
+          "description": "The ETag of the resource."
+        },
+        "items": {
+          "type": "array",
+          "description": "The results of the completed search. See <code>items.kind</code> for details of each specific result resource returned.",
+          "items": {
+            "$ref": "SearchItems"
+          }
+        },
+        "total_results": {
+          "type": "integer",
+          "required": false,
+          "description": "The number of further search results available for the current search."
+        },
+        "start_index": {
+          "type": "integer",
+          "required": false,
+          "description": "The index into the entire result set that this result page starts."
+        },
+        "items_per_page": {
+          "type": "integer",
+          "required": false,
+          "description": "The number of search items returned per page."
+        }
+      }
+    },
+    "CompanySearchItems": {
+      "id": "CompanySearchItems",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "required": true,
+          "description": "The type of search result.",
+          "enum": [
+            "searchresult#company"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "required": true,
+          "description": "The title of the search result."
+        },
+        "address_snippet": {
+          "type": "string",
+          "required": true,
+          "description": "A single line address. This will be the address that matched within the indexed document, or the primary address otherwise (as returned by the <code>address</code> member)."
+        },
+        "links": {
+          "type": "list",
+          "required": true,
+          "description": "The URL of the search result.",
+          "items": {
+            "$ref": "LinksModel"
+          }
+        },
+        "description": {
+          "type": "string",
+          "required": false,
+          "description": "The result description."
+        },
+        "description_identifier": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "Array",
+          "description": "An array of enumeration types that make up the search description. See search_descriptions_raw.yaml in api-enumerations"
+        },
+        "company_number": {
+          "type": "string",
+          "required": true,
+          "description": "The company registration / incorporation number of the company."
+        },
+        "external_registration_number": {
+          "type": "string",
+          "description": "The number given by an external registration body."
+        },
+        "snippet": {
+          "type": "string",
+          "description": "Summary information for the result, showing additional details that have matched. In the case of companies, this would be previous company names."
+        },
+        "date_of_creation": {
+          "type": "date",
+          "description": "The date the company was created."
+        },
+        "date_of_cessation": {
+          "type": "date",
+          "description": "The date the company ended."
+        },
+        "company_type": {
+          "type": "enum",
+          "required": true,
+          "enum": [
+            "private-unlimited",
+            "ltd",
+            "plc",
+            "old-public-company",
+            "private-limited-guarant-nsc-limited-exemption",
+            "limited-partnership",
+            "private-limited-guarant-nsc",
+            "converted-or-closed",
+            "private-unlimited-nsc",
+            "private-limited-shares-section-30-exemption",
+            "protected-cell-company",
+            "assurance-company",
+            "oversea-company",
+            "eeig",
+            "icvc-securities",
+            "icvc-warrant",
+            "icvc-umbrella",
+            "industrial-and-provident-society",
+            "northern-ireland",
+            "northern-ireland-other",
+            "llp",
+            "royal-charter",
+            "investment-company-with-variable-capital",
+            "unregistered-company",
+            "llp",
+            "other",
+            "european-public-limited-liability-company-se",
+            "scottish-partnership",
+            "charitable-incorporated-organisation",
+            "scottish-charitable-incorporated-organisation",
+            "further-education-or-sixth-form-college-corporation"
+          ],
+          "description": "The company type."
+        },
+        "company_status": {
+          "type": "enum",
+          "required": true,
+          "enum": [
+            "active",
+            "dissolved",
+            "liquidation",
+            "receivership",
+            "administration",
+            "voluntary-arrangement",
+            "converted-closed",
+            "insolvency-proceedings"
+          ],
+          "description": "The company status."
+        },
+        "address": {
+          "description": "The address of the company's registered office.",
+          "type": "List",
+          "required": true,
+          "items": {
+            "$ref": "registeredOfficeAddress"
+          }
+        },
+        "matches": {
+          "type": "list",
+          "description": "A list of members and arrays of character offset, defining substrings that matched the search terms.",
+          "items": {
+            "$ref": "MatchesModel"
+          }
+        }
+      }
+    },
+    "SearchItems": {
+      "id": "SearchItems",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "required": true,
+          "description": "The type of search result. Refer to the full resource descriptions <a href=\"api/docs/company/company_number/CompanySearch-resource.html\">CompanySearch resource</a>, <a href=\"api/docs/company/company_number/OfficerSearch-resource.html\">OfficerSearch resource</a> and <a href=\"api/docs/company/company_number/DisqualifiedOfficerSearch-resource.html\">DisqualifiedOfficerSearch resource</a> for the full list of members returned.",
+          "enum": [
+            "searchresult#company",
+            "searchresults#officer",
+            "searchresults#disqualified-officer"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "required": true,
+          "description": "The title of the search result."
+        },
+        "address_snippet": {
+          "type": "string",
+          "required": true,
+          "description": "A single line address. This will be the address that matched within the indexed document, or the primary address otherwise (as returned by the <code>address</code> member)."
+        },
+        "links": {
+          "type": "list",
+          "required": true,
+          "description": "The URL of the search result.",
+          "items": {
+            "$ref": "LinksModel"
+          }
+        },
+        "description": {
+          "type": "string",
+          "required": false,
+          "description": "The result description."
+        },
+        "description_identifier": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "Array",
+          "description": "An array of enumeration types that make up the search description. See search_descriptions_raw.yaml in api-enumerations"
+        },
+        "snippet": {
+          "type": "string",
+          "description": "Summary information for the result, showing additional details that have matched. In the case of companies, this would be previous company names."
+        },
+        "address": {
+          "description": "The address of the company's registered office.",
+          "type": "List",
+          "required": true,
+          "items": {
+            "$ref": "registeredOfficeAddress"
+          }
+        },
+        "matches": {
+          "type": "list",
+          "description": "A list of members and arrays of character offset, defining substrings that matched the search terms.",
+          "items": {
+            "$ref": "MatchesModel"
+          }
+        }
+      }
+    },
+    "LinksModel": {
+      "id": "DescriptionValues",
+      "properties": {
+        "self": {
+          "type": "string",
+          "required": true,
+          "description": "The URL of the resource being returned by the search item."
+        }
+      }
+    },
+    "MatchesModel": {
+      "id": "MatchesModel",
+      "properties": {
+        "title": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "Array",
+          "description": "An array of character offset into the <code>title</code> string. These always occur in pairs, and define the start and end of substrings in the member <code>title</code> that matched the search terms. The first character of the string is index 1."
+        },
+        "snippet": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "Array",
+          "description": "An array of character offset into the <code>snippet</code> string. These always occur in pairs, and define the start and end of substrings in the member <code>snippet</code> that matched the search terms. The first character of the string is index 1."
+        },
+        "address_snippet": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "Array",
+          "description": "An array of character offset into the <code>address_snippet</code> string. These always occur in pairs, and define the start and end of substrings in the member <code>address_snippet</code> that matched the search terms."
+        }
+      }
+    },
+    "registeredOfficeAddress": {
+      "id": "registeredOfficeAddress",
+      "properties": {
+        "address_line_1": {
+          "description": "The first line of the address.",
+          "required": true,
+          "type": "string"
+        },
+        "address_line_2": {
+          "description": "The second line of the address.",
+          "required": false,
+          "type": "string"
+        },
+        "country": {
+          "description": "The country.",
+          "enum": [
+            "Wales",
+            "England",
+            "Scotland",
+            "Great Britain",
+            "Not specified",
+            "United Kingdom",
+            "Northern Ireland"
+          ],
+          "required": false,
+          "type": "string"
+        },
+        "locality": {
+          "description": "The locality e.g London.",
+          "required": false,
+          "type": "string"
+        },
+        "po_box": {
+          "description": "The post-office box number.",
+          "required": false,
+          "type": "string"
+        },
+        "postal_code": {
+          "description": "The postal code e.g CF14 3UZ.",
+          "required": false,
+          "type": "string"
+        },
+        "care_of": {
+          "description": "The care of name.",
+          "required": false,
+          "type": "string"
+        },
+        "region": {
+          "description": "The region e.g Surrey.",
+          "required": false,
+          "type": "string"
+        }
+      }
+    },
+    "OfficerSearch": {
+      "id": "OfficerSearch",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "required": true,
+          "description": "The type of response returned.",
+          "enum": [
+            "search#officers"
+          ]
+        },
+        "total_results": {
+          "type": "integer",
+          "description": "The number of further search results available for the current search."
+        },
+        "start_index": {
+          "type": "integer",
+          "description": "The index into the entire result set that this result page starts."
+        },
+        "items_per_page": {
+          "type": "integer",
+          "description": "The number of search items returned per page."
+        },
+        "items": {
+          "type": "array",
+          "description": "The results of the completed search.",
+          "items": {
+            "$ref": "OfficerSearchItems"
+          }
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "OfficerDateOfBirth": {
+      "id": "OfficerDateOfBirth",
+      "properties": {
+        "month": {
+          "description": "The month the officer was born in.",
+          "type": "integer"
+        },
+        "year": {
+          "description": "The year the officer was born in.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "month",
+        "year"
+      ]
+    },
+    "OfficerSearchItems": {
+      "id": "OfficerSearchItems",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "required": true,
+          "description": "Describes the type of result returned.",
+          "enum": [
+            "searchresults#officer"
+          ]
+        },
+        "date_of_birth": {
+          "description": "The officer date of birth details.",
+          "items": {
+            "$ref": "OfficerDateOfBirth"
+          }
+        },
+        "title": {
+          "type": "string",
+          "required": true,
+          "description": "The title of the search result."
+        },
+        "address_snippet": {
+          "type": "string",
+          "required": true,
+          "description": "A single line address. This will be the address that matched within the indexed document, or the primary address otherwise (as returned by the <code>address</code> member)."
+        },
+        "links": {
+          "type": "list",
+          "description": "Links to other resources associated with this search item.",
+          "items": {
+            "$ref": "LinksModel"
+          }
+        },
+        "appointment_count": {
+          "type": "integer",
+          "required": true,
+          "description": "The total number of appointments the officer has."
+        },
+        "description": {
+          "type": "string",
+          "required": true,
+          "description": "The result description."
+        },
+        "description_identifiers": {
+          "type": "Array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "An array of enumeration types that make up the search description. See search_descriptions_raw.yaml in api-enumerations."
+        },
+        "snippet": {
+          "type": "string",
+          "description": "Summary information for the result, showing additional details that have matched. In the case of company officers, this would be other appointment names for the officer ."
+        },
+        "matches": {
+          "type": "array",
+          "description": "A list of members and arrays of character offset, defining substrings that matched the search terms.",
+          "items": {
+            "$ref": "MatchesModel"
+          }
+        },
+        "address": {
+          "type": "list",
+          "description": "The service address of the officer.",
+          "required": true,
+          "items": {
+            "$ref": "OfficerAddress"
+          }
+        }
+      },
+      "required": [
+        "appointment_count",
+        "description",
+        "kind",
+        "title",
+        "address_snippet",
+        "address"
+      ]
+    },
+    "OfficerAddress": {
+      "id": "OfficerAddress",
+      "properties": {
+        "address_line_1": {
+          "description": "The first line of the address.",
+          "type": "string"
+        },
+        "address_line_2": {
+          "description": "The second line of the address.",
+          "type": "string"
+        },
+        "care_of": {
+          "description": "The care of name.",
+          "type": "string"
+        },
+        "country": {
+          "description": "The country. For example, UK.",
+          "type": "string"
+        },
+        "locality": {
+          "description": "The locality. For example London.",
+          "type": "string"
+        },
+        "po_box": {
+          "description": "The post-office box number.",
+          "type": "string"
+        },
+        "postal_code": {
+          "description": "The postal code. For example CF14 3UZ.",
+          "type": "string"
+        },
+        "premises": {
+          "description": "The property name or number.",
+          "type": "string"
+        },
+        "region": {
+          "description": "The region. For example Surrey.",
+          "type": "string"
+        }
+      }
+    },
+    "DisqualifiedOfficerSearch": {
+      "id": "DisqualifiedOfficerSearch",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The type of response returned.",
+          "enum": [
+            "search#disqualified-officers"
+          ]
+        },
+        "total_results": {
+          "type": "integer",
+          "required": true,
+          "description": "The number of further search results available for the current search."
+        },
+        "start_index": {
+          "type": "integer",
+          "required": true,
+          "description": "The index into the entire result set that this result page starts."
+        },
+        "items_per_page": {
+          "type": "integer",
+          "required": true,
+          "description": "The number of search items returned per page."
+        },
+        "items": {
+          "type": "array",
+          "description": "The results of the completed search.",
+          "items": {
+            "$ref": "DisqualifiedOfficerSearchItems"
+          }
+        }
+      },
+      "required": [
+        "kind"
+      ]
+    },
+    "DisqualifiedOfficerSearchItems": {
+      "id": "DisqualifiedOfficerSearchItems",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Describes the type of result returned.",
+          "required": true,
+          "enum": [
+            "searchresults#disqualified-officer"
+          ]
+        },
+        "date_of_birth": {
+          "type": "date",
+          "description": "The disqualified officer's date of birth."
+        },
+        "links": {
+          "type": "list",
+          "description": "Links to other resources associated with this search item.",
+          "items": {
+            "$ref": "LinksModel"
+          }
+        },
+        "description": {
+          "type": "string",
+          "required": true,
+          "description": "The result description."
+        },
+        "description_identifiers": {
+          "type": "Array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "An array of enumeration types that make up the search description. See search_descriptions_raw.yaml in api-enumerations."
+        },
+        "snippet": {
+          "type": "string",
+          "description": "Summary information for the result, showing additional details that have matched. In the case of disqualified officers, this would be other disqualification names for the officer, if they exist."
+        },
+        "matches": {
+          "type": "array",
+          "description": "A list of members and arrays of character offset, defining substrings that matched the search terms.",
+          "items": {
+            "$ref": "MatchesModel"
+          }
+        },
+        "address": {
+          "type": "list",
+          "description": "The address of the disqualified officer as provided by the disqualifying authority.",
+          "required": true,
+          "items": {
+            "$ref": "DisqualifiedOfficerAddress"
+          }
+        },
+        "address_snippet": {
+          "type": "string",
+          "required": true,
+          "description": "A single line address. This will be the address that matched within the indexed document, or the primary address otherwise (as returned by the <code>address</code> member)."
+        },
+        "title": {
+          "type": "string",
+          "required": true,
+          "description": "The title of the search result."
+        }
+      },
+      "required": [
+        "kind",
+        "title",
+        "description",
+        "address",
+        "address_snippet"
+      ]
+    },
+    "DisqualifiedOfficerAddress": {
+      "id": "DisqualifiedOfficerAddress",
+      "properties": {
+        "address_line_1": {
+          "description": "The first line of the address.",
+          "type": "string"
+        },
+        "address_line_2": {
+          "description": "The second line of the address.",
+          "type": "string"
+        },
+        "country": {
+          "description": "The country. For example, UK.",
+          "type": "string"
+        },
+        "locality": {
+          "description": "The locality. For example London.",
+          "type": "string"
+        },
+        "postal_code": {
+          "description": "The postal code. For example CF14 3UZ.",
+          "type": "string"
+        },
+        "premises": {
+          "description": "The property name or number.",
+          "type": "string"
+        },
+        "region": {
+          "description": "The region. For example Surrey.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
