@@ -55,5 +55,9 @@
       "path": "/spec/exemptions.{format}",
       "description": "Company exemptions"
     }
-  ]
+  ],
+  "info": {
+    "title": "api docs Specification",
+    "description": "**This specification was generated from old data and may not reflect the actual API.**"
+  }
 }

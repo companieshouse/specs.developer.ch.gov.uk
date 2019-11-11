@@ -14,7 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class JsonNodeExtractor {
 
@@ -24,7 +26,7 @@ class JsonNodeExtractor {
     private static final String STRING = "string";
     private static final String FORMAT = "format";
     private static final String TYPE = "type";
-    private final static Map<String, String> unmodifiableSubstitutions;
+    private static final Map<String, String> unmodifiableSubstitutions;
     private static final String OBJECT = "object";
 
     static {
@@ -37,15 +39,22 @@ class JsonNodeExtractor {
         unmodifiableSubstitutions = Collections.unmodifiableMap(substitutions);
     }
 
-    private static void fixParentObjectType(ObjectNode node) {
+    private final String sourceName;
+
+    JsonNodeExtractor(final String sourceName) {
+
+        this.sourceName = sourceName;
+    }
+
+    private static void fixParentObjectType(final ObjectNode node) {
         final String type = node.get(TYPE).asText();
-        String subst = unmodifiableSubstitutions.getOrDefault(type, null);
+        final String subst = unmodifiableSubstitutions.getOrDefault(type, null);
         if (subst != null) {
-            node.replace(TYPE, new TextNode(subst));
+            node.put(TYPE, subst);
         } else {
             if (type.equalsIgnoreCase(DATE)) {
-                node.replace(TYPE, new TextNode(STRING));
-                node.replace(FORMAT, new TextNode(DATE));
+                node.put(TYPE, STRING);
+                node.put(FORMAT, DATE);
             }
         }
     }
@@ -57,12 +66,80 @@ class JsonNodeExtractor {
             node = mapper.readTree(jsonContent);
             processExternalModels(node);
             processAtAt(node);
+            processNames(node);
             processTypes(node);
             processHtml(node);
+            processApiVersion(node);
+            processInfoBlock(node);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return node;
+    }
+
+    private void processNames(final JsonNode rootNode) {
+        final List<JsonNode> properties = rootNode.findValues("properties");
+        properties.forEach(this::processPropertyNames);
+    }
+
+    private void processPropertyNames(final JsonNode property) {
+
+        if (property.isObject()) {
+            final List<String> nodeNames = new LinkedList<>();
+            property.fields().forEachRemaining(entry -> nodeNames.add(entry.getKey()));
+            try (Stream<String> badNames = nodeNames.stream()
+                    .filter(Objects::nonNull)
+                    .filter(name -> name.contains("<"))
+                    .filter(name -> name.contains(">"))) {
+                badNames.forEach(name -> renameBadProperty(property, name)
+                );
+            }
+        }
+    }
+
+    private void renameBadProperty(JsonNode property, String name) {
+        String newName = name.replace("<", "").replace(">", "");
+        final JsonNode value = property.findValue(name);
+        final ObjectNode objectNode = (ObjectNode) property;
+        objectNode.remove(name);
+        objectNode.replace(newName, value);
+    }
+
+    private void processInfoBlock(JsonNode rootNode) {
+        ObjectNode info = (ObjectNode) rootNode.findValue("info");
+        if (info == null) {
+            final ObjectNode root = (ObjectNode) rootNode;
+            info = root.putObject("info");
+        }
+        if (info.findValue("title") == null) {
+            info.put("title", generatedTitle());
+        }
+        if (info.findValue("description") == null) {
+            info.put("description",
+                    "**This specification was generated from old data and may not reflect the actual API.**");
+        }
+    }
+
+    private String generatedTitle() {
+        String fName = sourceName;
+        if (fName.endsWith(".json")) {
+            fName = fName.substring(0, fName.length() - 5);
+        }
+        // Substitute spaces for punctuation
+        for (int i = fName.length() - 1; i >= 0; i--) {
+            final char ch = fName.charAt(i);
+            if (!(Character.isAlphabetic(ch) || Character.isDigit(ch))) {
+                fName = fName.replace(ch, ' ');
+            }
+        }
+        return fName + " Specification";
+    }
+
+    private void processApiVersion(final JsonNode rootNode) {
+        final JsonNode version = rootNode.findValue("apiVersion");
+        if (version == null) {
+            ((ObjectNode) rootNode).put("apiVersion", "0.0.1");
+        }
     }
 
     /**
@@ -72,7 +149,7 @@ class JsonNodeExtractor {
         final Iterator<Entry<String, JsonNode>> nodeFields = node.fields();
         while (nodeFields.hasNext()) {
             final Entry<String, JsonNode> field = nodeFields.next();
-            String key = field.getKey();
+            final String key = field.getKey();
             final JsonNode value = field.getValue();
             if (value.isTextual()) {
                 final String originalValue = value.textValue();
@@ -90,14 +167,14 @@ class JsonNodeExtractor {
     private void replaceTextNodeValue(final JsonNode root, final String key, final JsonNode value,
             final String fixedValue) {
         final List<JsonNode> possibleParents = root.findParents(key);
-        for (JsonNode parent : possibleParents) {
+        for (final JsonNode parent : possibleParents) {
             if (parent.get(key) == value) {
                 ((ObjectNode) parent).replace(key, TextNode.valueOf(fixedValue));
             }
         }
     }
 
-    private void processAtAt(JsonNode node) {
+    private void processAtAt(final JsonNode node) {
         final ObjectNode baseParent = (ObjectNode) node.findParent("basePath");
         if (baseParent != null) {
             String value = baseParent.get("basePath").asText();

@@ -142,5 +142,10 @@
         }
       }
     }
+  },
+  "apiVersion": "0.0.1",
+  "info": {
+    "title": "companyUKEstablishments Specification",
+    "description": "**This specification was generated from old data and may not reflect the actual API.**"
   }
 }

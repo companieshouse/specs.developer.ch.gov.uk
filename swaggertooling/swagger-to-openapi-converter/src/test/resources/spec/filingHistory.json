@@ -414,7 +414,7 @@
     "descriptionValues": {
       "id": "descriptionValues",
       "properties": {
-        "<key>": {
+        "key": {
           "description": "A key-value pair",
           "type": "object"
         }
@@ -433,5 +433,10 @@
         }
       }
     }
+  },
+  "apiVersion": "0.0.1",
+  "info": {
+    "title": "filingHistory Specification",
+    "description": "**This specification was generated from old data and may not reflect the actual API.**"
   }
 }

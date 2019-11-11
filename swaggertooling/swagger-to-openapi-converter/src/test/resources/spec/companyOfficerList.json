@@ -450,7 +450,7 @@
     "error_values": {
       "id": "error_values",
       "properties": {
-        "<argument>": {
+        "argument": {
           "type": "object",
           "description": "The element name and value pair required to complete the error description, will repeat as necessary."
         }
@@ -477,5 +477,10 @@
         "year"
       ]
     }
+  },
+  "apiVersion": "0.0.1",
+  "info": {
+    "title": "companyOfficerList Specification",
+    "description": "**This specification was generated from old data and may not reflect the actual API.**"
   }
 }

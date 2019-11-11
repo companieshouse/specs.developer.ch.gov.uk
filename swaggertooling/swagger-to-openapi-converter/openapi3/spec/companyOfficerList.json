@@ -1,6 +1,9 @@
 {
   "openapi": "3.0.1",
-  "info": {},
+  "info": {
+    "title": "companyOfficerList Specification",
+    "version": "0.0.1"
+  },
   "servers": [
     {
       "url": "http://example.com/api_url"
