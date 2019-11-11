@@ -1,0 +1,59 @@
+{
+  "apiVersion": "3.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://example.com/api_url",
+  "apis": [
+    {
+      "path": "/spec/search.{format}",
+      "description": "Search"
+    },
+    {
+      "path": "/spec/companyProfile.{format}",
+      "description": "Company profile"
+    },
+    {
+      "path": "/spec/companyAddress.{format}",
+      "description": "Registered office address"
+    },
+    {
+      "path": "/spec/companyOfficerList.{format}",
+      "description": "Company Officers"
+    },
+    {
+      "path": "/spec/filingHistory.{format}",
+      "description": "Filing history"
+    },
+    {
+      "path": "/spec/insolvency.{format}",
+      "description": "Insolvency"
+    },
+    {
+      "path": "/spec/charges.{format}",
+      "description": "Charges"
+    },
+    {
+      "path": "/spec/officerAppointmentList.{format}",
+      "description": "Officer Appointment List"
+    },
+    {
+      "path": "/spec/disqualifications.{format}",
+      "description": "Officer disqualifications"
+    },
+    {
+      "path": "/spec/companyUKEstablishments.{format}",
+      "description": "UK establishment companies"
+    },
+    {
+      "path": "/spec/psc.{format}",
+      "description": "Persons with significant control"
+    },
+    {
+      "path": "/spec/companyRegisters.{format}",
+      "description": "Company registers"
+    },
+    {
+      "path": "/spec/exemptions.{format}",
+      "description": "Company exemptions"
+    }
+  ]
+}

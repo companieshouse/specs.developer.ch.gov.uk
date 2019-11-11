@@ -10,6 +10,53 @@
     <groupId>ch-swagger-tools</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
+  <dependencies>
 
+    <dependency>
+      <artifactId>swagger-annotations</artifactId>
+      <groupId>io.swagger.core.v3</groupId>
+      <version>${swagger-annotations-v3-version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/io.swagger.parser.v3/swagger-parser-v3 -->
+    <dependency>
+      <artifactId>swagger-parser-v3</artifactId>
+      <groupId>io.swagger.parser.v3</groupId>
+      <version>${swagger-parser-v3-version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-generators -->
+    <dependency>
+      <artifactId>swagger-codegen-generators</artifactId>
+      <groupId>io.swagger.codegen.v3</groupId>
+      <version>${swagger-codegen-v3-version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+    <dependency>
+      <artifactId>junit-jupiter-api</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>5.6.0-M1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.sourceforge.argparse4j/argparse4j -->
+    <dependency>
+      <artifactId>argparse4j</artifactId>
+      <groupId>net.sourceforge.argparse4j</groupId>
+      <version>0.8.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+    <dependency>
+      <artifactId>commons-beanutils</artifactId>
+      <groupId>commons-beanutils</groupId>
+      <version>1.9.4</version>
+    </dependency>
+  </dependencies>
+  <properties>
+    <swagger-annotations-v3-version>2.0.10</swagger-annotations-v3-version>
+    <swagger-codegen-v3-version>1.0.13</swagger-codegen-v3-version>
+    <swagger-parser-v3-version>2.0.15</swagger-parser-v3-version>
+  </properties>
 
 </project>
