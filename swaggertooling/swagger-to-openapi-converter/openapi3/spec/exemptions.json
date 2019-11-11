@@ -1,0 +1,313 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://example.com/api_url"
+    }
+  ],
+  "paths": {
+    "/company/{company_number}/exemptions": {
+      "get": {
+        "tags": [
+          "company{company_number}exemptions"
+        ],
+        "summary": "Get the company exemptions information.",
+        "operationId": "readCompanyExemptions",
+        "parameters": [
+          {
+            "name": "company_number",
+            "in": "path",
+            "description": "The company number that the exemptions list is required for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/companyExemptions"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "companyExemptions": {
+        "required": [
+          "etag",
+          "exemptions",
+          "kind",
+          "links"
+        ],
+        "type": "object",
+        "properties": {
+          "links": {
+            "type": "array",
+            "description": "A set of URLs related to the resource, including self.",
+            "items": {
+              "$ref": "#/components/schemas/linksType"
+            }
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "exemptions"
+            ]
+          },
+          "etag": {
+            "type": "string",
+            "description": "The ETag of the resource."
+          },
+          "exemptions": {
+            "type": "array",
+            "description": "Company exemptions information.",
+            "items": {
+              "$ref": "#/components/schemas/exemptions"
+            }
+          }
+        }
+      },
+      "pscExemptAsSharesAdmittedOnMarketItem": {
+        "required": [
+          "exemption_type",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of dates",
+            "items": {
+              "$ref": "#/components/schemas/exemptionItem"
+            }
+          },
+          "exemption_type": {
+            "type": "string",
+            "description": "The exemption type.",
+            "enum": [
+              "psc-exempt-as-shares-admitted-on-market"
+            ]
+          }
+        }
+      },
+      "error_values": {
+        "type": "object",
+        "properties": {
+          "<argument>": {
+            "type": "object",
+            "properties": {},
+            "description": "The element name and value pair required to complete the error description, will repeat as necessary."
+          }
+        }
+      },
+      "pscExemptAsTradingOnRegulatedMarketItem": {
+        "required": [
+          "exemption_type",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of dates",
+            "items": {
+              "$ref": "#/components/schemas/exemptionItem"
+            }
+          },
+          "exemption_type": {
+            "type": "string",
+            "description": "The exemption type.",
+            "enum": [
+              "psc-exempt-as-trading-on-regulated-market"
+            ]
+          }
+        }
+      },
+      "exemptions": {
+        "type": "object",
+        "properties": {
+          "psc_exempt_as_trading_on_regulated_market": {
+            "type": "array",
+            "description": "If present the company has been or is exempt from keeping a PSC register, as it has voting shares admitted to trading on a regulated market other than the UK.",
+            "items": {
+              "$ref": "#/components/schemas/pscExemptAsTradingOnRegulatedMarketItem"
+            }
+          },
+          "psc_exempt_as_shares_admitted_on_market": {
+            "type": "array",
+            "description": "If present the company has been or is exempt from keeping a PSC register, as it has voting shares admitted to trading on a market listed in the Register of People with Significant Control Regulations 2016.",
+            "items": {
+              "$ref": "#/components/schemas/pscExemptAsSharesAdmittedOnMarketItem"
+            }
+          },
+          "psc_exempt_as_trading_on_uk_regulated_market": {
+            "type": "array",
+            "description": "If present the company has been or is exempt from keeping a PSC register, as it has voting shares admitted to trading on a UK regulated market.",
+            "items": {
+              "$ref": "#/components/schemas/pscExemptAsTradingOnUKRegulatedMarketItem"
+            }
+          },
+          "disclosure_transparency_rules_chapter_five_applies": {
+            "type": "array",
+            "description": "If present the company is a traded, DTR5 issuing company. Therefore it may be exempt from updating its PSC information.",
+            "items": {
+              "$ref": "#/components/schemas/diclosureTransparencyRulesChapterFiveAppliesItem"
+            }
+          }
+        },
+        "description": "Exemptions information."
+      },
+      "exemptionItem": {
+        "required": [
+          "exempt_from"
+        ],
+        "type": "object",
+        "properties": {
+          "exempt_from": {
+            "type": "string",
+            "description": "Exemption valid from.",
+            "format": "date"
+          },
+          "exempt_to": {
+            "type": "string",
+            "description": "Exemption valid to.",
+            "format": "date"
+          }
+        }
+      },
+      "pscExemptAsTradingOnUKRegulatedMarketItem": {
+        "required": [
+          "exemption_type",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of dates",
+            "items": {
+              "$ref": "#/components/schemas/exemptionItem"
+            }
+          },
+          "exemption_type": {
+            "type": "string",
+            "description": "The exemption type.",
+            "enum": [
+              "psc-exempt-as-trading-on-uk-regulated-market"
+            ]
+          }
+        }
+      },
+      "linksType": {
+        "required": [
+          "self"
+        ],
+        "type": "object",
+        "properties": {
+          "self": {
+            "type": "string",
+            "description": "The URL of this resource."
+          }
+        }
+      },
+      "errorDetail": {
+        "required": [
+          "error",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of error.",
+            "enum": [
+              "ch:service",
+              "ch:validation"
+            ]
+          },
+          "location_type": {
+            "type": "string",
+            "description": "Describes the type of location returned so that it may be parsed appropriately.",
+            "enum": [
+              "json-path",
+              "query-parameter"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "description": "The location in the submitted request in which the error relates. This parameter is only provided when errors[].type is set to \"ch:validation\"."
+          },
+          "error": {
+            "type": "string",
+            "description": "The error being returned. See github for valid [https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml](https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml)error enumeration types."
+          },
+          "error_values": {
+            "type": "array",
+            "description": "A collection of argument name and value pairs which, when substituted into the error string, provide the full description of the error. As many name/value pairs as necessary to complete the error description are returned. See example above.",
+            "items": {
+              "$ref": "#/components/schemas/error_values"
+            }
+          }
+        }
+      },
+      "error": {
+        "required": [
+          "errors"
+        ],
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "A list of errors found",
+            "items": {
+              "$ref": "#/components/schemas/errorDetail"
+            }
+          }
+        }
+      },
+      "diclosureTransparencyRulesChapterFiveAppliesItem": {
+        "required": [
+          "exemption_type",
+          "items"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of exemption periods.",
+            "items": {
+              "$ref": "#/components/schemas/exemptionItem"
+            }
+          },
+          "exemption_type": {
+            "type": "string",
+            "description": "The exemption type.",
+            "enum": [
+              "disclosure-transparency-rules-chapter-five-applies"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -19,9 +19,8 @@ class VersionConverterTest {
 
     @Test
     void generateOpenApiFile() throws Exception {
-        // String inputFile = "dev/ch_swagger_converter/src/test/testResources/spec/insolvency.json";
         final String workingDir = new File("target").getCanonicalPath();
-        final String inputFile = "test-resources/spec/insolvency.json";
+        final String inputFile = "test-classes/spec/insolvency.json";
         final String outputDir = new File("target/openapi3/spec").getCanonicalPath();
         final Path outPath = Paths.get(outputDir);
 
@@ -34,7 +33,7 @@ class VersionConverterTest {
     }
 
     private void CheckSchema(final Path destination) throws IOException, ProcessingException {
-        File schemaFile = new File("target/test-resources/schema/openapi3schema.json");
+        File schemaFile = new File("target/test-classes/schema/openapi3schema.json");
         File jsonFile = destination.toFile();
 
         final JsonSchema schemaNode = ValidationUtils.getSchemaNode(schemaFile);
@@ -49,10 +48,8 @@ class VersionConverterTest {
     @Test
     void generateOpenApiDirectory() throws Exception {
         final String workingDir = new File("target").getCanonicalPath();
-        final String inputFile = "test-resources/spec";
+        final String inputFile = "test-classes/spec";
         final String outputDir = new File("openapi3/spec").getCanonicalPath();
-//        String inputFile = "/Users/dclarke/dev/ch_swagger_converter/src/test/testResources/spec";
-//        String outputDir = "/Users/dclarke/dev/ch_swagger_converter/target/openapi3/spec";
         final Path outPath = Paths.get(outputDir);
 
         cleanDirectory(outPath);

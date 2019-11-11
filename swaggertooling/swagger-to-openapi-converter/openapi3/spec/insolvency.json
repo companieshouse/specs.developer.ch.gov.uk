@@ -1,0 +1,331 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://example.com/api_url"
+    }
+  ],
+  "paths": {
+    "/company/{company_number}/insolvency": {
+      "get": {
+        "tags": [
+          "company{company_number}insolvency"
+        ],
+        "summary": "Get company insolvency information",
+        "operationId": "readCompanyInsolvency",
+        "parameters": [
+          {
+            "name": "company_number",
+            "in": "path",
+            "description": "The company number of the basic information to return.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/companyInsolvency"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "error_values": {
+        "type": "object",
+        "properties": {
+          "<argument>": {
+            "type": "object",
+            "properties": {},
+            "description": "The element name and value pair required to complete the error description, will repeat as necessary."
+          }
+        }
+      },
+      "companyInsolvency": {
+        "required": [
+          "cases",
+          "etag",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "etag": {
+            "type": "string",
+            "description": "The ETag of the resource."
+          },
+          "cases": {
+            "type": "array",
+            "description": "List of insolvency cases.",
+            "items": {
+              "$ref": "#/components/schemas/case"
+            }
+          },
+          "status": {
+            "type": "array",
+            "description": "Company insolvency status details",
+            "items": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        }
+      },
+      "practitioners": {
+        "required": [
+          "address",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the practitioner."
+          },
+          "address": {
+            "type": "array",
+            "description": "The practitioners' address.",
+            "items": {
+              "$ref": "#/components/schemas/practitionerAddress"
+            }
+          },
+          "appointed_on": {
+            "type": "string",
+            "description": "The date the practitioner was appointed on.",
+            "format": "date"
+          },
+          "ceased_to_act_on": {
+            "type": "string",
+            "description": "The date the practitioner ceased to act for the case.",
+            "format": "date"
+          },
+          "role": {
+            "type": "string",
+            "description": "The type of role.",
+            "enum": [
+              "final-liquidator",
+              "receiver",
+              "receiver-manager",
+              "proposed-liquidator",
+              "provisional-liquidator",
+              "administrative-receiver",
+              "practitioner",
+              "interim-liquidator"
+            ]
+          }
+        }
+      },
+      "errorDetail": {
+        "required": [
+          "error",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of error.",
+            "enum": [
+              "ch:service",
+              "ch:validation"
+            ]
+          },
+          "location_type": {
+            "type": "string",
+            "description": "Describes the type of location returned so that it may be parsed appropriately.",
+            "enum": [
+              "json-path",
+              "query-parameter"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "description": "The location in the submitted request in which the error relates. This parameter is only provided when errors[].type is set to \"ch:validation\"."
+          },
+          "error": {
+            "type": "string",
+            "description": "The error being returned. See github for valid [https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml](https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml)error enumeration types."
+          },
+          "error_values": {
+            "type": "array",
+            "description": "A collection of argument name and value pairs which, when substituted into the error string, provide the full description of the error. As many name/value pairs as necessary to complete the error description are returned. See example above.",
+            "items": {
+              "$ref": "#/components/schemas/error_values"
+            }
+          }
+        }
+      },
+      "links": {
+        "type": "object",
+        "properties": {
+          "charge": {
+            "type": "string",
+            "description": "The link to the charge this case is lodged against."
+          }
+        }
+      },
+      "error": {
+        "required": [
+          "errors"
+        ],
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "A list of errors found",
+            "items": {
+              "$ref": "#/components/schemas/errorDetail"
+            }
+          }
+        }
+      },
+      "case": {
+        "required": [
+          "dates",
+          "practitioners",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of case. For enumeration descriptions see `insolvency_case_type` section in the enumeration mappings.",
+            "enum": [
+              "compulsory-liquidation",
+              "creditors-voluntary-liquidation",
+              "members-voluntary-liquidation",
+              "in-administration",
+              "corporate-voluntary-arrangement",
+              "corporate-voluntary-arrangement-moratorium",
+              "administration-order",
+              "receiver-manager",
+              "administrative-receiver",
+              "receivership",
+              "foreign-insolvency"
+            ]
+          },
+          "dates": {
+            "type": "array",
+            "description": "The dates specific to the case.",
+            "items": {
+              "$ref": "#/components/schemas/caseDates"
+            }
+          },
+          "notes": {
+            "type": "array",
+            "description": "Notes that apply to the case.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "practitioners": {
+            "type": "array",
+            "description": "The practitioners for the case.",
+            "items": {
+              "$ref": "#/components/schemas/practitioners"
+            }
+          },
+          "links": {
+            "type": "array",
+            "description": "The resources related to this case",
+            "items": {
+              "$ref": "#/components/schemas/links"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "description": "The case number."
+          }
+        }
+      },
+      "caseDates": {
+        "required": [
+          "date",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Describes what date is represented by the associated `date` element.  For enumeration descriptions see `insolvency_case_date_type` section in the enumeration mappings.",
+            "enum": [
+              "instrumented-on",
+              "administration-started-on",
+              "administration-discharged-on",
+              "administration-ended-on",
+              "concluded-winding-up-on",
+              "petitioned-on",
+              "ordered-to-wind-up-on",
+              "due-to-be-dissolved-on",
+              "case-end-on",
+              "wound-up-on",
+              "voluntary-arrangement-started-on",
+              "voluntary-arrangement-ended-on",
+              "moratorium-started-on",
+              "moratorium-ended-on",
+              "declaration-solvent-on"
+            ]
+          },
+          "date": {
+            "type": "string",
+            "description": "The case date, described by `date_type`.",
+            "format": "date"
+          }
+        }
+      },
+      "practitionerAddress": {
+        "required": [
+          "address_line_1",
+          "postal_code"
+        ],
+        "type": "object",
+        "properties": {
+          "address_line_1": {
+            "type": "string",
+            "description": "The first line of the address."
+          },
+          "address_line_2": {
+            "type": "string",
+            "description": "The second line of the address."
+          },
+          "locality": {
+            "type": "string",
+            "description": "The locality. For example London."
+          },
+          "region": {
+            "type": "string",
+            "description": "The region. For example Surrey."
+          },
+          "postal_code": {
+            "type": "string",
+            "description": "The postal code. For example CF14 3UZ."
+          },
+          "country": {
+            "type": "string",
+            "description": "The country."
+          }
+        }
+      }
+    }
+  }
+}

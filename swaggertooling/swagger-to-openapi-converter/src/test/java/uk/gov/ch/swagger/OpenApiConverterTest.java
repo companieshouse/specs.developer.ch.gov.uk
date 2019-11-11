@@ -13,7 +13,7 @@ class OpenApiConverterTest {
 
     @Test
     void codeGenUpgrade() throws IOException {
-        final String inputFile = new File("test-resources/spec/insolvency.json").getCanonicalPath();
+        final String inputFile = new File("test-classes/spec/insolvency.json").getCanonicalPath();
         final String outputDir = new File("target/openapi3/openAPI/spec").getCanonicalPath();
 
         final Path outPath = Paths.get(outputDir);

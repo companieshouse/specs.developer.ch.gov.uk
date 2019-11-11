@@ -1,0 +1,484 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://example.com/api_url"
+    }
+  ],
+  "paths": {
+    "/company/{company_number}/officers": {
+      "get": {
+        "tags": [
+          "company{company_number}officers"
+        ],
+        "summary": "List the company officers",
+        "operationId": "officerList",
+        "parameters": [
+          {
+            "name": "company_number",
+            "in": "path",
+            "description": "The company number of the officer list being requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "items_per_page",
+            "in": "query",
+            "description": "The number of officers to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "register_type",
+            "in": "query",
+            "description": "The register_type determines which officer type is returned for the registers view. Accepted values are: <ul><li><code>directors</code></li><li><code>secretaries</code></li><li><code>llp-members</code></li></ul>The register_type field will only work if registers_view is set to true",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "register_view",
+            "in": "query",
+            "description": "Display register specific information. If given register is held at Companies House, registers_view set to true and correct register_type specified, only active officers will be returned. Those will also have full date of birth. Accepted values are: <ul><li><code>true</code></li><li><code>false</code></li></ul>Defaults to false",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_index",
+            "in": "query",
+            "description": "The offset into the entire result set that this page starts.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "The field by which to order the result set. Possible values are: <ul><li><code>appointed_on</code></li><li><code>resigned_on</code></li><li><code>surname</code></li></ul>",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/officerList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "formerNames": {
+        "type": "object",
+        "properties": {
+          "forenames": {
+            "type": "string",
+            "description": "Former forenames of the officer."
+          },
+          "surname": {
+            "type": "string",
+            "description": "Former surnames of the officer."
+          }
+        }
+      },
+      "error_values": {
+        "type": "object",
+        "properties": {
+          "<argument>": {
+            "type": "object",
+            "properties": {},
+            "description": "The element name and value pair required to complete the error description, will repeat as necessary."
+          }
+        }
+      },
+      "address": {
+        "type": "object",
+        "properties": {
+          "address_line_1": {
+            "type": "string",
+            "description": "The first line of the address."
+          },
+          "address_line_2": {
+            "type": "string",
+            "description": "The second line of the address."
+          },
+          "care_of": {
+            "type": "string",
+            "description": "The care of name."
+          },
+          "country": {
+            "type": "string",
+            "description": "The country e.g. United Kingdom."
+          },
+          "locality": {
+            "type": "string",
+            "description": "The locality e.g. London."
+          },
+          "po_box": {
+            "type": "string",
+            "description": "The post-office box number."
+          },
+          "postal_code": {
+            "type": "string",
+            "description": "The postal code e.g. CF14 3UZ."
+          },
+          "premises": {
+            "type": "string",
+            "description": "The property name or number."
+          },
+          "region": {
+            "type": "string",
+            "description": "The region e.g. Surrey."
+          }
+        }
+      },
+      "itemLinkTypes": {
+        "required": [
+          "officer"
+        ],
+        "type": "object",
+        "properties": {
+          "officer": {
+            "type": "array",
+            "description": "Links to other officer resources associated with this officer list item.",
+            "items": {
+              "$ref": "#/components/schemas/officerLinkTypes"
+            }
+          }
+        }
+      },
+      "linkTypes": {
+        "required": [
+          "self"
+        ],
+        "type": "object",
+        "properties": {
+          "self": {
+            "type": "string",
+            "description": "Link to this officer list resource."
+          }
+        }
+      },
+      "corporateIdent": {
+        "type": "object",
+        "properties": {
+          "identification_type": {
+            "type": "string",
+            "enum": [
+              "eea",
+              "non-eea"
+            ]
+          },
+          "legal_authority": {
+            "type": "string",
+            "description": "The legal authority supervising the company."
+          },
+          "legal_form": {
+            "type": "string",
+            "description": "The legal form of the company as defined by its country of registration."
+          },
+          "place_registered": {
+            "type": "string",
+            "description": "Place registered."
+          },
+          "registration_number": {
+            "type": "string",
+            "description": "Company registration number."
+          }
+        }
+      },
+      "errorDetail": {
+        "required": [
+          "error",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of error.",
+            "enum": [
+              "ch:service",
+              "ch:validation"
+            ]
+          },
+          "location_type": {
+            "type": "string",
+            "description": "Describes the type of location returned so that it may be parsed appropriately.",
+            "enum": [
+              "json-path",
+              "query-parameter"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "description": "The location in the submitted request in which the error relates. This parameter is only provided when errors[].type is set to \"ch:validation\"."
+          },
+          "error": {
+            "type": "string",
+            "description": "The error being returned. See github for valid [https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml](https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml)error enumeration types."
+          },
+          "error_values": {
+            "type": "array",
+            "description": "A collection of argument name and value pairs which, when substituted into the error string, provide the full description of the error. As many name/value pairs as necessary to complete the error description are returned. See example above.",
+            "items": {
+              "$ref": "#/components/schemas/error_values"
+            }
+          }
+        }
+      },
+      "dateOfBirth": {
+        "required": [
+          "month",
+          "year"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "description": "The day of the date of birth."
+          },
+          "month": {
+            "type": "integer",
+            "description": "The month of date of birth."
+          },
+          "year": {
+            "type": "integer",
+            "description": "The year of date of birth."
+          }
+        }
+      },
+      "officerLinkTypes": {
+        "required": [
+          "appointments"
+        ],
+        "type": "object",
+        "properties": {
+          "appointments": {
+            "type": "string",
+            "description": "Link to the officer appointment resource that this appointment is associated with."
+          }
+        }
+      },
+      "error": {
+        "required": [
+          "errors"
+        ],
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "A list of errors found",
+            "items": {
+              "$ref": "#/components/schemas/errorDetail"
+            }
+          }
+        }
+      },
+      "officerList": {
+        "required": [
+          "active_count",
+          "etag",
+          "inactive_count",
+          "items",
+          "items_per_page",
+          "kind",
+          "links",
+          "resigned_count",
+          "start_index"
+        ],
+        "type": "object",
+        "properties": {
+          "active_count": {
+            "type": "integer",
+            "description": "The number of active officers in this result set."
+          },
+          "etag": {
+            "type": "string",
+            "description": "The ETag of the resource."
+          },
+          "inactive_count": {
+            "type": "integer",
+            "description": "The number of officers who have not resigned where the company status is dissolved or converted-closed in this result set."
+          },
+          "items": {
+            "type": "array",
+            "description": "The list of officers.",
+            "items": {
+              "$ref": "#/components/schemas/officerSummary"
+            }
+          },
+          "items_per_page": {
+            "type": "integer",
+            "description": "The number of officers to return per page."
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "officer-list"
+            ]
+          },
+          "links": {
+            "type": "array",
+            "description": "Links to other resources associated with this officer list resource.",
+            "items": {
+              "$ref": "#/components/schemas/linkTypes"
+            }
+          },
+          "resigned_count": {
+            "type": "integer",
+            "description": "The number of resigned officers in this result set."
+          },
+          "start_index": {
+            "type": "integer",
+            "description": "The offset into the entire result set that this page starts."
+          },
+          "total_results": {
+            "type": "integer",
+            "description": "The total number of officers in this result set."
+          }
+        }
+      },
+      "officerSummary": {
+        "required": [
+          "address",
+          "appointed_on",
+          "links",
+          "name",
+          "officer_role"
+        ],
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "array",
+            "description": "The correspondence address of the officer.",
+            "items": {
+              "$ref": "#/components/schemas/address"
+            }
+          },
+          "appointed_on": {
+            "type": "string",
+            "description": "The date on which the officer was appointed.",
+            "format": "date"
+          },
+          "country_of_residence": {
+            "type": "string",
+            "description": "The officer's country of residence."
+          },
+          "date_of_birth": {
+            "type": "array",
+            "description": "Details of director date of birth.",
+            "items": {
+              "$ref": "#/components/schemas/dateOfBirth"
+            }
+          },
+          "links": {
+            "type": "array",
+            "description": "Links to other resources associated with this officer list item.",
+            "items": {
+              "$ref": "#/components/schemas/itemLinkTypes"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Corporate or natural officer name."
+          },
+          "nationality": {
+            "type": "string",
+            "description": "The officer's nationality."
+          },
+          "occupation": {
+            "type": "string",
+            "description": "The officer's job title."
+          },
+          "officer_role": {
+            "type": "string",
+            "enum": [
+              "cic-manager",
+              "corporate-director",
+              "corporate-llp-designated-member",
+              "corporate-llp-member",
+              "corporate-manager-of-an-eeig",
+              "corporate-member-of-a-management-organ",
+              "corporate-member-of-a-supervisory-organ",
+              "corporate-member-of-an-administrative-organ",
+              "corporate-nominee-director",
+              "corporate-nominee-secretary",
+              "corporate-secretary",
+              "director",
+              "general-partner-in-a-limited-partnership",
+              "judicial-factor",
+              "limited-partner-in-a-limited-partnership",
+              "llp-designated-member",
+              "llp-member",
+              "manager-of-an-eeig",
+              "member-of-a-management-organ",
+              "member-of-a-supervisory-organ",
+              "member-of-an-administrative-organ",
+              "nominee-director",
+              "nominee-secretary",
+              "person-authorised-to-accept",
+              "person-authorised-to-represent",
+              "person-authorised-to-represent-and-accept",
+              "receiver-and-manager",
+              "secretary"
+            ]
+          },
+          "resigned_on": {
+            "type": "string",
+            "description": "The date on which the officer resigned.",
+            "format": "date"
+          },
+          "former_names": {
+            "type": "array",
+            "description": "Former names for the officer.",
+            "items": {
+              "$ref": "#/components/schemas/formerNames"
+            }
+          },
+          "identification": {
+            "type": "array",
+            "description": "Only one from `eea` or `non-eea` can be supplied, not both.",
+            "items": {
+              "$ref": "#/components/schemas/corporateIdent"
+            }
+          }
+        }
+      }
+    }
+  }
+}

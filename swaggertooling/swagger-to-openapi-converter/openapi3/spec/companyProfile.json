@@ -1,0 +1,882 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://example.com/api_url"
+    }
+  ],
+  "paths": {
+    "/company/{company_number}": {
+      "get": {
+        "tags": [
+          "company{company_number}"
+        ],
+        "summary": "Get the basic company information",
+        "operationId": "readCompanyProfile",
+        "parameters": [
+          {
+            "name": "company_number",
+            "in": "path",
+            "description": "The company number of the basic information to return.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/companyProfile"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "foreignCompanyDetails": {
+        "type": "object",
+        "properties": {
+          "originating_registry": {
+            "type": "array",
+            "description": "Company origin informations",
+            "items": {
+              "$ref": "#/components/schemas/originatingRegistry"
+            }
+          },
+          "registration_number": {
+            "type": "string",
+            "description": "Registration number in company of incorporation."
+          },
+          "governed_by": {
+            "type": "string",
+            "description": "Law governing the company in country of incorporation."
+          },
+          "company_type": {
+            "type": "string",
+            "description": "Legal form of the company in the country of incorporation."
+          },
+          "is_a_credit_finance_institution": {
+            "type": "boolean",
+            "description": "Is it a financial or credit institution."
+          },
+          "accounts": {
+            "type": "array",
+            "description": "Foreign company account information.",
+            "items": {
+              "$ref": "#/components/schemas/accountInformation"
+            }
+          },
+          "business_activity": {
+            "type": "string",
+            "description": "Type of business undertaken by the company."
+          },
+          "accounting_requirement": {
+            "type": "string",
+            "description": "Accounts requirement."
+          }
+        }
+      },
+      "accountPeriodTo": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "description": "Day on which accounting period ends under parent law."
+          },
+          "month": {
+            "type": "integer",
+            "description": "Month in which accounting period ends under parent law."
+          }
+        }
+      },
+      "annualReturnInformation": {
+        "type": "object",
+        "properties": {
+          "last_made_up_to": {
+            "type": "string",
+            "description": "The date the last annual return was made up to.",
+            "format": "date"
+          },
+          "next_due": {
+            "type": "string",
+            "description": "The date the next annual return is due. This member will only be returned if a confirmation statement has not been filed and the date is before 28th July 2016, otherwise refer to `confirmation_statement.next_due`",
+            "format": "date"
+          },
+          "next_made_up_to": {
+            "type": "string",
+            "description": "The date the next annual return should be made up to. This member will only be returned if a confirmation statement has not been filed and the date is before 30th July 2016, otherwise refer to `confirmation_statement.next_made_up_to`",
+            "format": "date"
+          },
+          "overdue": {
+            "type": "boolean",
+            "description": "Flag indicating if the annual return is overdue."
+          }
+        }
+      },
+      "linksType": {
+        "required": [
+          "self"
+        ],
+        "type": "object",
+        "properties": {
+          "self": {
+            "type": "string",
+            "description": "The URL of the resource."
+          },
+          "persons_with_significant_control": {
+            "type": "string",
+            "description": "The URL of the company's persons with significant control list resource."
+          },
+          "persons_with_significant_control_statements": {
+            "type": "string",
+            "description": "The URL of the company's persons with significant control statements list resource."
+          },
+          "filing_history": {
+            "type": "string",
+            "description": "The URL of the company's filing history list resource."
+          },
+          "officers": {
+            "type": "string",
+            "description": "The URL of the company's officer list resource."
+          },
+          "insolvency": {
+            "type": "string",
+            "description": "The URL of the company's insolvency list resource"
+          },
+          "charges": {
+            "type": "string",
+            "description": "The URL of the company's charge resource"
+          },
+          "registers": {
+            "type": "string",
+            "description": "The URL of the registers resource for this company"
+          }
+        }
+      },
+      "previousCompanyNames": {
+        "required": [
+          "ceased_on",
+          "effective_from",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The previous company name"
+          },
+          "effective_from": {
+            "type": "string",
+            "description": "The date from which the company name was effective.",
+            "format": "date"
+          },
+          "ceased_on": {
+            "type": "string",
+            "description": "The date on which the company name ceased.",
+            "format": "date"
+          }
+        }
+      },
+      "dateOfBirth": {
+        "required": [
+          "month",
+          "year"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "description": "The day of the date of birth."
+          },
+          "month": {
+            "type": "integer",
+            "description": "The month of date of birth."
+          },
+          "year": {
+            "type": "integer",
+            "description": "The year of date of birth."
+          }
+        }
+      },
+      "branchCompanyDetails": {
+        "type": "object",
+        "properties": {
+          "business_activity": {
+            "type": "string",
+            "description": "Type of business undertaken by the UK establishment."
+          },
+          "parent_company_number": {
+            "type": "string",
+            "description": "Parent company number."
+          },
+          "parent_company_name": {
+            "type": "string",
+            "description": "Parent company name."
+          }
+        }
+      },
+      "accountsInformation": {
+        "required": [
+          "accounting_reference_date",
+          "next_made_up_to",
+          "overdue"
+        ],
+        "type": "object",
+        "properties": {
+          "accounting_reference_date": {
+            "type": "array",
+            "description": "The Accounting Reference Date (ARD) of the company.",
+            "items": {
+              "$ref": "#/components/schemas/accountingReferenceDate"
+            }
+          },
+          "last_accounts": {
+            "type": "array",
+            "description": "The last company accounts filed.",
+            "items": {
+              "$ref": "#/components/schemas/lastAccounts"
+            }
+          },
+          "next_accounts": {
+            "type": "array",
+            "description": "The next company accounts filed.",
+            "items": {
+              "$ref": "#/components/schemas/nextAccounts"
+            }
+          },
+          "next_due": {
+            "type": "string",
+            "description": "Deprecated. Please use next_accounts.due_on.",
+            "format": "date"
+          },
+          "next_made_up_to": {
+            "type": "string",
+            "description": "Deprecated. Please use next_accounts.period_end_on.",
+            "format": "date"
+          },
+          "overdue": {
+            "type": "boolean",
+            "description": "Deprecated. Please use next_accounts.overdue"
+          }
+        }
+      },
+      "error": {
+        "required": [
+          "errors"
+        ],
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "description": "A list of errors found",
+            "items": {
+              "$ref": "#/components/schemas/errorDetail"
+            }
+          }
+        }
+      },
+      "lastAccounts": {
+        "required": [
+          "made_up_to",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "made_up_to": {
+            "type": "string",
+            "description": "Deprecated. Please use period_end_on.",
+            "format": "date"
+          },
+          "period_start_on": {
+            "type": "string",
+            "description": "The first day of the most recently filed accounting period",
+            "format": "date"
+          },
+          "period_end_on": {
+            "type": "string",
+            "description": "The last day of the most recently filed accounting period",
+            "format": "date"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the last company accounts filed.  For enumeration descriptions see `account_type` section in the enumeration mappings.",
+            "enum": [
+              "null",
+              "full",
+              "small",
+              "medium",
+              "group",
+              "dormant",
+              "interim",
+              "initial",
+              "total-exemption-full",
+              "total-exemption-small",
+              "partial-exemption",
+              "audit-exemption-subsidiary",
+              "filing-exemption-subsidiary",
+              "micro-entity"
+            ]
+          }
+        }
+      },
+      "nextAccounts": {
+        "type": "object",
+        "properties": {
+          "period_start_on": {
+            "type": "string",
+            "description": "The first day of the next accounting period to be filed.",
+            "format": "date"
+          },
+          "period_end_on": {
+            "type": "string",
+            "description": "The last day of the next accounting period to be filed.",
+            "format": "date"
+          },
+          "due_on": {
+            "type": "string",
+            "description": "The date the next company accounts are due.",
+            "format": "date"
+          },
+          "overdue": {
+            "type": "boolean",
+            "description": "Flag indicating if the company accounts are overdue."
+          }
+        }
+      },
+      "accountPeriodFrom": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "description": "Day on which accounting period starts under parent law."
+          },
+          "month": {
+            "type": "integer",
+            "description": "Month in which accounting period starts under parent law."
+          }
+        }
+      },
+      "officerSummary": {
+        "required": [
+          "appointed_on",
+          "name",
+          "officer_role"
+        ],
+        "type": "object",
+        "properties": {
+          "appointed_on": {
+            "type": "string",
+            "description": "The date the officer was appointed.",
+            "format": "date"
+          },
+          "date_of_birth": {
+            "type": "array",
+            "description": "Details of director date of birth.",
+            "items": {
+              "$ref": "#/components/schemas/dateOfBirth"
+            }
+          },
+          "officer_role": {
+            "type": "string",
+            "description": " For enumeration descriptions see `officer_role` section in the enumeration mappings.",
+            "enum": [
+              "cic-manager",
+              "corporate-director",
+              "corporate-llp-designated-member",
+              "corporate-llp-member",
+              "corporate-manager-of-an-eeig",
+              "corporate-member-of-a-management-organ",
+              "corporate-member-of-a-supervisory-organ",
+              "corporate-member-of-an-administrative-organ",
+              "corporate-nominee-director",
+              "corporate-nominee-secretary",
+              "corporate-secretary",
+              "director",
+              "general-partner-in-a-limited-partnership",
+              "judicial-factor",
+              "limited-partner-in-a-limited-partnership",
+              "llp-designated-member",
+              "llp-member",
+              "manager-of-an-eeig",
+              "member-of-a-management-organ",
+              "member-of-a-supervisory-organ",
+              "member-of-an-administrative-organ",
+              "nominee-director",
+              "nominee-secretary",
+              "person-authorised-to-accept",
+              "person-authorised-to-represent",
+              "person-authorised-to-represent-and-accept",
+              "receiver-and-manager",
+              "secretary"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Corporate or natural officer name."
+          }
+        }
+      },
+      "confirmationOfStatementInformation": {
+        "required": [
+          "next_due",
+          "next_made_up_to"
+        ],
+        "type": "object",
+        "properties": {
+          "last_made_up_to": {
+            "type": "string",
+            "description": "The date to which the company last made a confirmation statement.",
+            "format": "date"
+          },
+          "next_due": {
+            "type": "string",
+            "description": "The date by which the next confimation statement must be received.",
+            "format": "date"
+          },
+          "next_made_up_to": {
+            "type": "string",
+            "description": "The date to which the company must next make a confirmation statement.",
+            "format": "date"
+          },
+          "overdue": {
+            "type": "boolean",
+            "description": "Flag indicating if the confirmation statement is overdue."
+          }
+        }
+      },
+      "error_values": {
+        "type": "object",
+        "properties": {
+          "<argument>": {
+            "type": "object",
+            "properties": {},
+            "description": "The element name and value pair required to complete the error description, will repeat as necessary."
+          }
+        }
+      },
+      "accountingReferenceDate": {
+        "required": [
+          "day",
+          "month"
+        ],
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "description": "The Accounting Reference Date (ARD) day."
+          },
+          "month": {
+            "type": "integer",
+            "description": "The Accounting Reference Date (ARD) month."
+          }
+        }
+      },
+      "accountInformation": {
+        "type": "object",
+        "properties": {
+          "account_period_from": {
+            "type": "array",
+            "description": "Date account period starts under parent law.",
+            "items": {
+              "$ref": "#/components/schemas/accountPeriodFrom"
+            }
+          },
+          "account_period_to": {
+            "type": "array",
+            "description": "Date account period ends under parent law.",
+            "items": {
+              "$ref": "#/components/schemas/accountPeriodTo"
+            }
+          },
+          "must_file_within": {
+            "type": "array",
+            "description": "Time allowed from period end for disclosure of accounts under parent law.",
+            "items": {
+              "$ref": "#/components/schemas/fileWithin"
+            }
+          }
+        }
+      },
+      "originatingRegistry": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "Country in which company was incorporated."
+          },
+          "name": {
+            "type": "string",
+            "description": "Identity of register in country of incorporation."
+          }
+        }
+      },
+      "errorDetail": {
+        "required": [
+          "error",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of error.",
+            "enum": [
+              "ch:service",
+              "ch:validation"
+            ]
+          },
+          "location_type": {
+            "type": "string",
+            "description": "Describes the type of location returned so that it may be parsed appropriately.",
+            "enum": [
+              "json-path",
+              "query-parameter"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "description": "The location in the submitted request in which the error relates. This parameter is only provided when errors[].type is set to \"ch:validation\"."
+          },
+          "error": {
+            "type": "string",
+            "description": "The error being returned. See github for valid [https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml](https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml)error enumeration types."
+          },
+          "error_values": {
+            "type": "array",
+            "description": "A collection of argument name and value pairs which, when substituted into the error string, provide the full description of the error. As many name/value pairs as necessary to complete the error description are returned. See example above.",
+            "items": {
+              "$ref": "#/components/schemas/error_values"
+            }
+          }
+        }
+      },
+      "companyProfile": {
+        "required": [
+          "can_file",
+          "company_name",
+          "company_number",
+          "jurisdiction",
+          "links",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "accounts": {
+            "type": "array",
+            "description": "Company accounts information.",
+            "items": {
+              "$ref": "#/components/schemas/accountsInformation"
+            }
+          },
+          "annual_return": {
+            "type": "array",
+            "description": "Annual return information. This member is only returned if a confirmation statement has not be filed.",
+            "items": {
+              "$ref": "#/components/schemas/annualReturnInformation"
+            }
+          },
+          "can_file": {
+            "type": "boolean",
+            "description": "Flag indicating whether this company can file."
+          },
+          "confirmation_statement": {
+            "type": "array",
+            "description": "Confirmation statement information.",
+            "items": {
+              "$ref": "#/components/schemas/confirmationOfStatementInformation"
+            }
+          },
+          "company_name": {
+            "type": "string",
+            "description": "The name of the company."
+          },
+          "company_number": {
+            "type": "string",
+            "description": "The number of the company."
+          },
+          "date_of_creation": {
+            "type": "string",
+            "description": "The date when the company was created.",
+            "format": "date"
+          },
+          "date_of_cessation": {
+            "type": "string",
+            "description": "The date which the company was converted/closed or dissolved. Please refer to company status to determine which.",
+            "format": "date"
+          },
+          "etag": {
+            "type": "string",
+            "description": "The ETag of the resource."
+          },
+          "has_been_liquidated": {
+            "type": "boolean",
+            "description": "The flag indicating if the company has been liquidated in the past."
+          },
+          "has_charges": {
+            "type": "boolean",
+            "description": "Deprecated. Please use links.charges"
+          },
+          "is_community_interest_company": {
+            "type": "boolean",
+            "description": "Deprecated. Please use subtype"
+          },
+          "subtype": {
+            "type": "string",
+            "description": "The subtype of the company.",
+            "enum": [
+              "community-interest-company",
+              "private-fund-limited-partnership"
+            ]
+          },
+          "jurisdiction": {
+            "type": "string",
+            "description": "The jurisdiction specifies the political body responsible for the company.",
+            "enum": [
+              "england-wales",
+              "wales",
+              "scotland",
+              "northern-ireland",
+              "european-union",
+              "united-kingdom",
+              "england",
+              "noneu"
+            ]
+          },
+          "last_full_members_list_date": {
+            "type": "string",
+            "description": "The date of last full members list update.",
+            "format": "date"
+          },
+          "foreign_company_details": {
+            "type": "array",
+            "description": "Foreign company details.",
+            "items": {
+              "$ref": "#/components/schemas/foreignCompanyDetails"
+            }
+          },
+          "registered_office_address": {
+            "type": "array",
+            "description": "The address of the company's registered office.",
+            "items": {
+              "$ref": "#/components/schemas/registeredOfficeAddress"
+            }
+          },
+          "sic_codes": {
+            "type": "array",
+            "description": "SIC codes for this company.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "previous_company_names": {
+            "type": "array",
+            "description": "The previous names of this company.",
+            "items": {
+              "$ref": "#/components/schemas/previousCompanyNames"
+            }
+          },
+          "company_status": {
+            "type": "string",
+            "description": "The status of the company.  For enumeration descriptions see `company_status` section in the enumeration mappings.",
+            "enum": [
+              "active",
+              "dissolved",
+              "liquidation",
+              "receivership",
+              "administration",
+              "voluntary-arrangement",
+              "converted-closed",
+              "insolvency-proceedings"
+            ]
+          },
+          "company_status_detail": {
+            "type": "string",
+            "description": "Extra details about the status of the company.  For enumeration descriptions see `company_status_detail` section in the enumeration mappings.",
+            "enum": [
+              "transferred-from-uk",
+              "active-proposal-to-strike-off",
+              "petition-to-restore-dissolved",
+              "transformed-to-se",
+              "converted-to-plc"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the company.  For enumeration descriptions see `company_type` section in the enumeration mappings.",
+            "enum": [
+              "private-unlimited",
+              "ltd",
+              "protected-cell-company",
+              "plc",
+              "old-public-company",
+              "private-limited-guarant-nsc-limited-exemption",
+              "limited-partnership",
+              "private-limited-guarant-nsc",
+              "converted-or-closed",
+              "private-unlimited-nsc",
+              "private-limited-shares-section-30-exemption",
+              "assurance-company",
+              "oversea-company",
+              "eeig",
+              "icvc-securities",
+              "icvc-warrant",
+              "icvc-umbrella",
+              "industrial-and-provident-society",
+              "northern-ireland",
+              "northern-ireland-other",
+              "llp",
+              "royal-charter",
+              "investment-company-with-variable-capital",
+              "unregistered-company",
+              "other",
+              "european-public-limited-liability-company-se",
+              "scottish-partnership",
+              "charitable-incorporated-organisation",
+              "scottish-charitable-incorporated-organisation",
+              "further-education-or-sixth-form-college-corporation"
+            ]
+          },
+          "external_registration_number": {
+            "type": "string",
+            "description": "The number given by an external registration body."
+          },
+          "has_insolvency_history": {
+            "type": "boolean",
+            "description": "Deprecated. Please use links.insolvency"
+          },
+          "undeliverable_registered_office_address": {
+            "type": "boolean",
+            "description": "Flag indicating whether post can be delivered to the registered office."
+          },
+          "registered_office_is_in_dispute": {
+            "type": "boolean",
+            "description": "Flag indicating registered office address as been replaced."
+          },
+          "branch_company_details": {
+            "type": "array",
+            "description": "UK branch of a foreign company.",
+            "items": {
+              "$ref": "#/components/schemas/branchCompanyDetails"
+            }
+          },
+          "links": {
+            "type": "array",
+            "description": "A set of URLs related to the resource, including self.",
+            "items": {
+              "$ref": "#/components/schemas/linksType"
+            }
+          },
+          "partial_data_available": {
+            "type": "string",
+            "description": "Returned if Companies House is not the primary source of data for this company.  For enumeration descriptions see `partial_data_available` section in the enumeration mappings.",
+            "enum": [
+              "full-data-available-from-financial-conduct-authority",
+              "full-data-available-from-department-of-the-economy",
+              "full-data-available-from-the-company"
+            ]
+          }
+        }
+      },
+      "fileWithin": {
+        "type": "object",
+        "properties": {
+          "months": {
+            "type": "integer",
+            "description": "Number of months within which to file."
+          }
+        }
+      },
+      "accountsRequired": {
+        "type": "object",
+        "properties": {
+          "foreign_account_type": {
+            "type": "string",
+            "description": "Type of accounting requirement that applies.  For enumeration descriptions see `foreign_account_type` section in the enumeration mappings.",
+            "enum": [
+              "accounting-requirements-of-originating-country-apply",
+              "accounting-requirements-of-originating-country-do-not-apply"
+            ]
+          },
+          "terms_of_account_publication": {
+            "type": "string",
+            "description": "Describes how the publication date is derived.  For enumeration descriptions see `terms_of_account_publication` section in the enumeration mappings.",
+            "enum": [
+              "accounts-publication-date-supplied-by-company",
+              "accounting-publication-date-does-not-need-to-be-supplied-by-company",
+              "accounting-reference-date-allocated-by-companies-house"
+            ]
+          }
+        }
+      },
+      "registeredOfficeAddress": {
+        "type": "object",
+        "properties": {
+          "care_of": {
+            "type": "string",
+            "description": "The care of name."
+          },
+          "address_line_1": {
+            "type": "string",
+            "description": "The first line of the address."
+          },
+          "address_line_2": {
+            "type": "string",
+            "description": "The second line of the address."
+          },
+          "country": {
+            "type": "string",
+            "description": "The country.",
+            "enum": [
+              "Wales",
+              "England",
+              "Scotland",
+              "Great Britain",
+              "Not specified",
+              "United Kingdom",
+              "Northern Ireland"
+            ]
+          },
+          "locality": {
+            "type": "string",
+            "description": "The locality e.g London."
+          },
+          "po_box": {
+            "type": "string",
+            "description": "The post-office box number."
+          },
+          "postal_code": {
+            "type": "string",
+            "description": "The postal code e.g CF14 3UZ."
+          },
+          "premises": {
+            "type": "string",
+            "description": "The property name or number."
+          },
+          "region": {
+            "type": "string",
+            "description": "The region e.g Surrey."
+          }
+        }
+      }
+    }
+  }
+}

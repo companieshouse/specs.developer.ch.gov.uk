@@ -40,49 +40,182 @@ import uk.gov.ch.swagger.CLIHelper;
 
 public class Generate implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Generate.class);
+    public static final Logger LOG = LoggerFactory.getLogger(Generate.class);
 
-    private Boolean verbose;
-    private String lang;
-    private String spec;
-    private String templateDir;
-    private String templateVersion;
-    private String templateEngine;
-    private String auth;
-    private List<String> systemProperties = new ArrayList<>();
-    private String configFile;
-    private Boolean skipOverwrite;
-    private String apiPackage;
-    private String modelPackage;
-    private String modelNamePrefix;
-    private String modelNameSuffix;
-    private List<String> instantiationTypes = new ArrayList<>();
-    private List<String> typeMappings = new ArrayList<>();
-    private List<String> additionalProperties = new ArrayList<>();
-    private List<String> languageSpecificPrimitives = new ArrayList<>();
-    private List<String> importMappings = new ArrayList<>();
-    private String invokerPackage;
-    private String groupId;
-    private String artifactId;
-    private String artifactVersion;
-    private String library;
-    private String gitUserId;
-    private String gitRepoId;
-    private String releaseNote;
-    private String httpUserAgent;
-    private List<String> reservedWordsMappings = new ArrayList<>();
-    private String ignoreFileOverride;
-    private Boolean removeOperationIdPrefix;
-    private Boolean disableExamples;
+    protected Boolean verbose;
+    protected String lang;
+    protected String output = "";
+    protected String spec;
+    protected String templateDir;
+    protected String templateVersion;
+    protected String templateEngine;
+    protected String auth;
+    protected List<String> systemProperties = new ArrayList<>();
+    protected String configFile;
+    protected Boolean skipOverwrite;
+    protected String apiPackage;
+    protected String modelPackage;
+    protected String modelNamePrefix;
+    protected String modelNameSuffix;
+    protected List<String> instantiationTypes = new ArrayList<>();
+    protected List<String> typeMappings = new ArrayList<>();
+    protected List<String> additionalProperties = new ArrayList<>();
+    protected List<String> languageSpecificPrimitives = new ArrayList<>();
+    protected List<String> importMappings = new ArrayList<>();
+    protected String invokerPackage;
+    protected String groupId;
+    protected String artifactId;
+    protected String artifactVersion;
+    protected String library;
+    protected String gitUserId;
+    protected String gitRepoId;
+    protected String releaseNote;
+    protected String httpUserAgent;
+    protected List<String> reservedWordsMappings = new ArrayList<>();
+    protected String ignoreFileOverride;
+    protected Boolean removeOperationIdPrefix;
+    protected Boolean disableExamples;
     private String url;
     private List<CodegenArgument> codegenArguments;
+
+    public void setVerbose(Boolean verbose) {
+        this.verbose = verbose;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
 
     public void setSpec(String spec) {
         this.spec = spec;
     }
 
+    public void setTemplateDir(String templateDir) {
+        this.templateDir = templateDir;
+    }
+
+    public void setTemplateVersion(String templateVersion) {
+        this.templateVersion = templateVersion;
+    }
+
+    public void setTemplateEngine(String templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth;
+    }
+
+    public void setSystemProperties(List<String> systemProperties) {
+        this.systemProperties = systemProperties;
+    }
+
+    public void setConfigFile(String configFile) {
+        this.configFile = configFile;
+    }
+
+    public void setSkipOverwrite(Boolean skipOverwrite) {
+        this.skipOverwrite = skipOverwrite;
+    }
+
+    public void setApiPackage(String apiPackage) {
+        this.apiPackage = apiPackage;
+    }
+
+    public void setModelPackage(String modelPackage) {
+        this.modelPackage = modelPackage;
+    }
+
+    public void setModelNamePrefix(String modelNamePrefix) {
+        this.modelNamePrefix = modelNamePrefix;
+    }
+
+    public void setModelNameSuffix(String modelNameSuffix) {
+        this.modelNameSuffix = modelNameSuffix;
+    }
+
+    public void setInstantiationTypes(List<String> instantiationTypes) {
+        this.instantiationTypes = instantiationTypes;
+    }
+
+    public void setTypeMappings(List<String> typeMappings) {
+        this.typeMappings = typeMappings;
+    }
+
+    public void setAdditionalProperties(List<String> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+    }
+
+    public void setLanguageSpecificPrimitives(List<String> languageSpecificPrimitives) {
+        this.languageSpecificPrimitives = languageSpecificPrimitives;
+    }
+
+    public void setImportMappings(List<String> importMappings) {
+        this.importMappings = importMappings;
+    }
+
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public void setArtifactId(String artifactId) {
+        this.artifactId = artifactId;
+    }
+
+    public void setArtifactVersion(String artifactVersion) {
+        this.artifactVersion = artifactVersion;
+    }
+
+    public void setLibrary(String library) {
+        this.library = library;
+    }
+
+    public void setGitUserId(String gitUserId) {
+        this.gitUserId = gitUserId;
+    }
+
+    public void setGitRepoId(String gitRepoId) {
+        this.gitRepoId = gitRepoId;
+    }
+
+    public void setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+    }
+
+    public void setHttpUserAgent(String httpUserAgent) {
+        this.httpUserAgent = httpUserAgent;
+    }
+
+    public void setReservedWordsMappings(List<String> reservedWordsMappings) {
+        this.reservedWordsMappings = reservedWordsMappings;
+    }
+
+    public void setIgnoreFileOverride(String ignoreFileOverride) {
+        this.ignoreFileOverride = ignoreFileOverride;
+    }
+
+    public void setRemoveOperationIdPrefix(Boolean removeOperationIdPrefix) {
+        this.removeOperationIdPrefix = removeOperationIdPrefix;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public void setCodegenArguments(List<CodegenArgument> codegenArguments) {
         this.codegenArguments = codegenArguments;
+    }
+
+    public void setDisableExamples(Boolean disableExamples) {
+        this.disableExamples = disableExamples;
     }
 
     @Override
@@ -116,7 +249,6 @@ public class Generate implements Runnable {
             configurator.setLang(lang);
         }
 
-        String output = "";
         if (isNotEmpty(output)) {
             configurator.setOutputDir(output);
         }
@@ -279,9 +411,5 @@ public class Generate implements Runnable {
         } catch (Exception e) {
             LOG.error("Error setting values to object.", e);
         }
-    }
-
-    public void setVerbose(Boolean verbose) {
-        this.verbose = verbose;
     }
 }
