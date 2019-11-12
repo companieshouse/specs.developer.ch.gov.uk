@@ -39,7 +39,7 @@ public class Fix1_2 {
     static JsonNode fixJson(final File file) {
         final Path relativeToBase = getRelativeToBase(source.getWorkingDir(), file.getPath());
         final String jsonContent = readFile(relativeToBase.toFile());
-        final JsonNodeExtractor ne = new JsonNodeExtractor();
+        final JsonNodeExtractor ne = new JsonNodeExtractor(file.getName());
         return ne.convertJson(jsonContent);
     }
 
@@ -48,7 +48,7 @@ public class Fix1_2 {
     }
 
     private void fixFiles() {
-        source.getInputFiles().parallelStream().forEach(this::fixContent);
+        source.getInputFiles().forEach(this::fixContent);
     }
 
     private void fixContent(final File fName) {

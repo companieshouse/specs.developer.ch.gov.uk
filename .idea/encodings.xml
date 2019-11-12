@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/swaggertooling" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/swaggertooling/Swagger-1-2-Fixer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/swaggertooling/swagger-to-openapi-converter" charset="UTF-8" />
   </component>
 </project>

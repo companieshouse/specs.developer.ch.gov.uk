@@ -1,0 +1,546 @@
+{
+  "swaggerVersion": "1.2",
+  "basePath": "http://example.com/api_url",
+  "resourcePath": "/company/{company_number}/registers",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "description": "Company registers information",
+      "operations": [
+        {
+          "method": "GET",
+          "nickname": "readCompanyRegister",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the register information to return.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "Get the company registers information",
+          "type": "companyRegister"
+        }
+      ],
+      "path": "/company/{company_number}/registers"
+    }
+  ],
+  "models": {
+    "companyRegister": {
+      "id": "companyRegister",
+      "properties": {
+        "links": {
+          "description": "A set of URLs related to the resource, including self.",
+          "items": {
+            "$ref": "linksType"
+          },
+          "type": "array"
+        },
+        "company_number": {
+          "description": "The number of the company.",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "registers"
+          ],
+          "type": "string"
+        },
+        "registers": {
+          "description": "company registers information.",
+          "items": {
+            "$ref": "registers"
+          },
+          "type": "array"
+        },
+        "etag": {
+          "description": "The ETag of the resource.",
+          "notes": "Read only",
+          "type": "string"
+        }
+      },
+      "required": [
+        "links",
+        "company_number",
+        "kind",
+        "registers"
+      ]
+    },
+    "registers": {
+      "id": "registers",
+      "description": "Registered company information.",
+      "properties": {
+        "directors": {
+          "description": "List of registered company directors",
+          "items": {
+            "$ref": "registerListDirectors"
+          },
+          "type": "array"
+        },
+        "secretaries": {
+          "description": "List of registered company secretaries.",
+          "items": {
+            "$ref": "registerListSecretaries"
+          },
+          "type": "array"
+        },
+        "persons_with_significant_control": {
+          "description": "List of registered company persons with significant control.",
+          "items": {
+            "$ref": "registerListPersonsWithSignificantControl"
+          },
+          "type": "array"
+        },
+        "usual_residential_address": {
+          "description": "List of register addresses.",
+          "items": {
+            "$ref": "registerListUsualResidentialAddress"
+          },
+          "type": "array"
+        },
+        "llp_usual_residential_address": {
+          "description": "List of register addresses.",
+          "items": {
+            "$ref": "registerListLLPUsualResidentialAddress"
+          },
+          "type": "array"
+        },
+        "members": {
+          "description": "List of registered company members.",
+          "items": {
+            "$ref": "registerListMembers"
+          },
+          "type": "array"
+        },
+        "llp_members": {
+          "description": "List of registered llp members.",
+          "items": {
+            "$ref": "registerListLLPMembers"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "directors",
+        "secretaries",
+        "persons_with_significant_control",
+        "usual_residential_address",
+        "members"
+      ]
+    },
+    "registerListDirectors": {
+      "id": "registerListDirectors",
+      "properties": {
+        "register_type": {
+          "description": "The register type.",
+          "enum": [
+            "directors"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "registeredItems"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksDirectorsRegister"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_type",
+        "items"
+      ]
+    },
+    "registerListSecretaries": {
+      "id": "registerListSecretaries",
+      "properties": {
+        "register_type": {
+          "description": "The register type.",
+          "enum": [
+            "secretaries"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "registeredItems"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksSecretaryRegister"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_type",
+        "items"
+      ]
+    },
+    "registerListPersonsWithSignificantControl": {
+      "id": "registerListPersonsWithSignificantControl",
+      "properties": {
+        "register_type": {
+          "description": "The register type.",
+          "enum": [
+            "persons-with-significant-control"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "registeredItems"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksPersonsWithSignificantControlRegister"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_type",
+        "items"
+      ]
+    },
+    "registerListUsualResidentialAddress": {
+      "id": "registerListUsualResidentialAddress",
+      "properties": {
+        "register_type": {
+          "description": "The register type.",
+          "enum": [
+            "usual-residential-address"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "registeredItems"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksListUsualResidentialAddress"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_type",
+        "items"
+      ]
+    },
+    "registerListLLPUsualResidentialAddress": {
+      "id": "registerListLLPUsualResidentialAddress",
+      "properties": {
+        "register_type": {
+          "description": "The register type.",
+          "enum": [
+            "llp-usual-residential-address"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "registeredItems"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksListLLPUsualResidentialAddress"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_type",
+        "items"
+      ]
+    },
+    "registerListMembers": {
+      "id": "registerListMembers",
+      "properties": {
+        "register_type": {
+          "description": "The register type.",
+          "enum": [
+            "members"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "registeredItems"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksListMembers"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_type",
+        "items"
+      ]
+    },
+    "registerListLLPMembers": {
+      "id": "registerListLLPMembers",
+      "properties": {
+        "register_type": {
+          "description": "The register type.",
+          "enum": [
+            "llp-members"
+          ],
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "$ref": "registeredItems"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksListLLPMembers"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_type",
+        "items"
+      ]
+    },
+    "registeredItems": {
+      "id": "registeredItems",
+      "description": "Registered details for the company",
+      "properties": {
+        "moved_on": {
+          "description": "The date registered on",
+          "type": "string",
+          "format": "date"
+        },
+        "register_moved_to": {
+          "description": "Location of registration",
+          "enum": [
+            "public-register",
+            "registered-office",
+            "single-alternative-inspection-location",
+            "unspecified-location"
+          ],
+          "type": "string"
+        },
+        "links": {
+          "description": "A set of URLs related to the resource.",
+          "items": {
+            "$ref": "linksItems"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "register_moved_to",
+        "moved_on",
+        "links"
+      ]
+    },
+    "linksType": {
+      "id": "linksType",
+      "properties": {
+        "self": {
+          "description": "The URL of the resource.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "self"
+      ]
+    },
+    "linksItems": {
+      "id": "linksItems",
+      "properties": {
+        "filing": {
+          "description": "The URL of the transaction for the resource.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "filing"
+      ]
+    },
+    "linksDirectorsRegister": {
+      "id": "linksDirectorsRegister",
+      "properties": {
+        "directors_register": {
+          "description": "The URL for the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "linksSecretaryRegister": {
+      "id": "linksSecretaryRegister",
+      "properties": {
+        "secretaries_register": {
+          "description": "The URL for the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "linksPersonsWithSignificantControlRegister": {
+      "id": "linksPersonsWithSignificantControlRegister",
+      "properties": {
+        "persons_with_significant_control_register": {
+          "description": "The URL for the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "linksListUsualResidentialAddress": {
+      "id": "linksListUsualResidentialAddress",
+      "properties": {
+        "usual_residential_address": {
+          "description": "The URL for the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "linksListLLPUsualResidentialAddress": {
+      "id": "linksListLLPUsualResidentialAddress",
+      "properties": {
+        "llp_usual_residential_address": {
+          "description": "The URL for the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "linksListMembers": {
+      "id": "linksListMembers",
+      "properties": {
+        "members": {
+          "description": "The URL for the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "linksListLLPMembers": {
+      "id": "linksListLLPMembers",
+      "properties": {
+        "llp_members": {
+          "description": "The URL for the resource.",
+          "type": "string"
+        }
+      }
+    },
+    "error": {
+      "id": "error",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "errorDetail"
+          },
+          "description": "A list of errors found"
+        }
+      }
+    },
+    "errorDetail": {
+      "id": "errorDetail",
+      "required": [
+        "type",
+        "error"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of error.",
+          "enum": [
+            "ch:service",
+            "ch:validation"
+          ]
+        },
+        "location_type": {
+          "type": "string",
+          "description": "Describes the type of location returned so that it may be parsed appropriately.",
+          "enum": [
+            "json-path",
+            "query-parameter"
+          ]
+        },
+        "location": {
+          "type": "string",
+          "description": "The location in the submitted request in which the error relates. This parameter is only provided when errors[].type is set to \"ch:validation\"."
+        },
+        "error": {
+          "type": "string",
+          "description": "The error being returned. See github for valid [https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml](https://github.com/companieshouse/api-enumerations/blob/develop/errors.yml)error enumeration types."
+        },
+        "error_values": {
+          "type": "array",
+          "description": "A collection of argument name and value pairs which, when substituted into the error string, provide the full description of the error. As many name/value pairs as necessary to complete the error description are returned. See example above.",
+          "items": {
+            "$ref": "error_values"
+          }
+        }
+      }
+    },
+    "error_values": {
+      "id": "error_values",
+      "properties": {
+        "argument": {
+          "type": "object",
+          "description": "The element name and value pair required to complete the error description, will repeat as necessary."
+        }
+      }
+    }
+  },
+  "apiVersion": "0.0.1",
+  "info": {
+    "title": "companyRegisters Specification",
+    "description": "**This specification was generated from old data and may not reflect the actual API.**"
+  }
+}

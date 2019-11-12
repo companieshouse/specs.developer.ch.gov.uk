@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/swaggertooling/Swagger-1-2-Fixer/Swagger-1-2-Fixer.iml" filepath="$PROJECT_DIR$/swaggertooling/Swagger-1-2-Fixer/Swagger-1-2-Fixer.iml" />
       <module fileurl="file://$PROJECT_DIR$/ch-spec.iml" filepath="$PROJECT_DIR$/ch-spec.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swaggertooling/swagger-to-openapi-converter/swagger-to-openapi-converter.iml" filepath="$PROJECT_DIR$/swaggertooling/swagger-to-openapi-converter/swagger-to-openapi-converter.iml" />
       <module fileurl="file://$PROJECT_DIR$/swaggertooling/swagger-tooling.iml" filepath="$PROJECT_DIR$/swaggertooling/swagger-tooling.iml" />
     </modules>
   </component>
