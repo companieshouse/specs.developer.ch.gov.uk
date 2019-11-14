@@ -22,7 +22,5 @@ class Fix1_2Test {
                 "-o", outputName);
     }
 
-    @Test
-    void fixJson() {
-    }
+
 }
