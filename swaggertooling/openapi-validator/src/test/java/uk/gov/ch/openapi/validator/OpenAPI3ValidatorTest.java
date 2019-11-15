@@ -1,10 +1,24 @@
 package uk.gov.ch.openapi.validator;
 
+import java.io.File;
+import org.junit.jupiter.api.Test;
+
 class OpenAPI3ValidatorTest {
 
-    @org.junit.jupiter.api.Test
-    void main() {
-        final OpenAPI3Validator openAPI3Validator = new OpenAPI3Validator();
-        OpenAPI3Validator.main();
+    @Test
+    void mainBadInsolvency() throws Exception {
+        final String workingDir = new File("target").getCanonicalPath();
+        final String inputFile = "test-classes/badspecs/insolvency1.2.json";
+
+        OpenAPI3Validator.main("-i", inputFile, "-w", workingDir);
     }
+
+    @Test
+    void mainBadJason() throws Exception {
+        final String workingDir = new File("target").getCanonicalPath();
+        final String inputFile = "test-classes/badspecs/badjson.json";
+
+        OpenAPI3Validator.main("-i", inputFile, "-w", workingDir);
+    }
+
 }
