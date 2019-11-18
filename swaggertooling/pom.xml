@@ -16,6 +16,7 @@
   <modules>
     <module>Swagger-1-2-Fixer</module>
     <module>swagger-to-openapi-converter</module>
+    <module>openapi-validator</module>
   </modules>
 
   <properties>

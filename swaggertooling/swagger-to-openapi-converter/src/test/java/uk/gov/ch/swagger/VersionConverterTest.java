@@ -49,7 +49,7 @@ class VersionConverterTest {
     void generateOpenApiDirectory() throws Exception {
         final String workingDir = new File("target").getCanonicalPath();
         final String inputFile = "test-classes/spec";
-        final String outputDir = new File("openapi3/spec").getCanonicalPath();
+        final String outputDir = new File("target/openapi3/spec").getCanonicalPath();
         final Path outPath = Paths.get(outputDir);
 
         cleanDirectory(outPath);

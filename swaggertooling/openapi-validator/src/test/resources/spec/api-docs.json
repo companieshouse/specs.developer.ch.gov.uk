@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "api docs Specification",
+    "description": "**This specification was generated from old data and may not reflect the actual API.**",
+    "version": "3.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {},
+  "components": {}
+}
