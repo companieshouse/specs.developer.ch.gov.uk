@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
@@ -21,12 +22,13 @@ public class OpenAPI3Validator {
 
     private static Logger LOGGER = LoggerFactory.getLogger(OpenAPI3Validator.class);
     private static ISource source;
+    private static ValidationResult result = ValidationResult.ERRORS;
 
     static public int main(final String... args) {
         final OpenAPI3Validator openAPI3Validator = new OpenAPI3Validator();
         openAPI3Validator.parseArgs(args);
         openAPI3Validator.validateInputFiles();
-        return 0;
+        return result.resultValue;
     }
 
     private void validateInputFiles() {
@@ -43,35 +45,39 @@ public class OpenAPI3Validator {
             LOGGER.error("Unable to create " + SchemaValidator.class.getName(), exception);
             return;
         }
-        for (File inputFile : inputFiles) {
+        for (final File inputFile : inputFiles) {
             sortResults(inputFile, validator, successList, reportMap, exceptions);
         }
 
         LOGGER.info(source.getInputFiles().size() + " Files processed");
         reportSuccess(successList);
-        reportExceptions(exceptions);
         reportIssues(reportMap);
+        reportExceptions(exceptions);
     }
 
     private void reportSuccess(final List<File> successList) {
-        if (!successList.isEmpty()) {
-            LOGGER.info(successList.size() + " Files Passed");
-            for (final File f : successList) {
-                LOGGER.info("Pass: " + f);
-            }
+        for (final File f : successList) {
+            LOGGER.info("Pass: " + f);
         }
+        if (!successList.isEmpty()) {
+            result = ValidationResult.PASS;
+        }
+        LOGGER.info(successList.size() + " Files Passed");
     }
 
-    private void reportIssues(final Map<File, ProcessingReport> reportMap) {
-        if (!reportMap.isEmpty()) {
-            LOGGER.warn(reportMap.size() + " Files Failed");
-            final AtomicInteger nWarnings = new AtomicInteger(0);
 
-            reportMap.entrySet().forEach(row -> {
-                Report1Failure(row, nWarnings);
-            });
-            LOGGER.warn(nWarnings + " Files Failed");
+    private void reportIssues(final Map<File, ProcessingReport> reportMap) {
+
+        if (!reportMap.isEmpty()) {
+            result = ValidationResult.WARNINGS;
         }
+        final AtomicInteger nWarnings = new AtomicInteger(0);
+
+        reportMap.entrySet().forEach(row -> {
+            Report1Failure(row, nWarnings);
+        });
+        final int size = reportMap.size();
+        LOGGER.warn(size + " Files with issues");
     }
 
     private void Report1Failure(Entry<File, ProcessingReport> row, AtomicInteger nWarnings) {
@@ -125,13 +131,21 @@ public class OpenAPI3Validator {
     }
 
     private void reportExceptions(final Map<File, Exception> exceptions) {
-        for (final Entry<File, Exception> kvp : exceptions.entrySet()) {
+        if (!exceptions.isEmpty()) {
+            result = ValidationResult.ERRORS;
+        }
+        final Set<Entry<File, Exception>> entries = exceptions.entrySet();
+        for (final Entry<File, Exception> kvp : entries) {
             try {
-                LOGGER.error(kvp.getKey().getCanonicalPath(), kvp.getValue());
+                LOGGER.error(kvp.getKey().getCanonicalPath() + " " + kvp.getValue()
+                        .getLocalizedMessage());
+                LOGGER.debug("Details: ", kvp.getKey());
             } catch (final IOException ioException) {
                 LOGGER.error(ioException.getLocalizedMessage(), ioException);
             }
         }
+        int size = entries.size();
+        LOGGER.warn(size + " Files with failures");
     }
 
     private void parseArgs(final String... args) {
