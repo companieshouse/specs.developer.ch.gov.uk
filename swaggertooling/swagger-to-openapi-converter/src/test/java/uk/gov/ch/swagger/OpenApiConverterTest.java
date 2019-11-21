@@ -18,7 +18,13 @@ class OpenApiConverterTest {
         final String outputDir = new File("target/openapi3/openAPI/spec").getCanonicalPath();
 
         final Path outPath = Paths.get(outputDir);
-        Files.deleteIfExists(outPath);
+
+        if (Files.exists(outPath)) {
+            Files.walk(outPath)
+                    .filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
         OpenApiConverter versionConverter = new OpenApiConverter();
         versionConverter
                 .codeGenUpgrade("generate", "-i", inputFile, "-o", outputDir, "-l", "openapi");
