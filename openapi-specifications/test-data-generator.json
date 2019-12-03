@@ -1,0 +1,196 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Test Data Generator",
+    "description": "Generate company test data",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.companieshouse.gov.uk/test-data"
+    }
+  ],
+  "tags": [
+    {
+      "name": "company",
+      "description": "Create a company for testing"
+    }
+  ],
+  "paths": {
+    "/company": {
+      "post": {
+        "tags": [
+          "company"
+        ],
+        "summary": "Create a new test company",
+        "operationId": "createCompany",
+        "requestBody": {
+          "description": "Company Spec to customise your requested company. If not supplied default values will be used",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanySpec"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedCompany"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/{companyNumber}": {
+      "delete": {
+        "tags": [
+          "company"
+        ],
+        "summary": "Delete a company",
+        "description": "Deletes all data associated with the company",
+        "operationId": "deleteCompany",
+        "parameters": [
+          {
+            "name": "companyNumber",
+            "in": "path",
+            "description": "Number of Company to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Auth Code of Company",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthCode"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Company Auth Code required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid Company auth code supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Company not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompanySpec": {
+        "type": "object",
+        "properties": {
+          "jurisdiction": {
+            "type": "string",
+            "description": "Jurisdiction of the created company",
+            "enum": [
+              "england-wales",
+              "scotland",
+              "northern-ireland"
+            ],
+            "default": "england-wales"
+          }
+        }
+      },
+      "CreatedCompany": {
+        "type": "object",
+        "properties": {
+          "company_number": {
+            "type": "string",
+            "description": "The company number of the created company",
+            "example": "12345678"
+          },
+          "auth_code": {
+            "type": "string",
+            "example": "123456"
+          },
+          "company_url": {
+            "type": "string",
+            "description": "The link to the created company profile",
+            "example": "/company/12345678"
+          }
+        }
+      },
+      "AuthCode": {
+        "type": "object",
+        "properties": {
+          "auth_code": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
