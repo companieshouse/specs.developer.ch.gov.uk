@@ -47,11 +47,17 @@
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Malformed JSON or invalid value provided",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "errors": {
+                    "error": "invalid jurisdiction",
+                    "type": "ch:validation"
+                  }
                 }
               }
             }
@@ -91,7 +97,7 @@
         },
         "responses": {
           "204": {
-            "description": "successful operation"
+            "description": "Successful Deletion"
           },
           "400": {
             "description": "Company Auth Code required",
@@ -99,29 +105,35 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "errors": {
+                    "error": "company auth_code required",
+                    "type": "ch:validation"
+                  }
                 }
               }
             }
           },
           "401": {
-            "description": "Invalid Company auth code supplied",
+            "description": "Incorrect Company auth code supplied",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "errors": {
+                    "error": "incorrect company auth_code",
+                    "type": "ch:validation"
+                  }
                 }
               }
             }
           },
           "404": {
             "description": "Company not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
+            "content": {}
           }
         }
       }
