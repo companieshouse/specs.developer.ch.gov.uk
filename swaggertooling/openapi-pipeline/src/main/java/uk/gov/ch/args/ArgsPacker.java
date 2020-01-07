@@ -1,11 +1,15 @@
 package uk.gov.ch.args;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ArgsPacker {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArgsPacker.class);
 
     private final static String OUTPUT_DIR_PARAM = "-o";
     private static final String INPUT_DIR_PARAM = "-i";
@@ -13,7 +17,7 @@ public class ArgsPacker {
      * Working Dir is never passed to the pipeline job as Source resolves all paths to absolutes.
      */
     private static final String WORKING_DIR_PARAM = "-w";
-    private ISource source = new Source();
+    private final ISource source = new Source();
 
     public ArgsPacker(final String... args) {
         try {
@@ -41,23 +45,14 @@ public class ArgsPacker {
     }
 
     private void generateWorkingDir(final Collection<String> workingDirs) {
-        setSingleOption(WORKING_DIR_PARAM, workingDirs, s -> {
-//            try {
-            source.setWorkingDir(s);
-//            } catch (IOException e) {
-//                System.err.println(e.getLocalizedMessage());
-//                e.printStackTrace();
-//            }
-        });
-
+        setSingleOption(WORKING_DIR_PARAM, workingDirs, source::setWorkingDir);
     }
 
     private void setSingleOption(final String option, final Collection<String> possibles,
                                  Consumer<String> setter) {
         switch (possibles.size()) {
             case 0: {
-                System.err
-                        .println("Option '" + option + " requires a single value must be supplied");
+                LOGGER.error("Option '" + option + " requires a single value must be supplied");
                 break;
             }
             case 1: {
@@ -66,7 +61,7 @@ public class ArgsPacker {
                 break;
             }
             default: {
-                System.err.println(
+                LOGGER.error(
                         "If " + option + " is specified, it must be a single value not " + possibles
                                 .size());
             }
@@ -78,8 +73,7 @@ public class ArgsPacker {
             try {
                 source.setOutputDir(s);
             } catch (IOException e) {
-                System.err.println(e.getLocalizedMessage());
-                e.printStackTrace();
+                LOGGER.error(e.getLocalizedMessage(), e);
             }
         });
     }
@@ -87,44 +81,4 @@ public class ArgsPacker {
     public ISource getSource() {
         return source;
     }
-
-//    public String[] getFixerArgs() throws IOException {
-//        ArrayList<String> argList = new ArrayList<>();
-//        argList.add("-i");
-//        argList.addAll(source.getInputFiles().stream()
-//                .map(f->f.getPath())
-//                .collect(Collectors.toList())
-//        );
-//        argList.add("-o");
-//        argList.add(source.getFixedDir().toFile().getCanonicalPath());
-////        if(source.getWorkingDir()!=null){
-////            argList.add("-w");
-////            argList.add(source.getWorkingDir().toFile().getCanonicalPath());
-////        }
-//        return argList.stream().collect(Collectors.joining(" ")).split(" ");
-//    }
-//
-//    public String[] getConverterArgs() throws IOException {
-//        ArrayList<String> argList = new ArrayList<>();
-//        argList.add("-i");
-//        argList.add(source.getFixedDir().toFile().getCanonicalPath());
-//        argList.add("-o");
-//        argList.add(source.getOutputDir());
-////        if(source.getWorkingDir()!=null){
-////            argList.add("-w");
-////            argList.add(source.getWorkingDir().toFile().getCanonicalPath());
-////        }
-//        return argList.stream().collect(Collectors.joining(" ")).split(" ");
-//    }
-//
-//    public String[] getValidatorArgs() throws IOException {
-//        ArrayList<String> argList = new ArrayList<>();
-//        argList.add("-i");
-//        argList.add(source.getOutputDir());
-////        if(source.getWorkingDir()!=null){
-////            argList.add("-w");
-////            argList.add(source.getWorkingDir().toFile().getCanonicalPath());
-////        }
-//        return argList.stream().collect(Collectors.joining(" ")).split(" ");
-//    }
 }

@@ -2,8 +2,8 @@ package uk.gov.ch.args;
 
 import java.util.*;
 
-public class ArgParser {
-    private Map<String, List<String>> params = new HashMap<>();
+class ArgParser {
+    private final Map<String, List<String>> params = new HashMap<>();
 
     ArgParser(final String[] args) {
         String key = null;

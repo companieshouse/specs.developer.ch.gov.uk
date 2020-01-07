@@ -1,16 +1,14 @@
 package uk.gov.ch.args;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class SourceTest {
 
@@ -42,27 +40,4 @@ class SourceTest {
         assertArrayEquals(new String[]{"-o",canonicalPath}, source.getArgs("-o"));
     }
 
-    @Nested
-    class tempDirTests{
-        @Test
-        void getArgs_gets_tempDirs_returnsSameDir_AsInAndOut() throws IOException {
-            assertEquals("-i",source.getArgs("-i:t1")[0]);
-            assertEquals("-o",source.getArgs("-o:t2")[0]);
-            assertEquals(source.getArgs("-i:t1")[1],source.getArgs("-o:t1")[1]);
-            assertEquals(source.getArgs("-i:t2")[1],source.getArgs("-o:t2")[1]);
-        }
-        @Test
-        void getArgs_gets_tempDirOne_isADir() throws IOException {
-            String tempOne = source.getArgs("-i:t1")[1];
-            File tempDir = new File(tempOne);
-            assertTrue(tempDir.isDirectory());
-        }
-        @Test
-        void getArgs_gets_tempDirTwo_isADir() throws IOException {
-            String tempOne = source.getArgs("-i:t2")[1];
-            File tempDir = new File(tempOne);
-            assertTrue(tempDir.isDirectory());
-        }
-
-    }
 }

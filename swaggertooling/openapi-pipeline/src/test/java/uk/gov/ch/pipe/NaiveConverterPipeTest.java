@@ -16,14 +16,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class NaiveConverterPipeTest {
 
-    private String[] args = new String[]{"-i","tempDir1","-o","tempDir2"};
     @Mock
     ISource source;
     @Spy
     @InjectMocks
     NaiveConverterPipe pipe;
-    private Path inputFolder = new File("input").toPath();
-    private Path outputFolder = new File("output").toPath();
+    private final Path inputFolder = new File("input").toPath();
+    private final Path outputFolder = new File("output").toPath();
 
 
     @Test

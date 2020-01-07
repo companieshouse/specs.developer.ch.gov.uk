@@ -192,7 +192,7 @@
         "schemas": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Schema"
@@ -207,7 +207,7 @@
         "responses": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -222,7 +222,7 @@
         "parameters": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -237,7 +237,7 @@
         "examples": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -252,7 +252,7 @@
         "requestBodies": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -267,7 +267,7 @@
         "headers": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -282,7 +282,7 @@
         "securitySchemes": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -297,7 +297,7 @@
         "links": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -312,7 +312,7 @@
         "callbacks": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[a-zA-Z0-9.\\-_]+$": {
               "oneOf": [
                 {
                   "$ref": "#/definitions/Reference"
@@ -789,7 +789,7 @@
     "Paths": {
       "type": "object",
       "patternProperties": {
-        "^\\/": {
+        "^/": {
           "$ref": "#/definitions/PathItem"
         },
         "^x-": {

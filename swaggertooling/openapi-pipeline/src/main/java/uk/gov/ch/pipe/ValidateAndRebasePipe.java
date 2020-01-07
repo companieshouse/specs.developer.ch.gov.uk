@@ -40,7 +40,7 @@ public class ValidateAndRebasePipe extends AbstractAPIPipe {
             return new String[]{inputPath};
         }
 
-        filesToValidate = Arrays.asList(getArgs().getConvertDir().toFile().listFiles()).stream()
+        filesToValidate = Arrays.stream(getArgs().getConvertDir().toFile().listFiles())
                 .filter(f -> !f.isDirectory())
                 .map(File::getPath)
                 .toArray(String[]::new);

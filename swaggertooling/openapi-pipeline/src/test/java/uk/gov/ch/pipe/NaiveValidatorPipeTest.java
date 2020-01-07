@@ -19,7 +19,7 @@ class NaiveValidatorPipeTest {
     @Spy
     @InjectMocks
     NaiveValidatorPipe pipe;
-    private String[] args = new String[]{"-o", "outputDir"};
+    private final String[] args = new String[]{"-o", "outputDir"};
 
     @Test
     void pipeMethodFunctions_test() throws Exception {

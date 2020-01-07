@@ -10,13 +10,16 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.ch.args.ISource;
+import uk.gov.ch.openapi.validator.ValidationResult;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,7 +32,7 @@ class ValidateAndRebasePipeTest {
     ISource source;
     @InjectMocks @Spy
     ValidateAndRebasePipe pipe;
-    private String outDir = (new File("target/test-classes/output")).getCanonicalPath();
+    private final String outDir = (new File("target/test-classes/output")).getCanonicalPath();
 
     ValidateAndRebasePipeTest() throws IOException {
     }
@@ -43,8 +46,7 @@ class ValidateAndRebasePipeTest {
 
     @Nested
     class singleFileTests{
-        String singleFileDir = (new File("target/test-classes/singleFileDir")).getCanonicalPath();
-        private String[] singleFileArgs = new String[]{"-i",singleFileDir,"-o",outDir};
+        final String singleFileDir = (new File("target/test-classes/singleFileDir")).getCanonicalPath();
 
         singleFileTests() throws IOException {
         }
@@ -75,18 +77,15 @@ class ValidateAndRebasePipeTest {
 
     @Nested
     class multipleFileTests{
-        String multFileDir = (new File("target/test-classes/multipleFileDir")).getCanonicalPath();
-        private String[] doubleFileArgs = new String[]{"-i", multFileDir,"-o",outDir};
+        final String multiFileDir = (new File("target/test-classes/multipleFileDir")).getCanonicalPath();
 
         multipleFileTests() throws IOException {
         }
 
         @BeforeEach
         void setUp() throws IOException {
-            System.out.println(multFileDir);
-//            doReturn(doubleFileArgs).when(source).getArgs("-i:t2","-o");
-            doReturn(new File(multFileDir).toPath()).when(source).getConvertDir();
-//            doReturn(outDir).when(source).getOutputDir();
+            System.out.println(multiFileDir);
+            doReturn(new File(multiFileDir).toPath()).when(source).getConvertDir();
         }
 
         @Test
@@ -95,12 +94,9 @@ class ValidateAndRebasePipeTest {
             String expectedOne = new File("target/test-classes/multipleFileDir/emptyJson.json").getCanonicalPath();
             String expectedTwo = new File("target/test-classes/multipleFileDir/secondJson.json").getCanonicalPath();
             assertEquals(2,files.length);
-            //I don't think I can guarentee order.
-            if (files[0] == expectedOne) {
-                assertEquals(expectedTwo, files[1]);
-            } else {
-                assertEquals(expectedTwo, files[0]);
-            }
+            final List<String> fileList = Arrays.asList(files);
+            assertTrue(fileList.contains(expectedOne));
+            assertTrue(fileList.contains(expectedTwo));
         }
 
         @Test
@@ -138,7 +134,10 @@ class ValidateAndRebasePipeTest {
 
         @Test
         void test_validateAndMoves_MovesSuccessfullyValidatedFile() throws IOException {
-            doAnswer(a-> { System.out.println(a);return 1;}).when(pipe).invokeValidator(anyString());
+            doAnswer(a -> {
+                System.out.println(a);
+                return ValidationResult.PASS.resultValue;
+            }).when(pipe).invokeValidator(anyString());
             pipe.validateAndMove(fakeTempFile.getPath());
             System.out.println( new File(destination.getPath()+fakeTempFile.getName()).getCanonicalPath());
             assertTrue( new File(destination.getPath()+"/"+fakeTempFile.getName()).exists());

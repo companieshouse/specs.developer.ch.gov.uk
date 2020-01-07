@@ -35,7 +35,7 @@ public class NaiveFixerPipe extends AbstractAPIPipe {
     protected void handle() {
         try {
             final List<String> inputs = getArgs().getInputFiles().stream().map(
-                    f -> getCanonicalPathNoThrow(f)
+                    NaiveFixerPipe::getCanonicalPathNoThrow
             ).filter(Objects::nonNull)
                     .collect(Collectors.toList());
             final String outputPath = getArgs().getFixedDir().toFile().getCanonicalPath();

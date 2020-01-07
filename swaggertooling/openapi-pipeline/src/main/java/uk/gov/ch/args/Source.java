@@ -2,6 +2,7 @@ package uk.gov.ch.args;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -13,11 +14,10 @@ public class Source implements ISource {
 
     private String outputDir = "";
     private Collection<File> inputs;
-    private String extension = ".json";
+    private final String extension = ".json";
     private Path workingDir;
     private Path fixedDir;
     private Path convertDir;
-    private ArgParser parser;
 
     Source() {
         inputs = Collections.emptySet();
@@ -101,28 +101,26 @@ public class Source implements ISource {
     @Override
     public Path getFixedDir() throws IOException {
         if (fixedDir == null) {
-//            fixedDir = Files.createTempDirectory("fixedJson");
-//            fixedDir.toFile().deleteOnExit();
-//            fixedDir = Files.createDirectory(new File("~/apitoolfixed").toPath());
-            File fixedDirFile = workingDir.resolve("apitoolfixed").toFile();
-            if (!fixedDirFile.exists()) {
-                fixedDirFile.mkdir();
-            }
-            fixedDir = fixedDirFile.toPath();
+            fixedDir = Files.createTempDirectory("fixedJson");
+            fixedDir.toFile().deleteOnExit();
+//            File fixedDirFile = workingDir.resolve("apitoolfixed").toFile();
+//            if (!fixedDirFile.exists()) {
+//                fixedDirFile.mkdir();
+//            }
+//            fixedDir = fixedDirFile.toPath();
         }
         return fixedDir;
     }
 
     public Path getConvertDir() throws IOException {
         if (convertDir == null) {
-//            convertDir = Files.createTempDirectory("convertedJson");
-//            convertDir.toFile().deleteOnExit();
-//            fixedDir = Files.createDirectory(new File("~/apitoolconverted").toPath());
-            File convertDirFile = workingDir.resolve("apitoolconverted").toFile();
-            if (!convertDirFile.exists()) {
-                convertDirFile.mkdir();
-            }
-            convertDir = convertDirFile.toPath();
+            convertDir = Files.createTempDirectory("convertedJson");
+            convertDir.toFile().deleteOnExit();
+//            File convertDirFile = workingDir.resolve("apitoolconverted").toFile();
+//            if (!convertDirFile.exists()) {
+//                convertDirFile.mkdir();
+//            }
+//            convertDir = convertDirFile.toPath();
         }
         return convertDir;
     }
@@ -147,7 +145,7 @@ public class Source implements ISource {
     @Override
     public String[] getArgs(final String... s) throws IOException {
         final ArrayList<String> ret = new ArrayList<>();
-        parser = new ArgParser(s);
+        ArgParser parser = new ArgParser(s);
         if (parser.has("-i")) {
             ret.add("-i");
             ret.addAll(getInputFiles().stream()

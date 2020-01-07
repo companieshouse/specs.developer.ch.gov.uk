@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public abstract class AbstractAPIPipe {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(AbstractAPIPipe.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAPIPipe.class);
 
     private ISource args;
     private AbstractAPIPipe next;
@@ -46,13 +46,13 @@ public abstract class AbstractAPIPipe {
         this.abort = true;
     }
 
-    protected void handleAbort() {
+    void handleAbort() {
         LOGGER.error("Aborted pipeline on " + getInputName());
     }
 
     protected abstract void handle();
 
-    public String getInputName() {
+    String getInputName() {
         return inputName;
     }
 

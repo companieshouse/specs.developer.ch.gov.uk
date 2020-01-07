@@ -36,7 +36,6 @@ class NaiveFixerPipeTest {
     @Spy
     @InjectMocks
     NaiveFixerPipe pipe;
-    private String[] args = new String[]{"-i","input","-o","tempDir"};
 
     @Test
     void pipeMethodFunctions_test() throws IOException {

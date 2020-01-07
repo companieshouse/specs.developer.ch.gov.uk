@@ -8,8 +8,6 @@ import uk.gov.ch.pipe.ValidateAndRebasePipe;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
 
 public class APIValidatorPipeline {
@@ -17,11 +15,11 @@ public class APIValidatorPipeline {
 
     private AbstractAPIPipe startPipe;
 
-    APIValidatorPipeline(AbstractAPIPipe... pipes) {
+    private APIValidatorPipeline(AbstractAPIPipe... pipes) {
         buildPipe(pipes);
     }
 
-    public APIValidatorPipeline(SingleFileFixerPipe fixer, SingleFileConverterPipe converter, ValidateAndRebasePipe validator) {
+    APIValidatorPipeline(SingleFileFixerPipe fixer, SingleFileConverterPipe converter, ValidateAndRebasePipe validator) {
         this(new AbstractAPIPipe[]{fixer, converter, validator});
     }
 
@@ -52,19 +50,6 @@ public class APIValidatorPipeline {
 //        }
     }
 
-    private void cleanUpAbandonedFiles(ArgsPacker packedArgs) throws IOException {
-        final Path badAPIFolder = packedArgs.getSource().getWorkingDir().resolve(
-                packedArgs.getSource().getOutputDir()).resolve("bad");
-        badAPIFolder.toFile().mkdir();
-        for (File f : packedArgs.getSource().getFixedDir().toFile().listFiles()) {
-            Path fPath = f.toPath();
-            Files.move(
-                    fPath,
-                    badAPIFolder.resolve(f.getName())
-            );
-        }
-    }
-
     private void resetPipe() {
         AbstractAPIPipe curr = startPipe;
         while (curr != null) {
@@ -80,7 +65,7 @@ public class APIValidatorPipeline {
         return packed;
     }
 
-    public void buildPipe(final AbstractAPIPipe... pipes) {
+    private void buildPipe(final AbstractAPIPipe... pipes) {
         startPipe = pipes[0];
         for (int i = 1; i < pipes.length; i++) {
             pipes[i - 1].setNext(pipes[i]);

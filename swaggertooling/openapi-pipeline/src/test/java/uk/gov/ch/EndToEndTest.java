@@ -15,10 +15,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EndToEndTest {
+class EndToEndTest {
 
     @Test
-    public void fullTest() throws IOException {
+    void fullTest() throws IOException {
         String spec = "spec";
         File workingFile = new File("target/test-classes");
         String specOut = "specsOutput";
@@ -33,19 +33,21 @@ public class EndToEndTest {
 
         File specOutDir = workingFile.toPath().resolve(specOut).toFile();
         assertTrue(specOutDir.isDirectory());
-        File specOutBadDir = specOutDir.toPath().resolve("bad").toFile();
+        File specOutBadDir = specOutDir.toPath().resolve("unconvertable").toFile();
         assertTrue(specOutBadDir.isDirectory());
 
         File specsDir = workingFile.toPath().resolve(spec).toFile();
         assertTrue(specOutDir.isDirectory());
 
-        final List<File> goodFiles = Collections.unmodifiableList(Arrays.asList(specOutDir.listFiles()));
-        final List<File> badFiles = Collections.unmodifiableList(Arrays.asList(specOutBadDir.listFiles()));
+        final List<File> goodFiles = Arrays.asList(specOutDir.listFiles());
+        final List<File> badFiles = Arrays.asList(specOutBadDir.listFiles());
         final List<File> tempAllFiles = new ArrayList<>(goodFiles);
         tempAllFiles.addAll(badFiles);
-        final List<File> allFiles = Collections.unmodifiableList(tempAllFiles);
-        assertEquals(specsDir.listFiles().length, allFiles.size());
-        for (File f : specsDir.listFiles()) {
+        final List<File> allFiles = Collections.unmodifiableList
+                (tempAllFiles);
+        final List<File> specFiles = Arrays.asList(specsDir.listFiles());
+        assertEquals(specFiles.size(), allFiles.size());
+        for (File f : specFiles) {
             assertTrue(matchesInGoodOrBad(f, allFiles));
         }
 //        for(file in specOutDir){
@@ -57,6 +59,10 @@ public class EndToEndTest {
     }
 
     private boolean matchesInGoodOrBad(File f, List<File> allFiles) {
-        return allFiles.stream().anyMatch(af -> af.getName().equals(f.getName()));
+        if (f.isDirectory()) {
+            return true;
+        } else {
+            return allFiles.stream().anyMatch(af -> af.getName().equals(f.getName()));
+        }
     }
 }
