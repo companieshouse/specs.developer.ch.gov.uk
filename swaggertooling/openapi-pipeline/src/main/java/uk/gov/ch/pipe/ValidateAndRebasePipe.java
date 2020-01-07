@@ -1,12 +1,12 @@
 package uk.gov.ch.pipe;
 
-import uk.gov.ch.AbstractAPIPipe;
-import uk.gov.ch.args.ArgsPacker;
 import uk.gov.ch.openapi.validator.OpenAPI3Validator;
+import uk.gov.ch.openapi.validator.ValidationResult;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -22,7 +22,6 @@ public class ValidateAndRebasePipe extends AbstractAPIPipe {
             abort();
             return;
         }
-        System.out.println(Arrays.toString(filesToValidate));
         Stream.of(filesToValidate).forEach(f-> {
             try {
                 validateAndMove(f);
@@ -34,30 +33,37 @@ public class ValidateAndRebasePipe extends AbstractAPIPipe {
 
     String[] getFilePathsForConvertedFiles() throws IOException {
         String[] filesToValidate;
-        ArgsPacker ap = new ArgsPacker(getArgs().getArgs("-i:t2","-o"));
-        filesToValidate = ap.getSource().getInputFiles().stream()
+
+        if (getInputName() != null) {
+            final String fileName = new File(getInputName()).getName();
+            final String inputPath = getArgs().getConvertDir().resolve(fileName).toFile().getCanonicalPath();
+            return new String[]{inputPath};
+        }
+
+        filesToValidate = Arrays.asList(getArgs().getConvertDir().toFile().listFiles()).stream()
                 .filter(f -> !f.isDirectory())
                 .map(File::getPath)
                 .toArray(String[]::new);
+
         return filesToValidate;
     }
 
     void validateAndMove(String filePath) throws IOException {
-        int output = invokeValidator(filePath);
-        File f = new File(filePath);
-        if (!new File(getArgs().getOutputDir()).exists())
-            new File(getArgs().getOutputDir()).mkdir();
-        if(output!=1){
-            if (!new File(getArgs().getOutputDir()+"/bad").exists())
-                new File(getArgs().getOutputDir()+"/bad").mkdir();
+        final int output = invokeValidator(filePath);
+        final File f = new File(filePath);
+        final String outputDir = getArgs().getOutputDir();
+        new File(outputDir).mkdir();
+        if (output != ValidationResult.PASS.resultValue) {
+            final Path badOutPathName = Paths.get(outputDir).resolve("bad");
+            badOutPathName.toFile().mkdir();
             Files.move(
-                    Paths.get(filePath),
-                    Paths.get(getArgs().getOutputDir()+"/bad/"+f.getName())
+                    f.toPath(),
+                    badOutPathName.resolve(f.getName())
             );
         } else {
             Files.move(
-                    Paths.get(filePath),
-                    Paths.get(getArgs().getOutputDir()+"/"+f.getName())
+                    f.toPath(),
+                    Paths.get(outputDir).resolve(f.getName())
             );
         }
     }

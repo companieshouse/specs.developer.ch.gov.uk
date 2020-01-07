@@ -1,0 +1,407 @@
+{
+  "swaggerVersion": "1.2",
+  "basePath": "@@api_url",
+  "resourcePath": "/company/{company_number}/persons-with-significant-control",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "externalModels": [
+    {
+      "path": "/spec/errorModel.json"
+    },
+    {
+      "path": "/spec/dateOfBirthModel.json"
+    },
+    {
+      "path": "/spec/pscModels.json"
+    }
+  ],
+  "apis": [
+    {
+      "description": "List of all persons with significant control (not statements)",
+      "operations": [
+        {
+          "displayMethod": "list",
+          "method": "GET",
+          "nickname": "listPersonsWithSignificantControl",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the persons with significant control list being requested.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The number of persons with significant control to return per page.",
+              "name": "items_per_page",
+              "paramType": "query",
+              "type": "integer"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The offset into the entire result set that this page starts.",
+              "name": "start_index",
+              "paramType": "query",
+              "type": "integer"
+            },
+            {
+              "allowMultiple": false,
+              "description": "Display register specific information. If register is held at Companies House and register_view is set to true, only PSCs which are active or were terminated during election period are shown together with full dates of birth where available. Accepted values are: <ul><li><code>true</code></li><li><code>false</code></li></ul>Defaults to false",
+              "name": "register_view",
+              "paramType": "query",
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 400,
+              "message": "Bad request",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "List the company persons with significant control",
+          "type": "list"
+        }
+      ],
+      "path": "/company/{company_number}/persons-with-significant-control"
+    },
+    {
+      "description": "Get details of an individual person with significant control",
+      "operations": [
+        {
+          "displayMethod": "get individual",
+          "method": "GET",
+          "nickname": "getIndividualWithSignificantControl",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the person with significant control details being requested.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The id of the person with significant control details being requested.",
+              "name": "psc_id",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 400,
+              "message": "Bad request",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "Get the individual person with significant control",
+          "type": "individual"
+        }
+      ],
+      "path": "/company/{company_number}/persons-with-significant-control/individual/{psc_id}"
+    },
+    {
+      "description": "Get details of a corporate entity with significant control",
+      "operations": [
+        {
+          "displayMethod": "get corporate entities",
+          "method": "GET",
+          "nickname": "getCorporateEntityWithSignificantControl",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the corporate entity with significant control details being requested.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The id of the corporate entity with significant control details being requested.",
+              "name": "psc_id",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 400,
+              "message": "Bad request",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "Get the corporate entity with significant control",
+          "type": "corporateEntity"
+        }
+      ],
+      "path": "/company/{company_number}/persons-with-significant-control/corporate-entity/{psc_id}"
+    },
+    {
+      "description": "Get details of a legal person with significant control",
+      "operations": [
+        {
+          "displayMethod": "get legal persons",
+          "method": "GET",
+          "nickname": "getLegalPersonWithSignificantControl",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the legal person with significant control details being requested.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The id of the legal person with significant control details being requested.",
+              "name": "psc_id",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 400,
+              "message": "Bad request",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "Get the legal person with significant control",
+          "type": "legalPerson"
+        }
+      ],
+      "path": "/company/{company_number}/persons-with-significant-control/legal-person/{psc_id}"
+    },
+    {
+      "description": "List of all persons with significant control statements",
+      "operations": [
+        {
+          "displayMethod": "list statements",
+          "method": "GET",
+          "nickname": "listPersonsWithSignificantControlStatements",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the persons with significant control statements list being requested.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The number of persons with significant control statements to return per page.",
+              "name": "items_per_page",
+              "paramType": "query",
+              "type": "integer"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The offset into the entire result set that this page starts.",
+              "name": "start_index",
+              "paramType": "query",
+              "type": "integer"
+            },
+            {
+              "allowMultiple": false,
+              "description": "Display register specific information. If register is held at Companies House and register_view is set to true, only statements which are active or were withdrawn during election period are shown. Accepted values are: <ul><li><code>true</code></li><li><code>false</code></li></ul>Defaults to false",
+              "name": "register_view",
+              "paramType": "query",
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 400,
+              "message": "Bad request",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "List the company persons with significant control statements",
+          "type": "statementList"
+        }
+      ],
+      "path": "/company/{company_number}/persons-with-significant-control-statements"
+    },
+    {
+      "description": "Get details of a person with significant control statement",
+      "operations": [
+        {
+          "displayMethod": "get statement",
+          "method": "GET",
+          "nickname": "getPersonsWithSignificantControlStatement",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the person with significant control statement details being requested.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The id of the person with significant control statement details being requested.",
+              "name": "statement_id",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 400,
+              "message": "Bad request",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "Get the person with significant control statement",
+          "type": "statement"
+        }
+      ],
+      "path": "/company/{company_number}/persons-with-significant-control-statements/{statement_id}"
+    },
+    {
+      "description": "Get details of a super secure person with significant control",
+      "operations": [
+        {
+          "displayMethod": "get super secure person",
+          "method": "GET",
+          "nickname": "getSuperSecurePersonWithSignificantControl",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "description": "The company number of the super secure person with significant control details being requested.",
+              "name": "company_number",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "allowMultiple": false,
+              "description": "The id of the super secure person with significant control details being requested.",
+              "name": "super_secure_id",
+              "paramType": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responseHeaders": [
+            {
+              "description": "The ETag of the resource.",
+              "name": "ETag",
+              "required": true,
+              "value": "ETag"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "message": "Not authorised",
+              "responseModel": "error"
+            },
+            {
+              "code": 400,
+              "message": "Bad request",
+              "responseModel": "error"
+            }
+          ],
+          "summary": "Get the super secure person with significant control",
+          "type": "superSecure"
+        }
+      ],
+      "path": "/company/{company_number}/persons-with-significant-control/super-secure/{super_secure_id}"
+    }
+  ]
+}

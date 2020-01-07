@@ -20,6 +20,8 @@ public interface ISource {
 
     Path getFixedDir() throws IOException;
 
+    Path getConvertDir() throws IOException;
+
     void validateArgs() throws IllegalArgumentException;
 
     String[] getArgs(String... s) throws IOException;

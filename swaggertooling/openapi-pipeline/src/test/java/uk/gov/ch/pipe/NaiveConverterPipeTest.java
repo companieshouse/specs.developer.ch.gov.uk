@@ -1,18 +1,15 @@
 package uk.gov.ch.pipe;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.ch.AbstractAPIPipelineVerifiers;
 import uk.gov.ch.args.ISource;
 
-
-import java.io.IOException;
+import java.io.File;
+import java.nio.file.Path;
 
 import static org.mockito.Mockito.*;
 
@@ -25,30 +22,30 @@ class NaiveConverterPipeTest {
     @Spy
     @InjectMocks
     NaiveConverterPipe pipe;
+    private Path inputFolder = new File("input").toPath();
+    private Path outputFolder = new File("output").toPath();
+
 
     @Test
     void pipeMethodFunctions_test() throws Exception {
-        doNothing().when(pipe).convert(args);
-        when(source.getArgs("-i:t1","-o:t2")).thenReturn(args);
+        doNothing().when(pipe).convert(inputFolder, outputFolder);
+        when(source.getFixedDir()).thenReturn(inputFolder);
+        when(source.getConvertDir()).thenReturn(outputFolder);
         pipe.pipe();
-        verify(source,times(1)).getArgs("-i:t1","-o:t2");
-        verify(pipe,times(1)).convert(args);
+        verify(source, times(1)).getFixedDir();
+        verify(source, times(1)).getConvertDir();
+        verify(pipe, times(1)).convert(inputFolder, outputFolder);
     }
 
     @Test
     void pipeMethodFunctions_invokesAbort_ifItErrors() throws Exception {
-        doThrow(new Exception()).when(pipe).convert(args);
-        when(source.getArgs("-i:t1","-o:t2")).thenReturn(args);
+        doThrow(new Exception()).when(pipe).convert(inputFolder, outputFolder);
+        when(source.getFixedDir()).thenReturn(inputFolder);
+        when(source.getConvertDir()).thenReturn(outputFolder);
         pipe.pipe();
-        verify(source,times(1)).getArgs("-i:t1","-o:t2");
-        verify(pipe,times(1)).convert(args);
-        AbstractAPIPipelineVerifiers.verifyAbortWasCalled(pipe);
-    }
-
-    @Test
-    void pipeMethodFunctions_invokesAbort_ifArgsErrors() throws Exception {
-        doThrow(new IOException()).when(source).getArgs("-i:t1","-o:t2");
-        pipe.pipe();
+        verify(source, times(1)).getFixedDir();
+        verify(source, times(1)).getConvertDir();
+        verify(pipe, times(1)).convert(inputFolder, outputFolder);
         AbstractAPIPipelineVerifiers.verifyAbortWasCalled(pipe);
     }
 }

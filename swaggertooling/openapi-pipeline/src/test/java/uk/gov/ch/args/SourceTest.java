@@ -3,14 +3,11 @@ package uk.gov.ch.args;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import uk.gov.ch.args.Source;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +16,7 @@ class SourceTest {
 
     private static final java.util.List<String> INPUT_FILES = Collections.singletonList("singleFileDir/emptyJson.json");
     private static final String OUTPUT_DIR = "output";
-    private static final String WORKING_DIR = "src/test/resources";
+    private static final String WORKING_DIR = "target/test-classes";
     private Source source;
 
     @BeforeEach

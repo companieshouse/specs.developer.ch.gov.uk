@@ -1,6 +1,5 @@
 package uk.gov.ch.pipe;
 
-import uk.gov.ch.AbstractAPIPipe;
 import uk.gov.ch.openapi.validator.OpenAPI3Validator;
 
 import java.io.IOException;

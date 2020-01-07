@@ -1,20 +1,23 @@
 package uk.gov.ch.pipe;
 
-import uk.gov.ch.AbstractAPIPipe;
 import uk.gov.ch.swagger.VersionConverter;
 
-public class NaiveConverterPipe extends AbstractAPIPipe {
-    void convert(String... args) throws Exception {
-        VersionConverter.main(args);
-    }
+import java.nio.file.Path;
 
+public class NaiveConverterPipe extends AbstractAPIPipe {
     @Override
     protected void handle() {
         try {
-            convert(getArgs().getArgs("-i:t1", "-o:t2"));
+            convert(getArgs().getFixedDir(),
+                    getArgs().getConvertDir()
+            );
         } catch (Exception e) {
             e.printStackTrace();
             abort();
         }
+    }
+
+    void convert(Path fixedDir, Path convertDir) throws Exception {
+        VersionConverter.main("-i", fixedDir.toFile().getCanonicalPath(), "-o", convertDir.toFile().getCanonicalPath());
     }
 }
