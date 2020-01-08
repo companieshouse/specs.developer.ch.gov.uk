@@ -1,14 +1,14 @@
 package uk.gov.ch.args;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Consumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ArgsPacker {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ArgsPacker.class);
 
     private final static String OUTPUT_DIR_PARAM = "-o";
@@ -34,8 +34,7 @@ public class ArgsPacker {
                 }
             }
         } catch (final Exception ex) {
-            System.err.println(ex.getLocalizedMessage());
-            ex.printStackTrace();
+            LOGGER.error("", ex);
         }
         source.validateArgs();
     }
@@ -49,7 +48,7 @@ public class ArgsPacker {
     }
 
     private void setSingleOption(final String option, final Collection<String> possibles,
-                                 Consumer<String> setter) {
+            Consumer<String> setter) {
         switch (possibles.size()) {
             case 0: {
                 LOGGER.error("Option '" + option + " requires a single value must be supplied");

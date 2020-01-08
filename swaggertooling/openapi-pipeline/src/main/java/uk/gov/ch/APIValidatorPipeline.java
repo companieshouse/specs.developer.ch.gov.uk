@@ -1,17 +1,19 @@
 package uk.gov.ch;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.gov.ch.args.ArgsPacker;
 import uk.gov.ch.pipe.AbstractAPIPipe;
 import uk.gov.ch.pipe.SingleFileConverterPipe;
 import uk.gov.ch.pipe.SingleFileFixerPipe;
 import uk.gov.ch.pipe.ValidateAndRebasePipe;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-
 public class APIValidatorPipeline {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(APIValidatorPipeline.class);
 
     private AbstractAPIPipe startPipe;
 
@@ -19,7 +21,8 @@ public class APIValidatorPipeline {
         buildPipe(pipes);
     }
 
-    private APIValidatorPipeline(SingleFileFixerPipe fixer, SingleFileConverterPipe converter, ValidateAndRebasePipe validator) {
+    private APIValidatorPipeline(SingleFileFixerPipe fixer, SingleFileConverterPipe converter,
+            ValidateAndRebasePipe validator) {
         this(new AbstractAPIPipe[]{fixer, converter, validator});
     }
 
@@ -40,7 +43,7 @@ public class APIValidatorPipeline {
                 startPipe.pipe();
                 resetPipe();
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.error("", e);
             }
         });
     }

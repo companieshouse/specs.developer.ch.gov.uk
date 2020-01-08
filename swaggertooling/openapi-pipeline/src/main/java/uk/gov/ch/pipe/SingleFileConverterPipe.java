@@ -1,37 +1,36 @@
 package uk.gov.ch.pipe;
 
-import uk.gov.ch.swagger.VersionConverter;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.gov.ch.swagger.VersionConverter;
 
 public class SingleFileConverterPipe extends AbstractAPIPipe {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleFileConverterPipe.class);
+
     @Override
     protected void handle() {
         try {
             final String fileName = new File(getInputName()).getName();
             final Path fixedDir = getArgs().getFixedDir();
             final Path convertDir = getArgs().getConvertDir();
-            convert(
-                    fileName,
-                    fixedDir,
-                    convertDir
-            );
+            convert(fileName, fixedDir, convertDir);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
             abort();
         }
     }
 
-    private void convert(final String fileName, final Path fixedDir, final Path convertDir) throws Exception {
+    private void convert(final String fileName, final Path fixedDir, final Path convertDir)
+            throws Exception {
         final String inputPath = fixedDir.resolve(fileName).toFile().getCanonicalPath();
         final String outputPath = convertDir.toFile().getCanonicalPath();
-        VersionConverter.main("-i", inputPath,
-                "-o", outputPath
-        );
+        VersionConverter.main("-i", inputPath, "-o", outputPath);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class SingleFileConverterPipe extends AbstractAPIPipe {
                     badDirectory.resolve(localName)
             );
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
         }
     }
 }

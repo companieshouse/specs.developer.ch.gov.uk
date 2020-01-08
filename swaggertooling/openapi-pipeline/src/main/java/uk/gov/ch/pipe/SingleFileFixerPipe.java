@@ -1,23 +1,25 @@
 package uk.gov.ch.pipe;
 
-import uk.gov.ch.tools.swagger.Fix1_2;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.gov.ch.tools.swagger.Fix1_2;
 
 public class SingleFileFixerPipe extends AbstractAPIPipe {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SingleFileFixerPipe.class);
+
     @Override
     protected void handle() {
         try {
             final String inputs = this.getInputName();
             final String outputPath = getArgs().getFixedDir().toFile().getCanonicalPath();
             final String workingDir = getArgs().getWorkingDir().toFile().getCanonicalPath();
-            fix(
-                    inputs, outputPath, workingDir
-            );
+            fix(inputs, outputPath, workingDir);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
             abort();
         }
     }

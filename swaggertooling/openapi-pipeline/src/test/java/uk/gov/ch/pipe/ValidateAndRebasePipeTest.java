@@ -1,5 +1,23 @@
 package uk.gov.ch.pipe;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -11,19 +29,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.ch.args.ISource;
 import uk.gov.ch.openapi.validator.ValidationResult;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ValidateAndRebasePipeTest {
@@ -53,10 +58,7 @@ class ValidateAndRebasePipeTest {
 
         @BeforeEach
         void setUp() throws IOException {
-            System.out.println(singleFileDir);
-//            doReturn(singleFileArgs).when(source).getArgs("-i:t2","-o");
             doReturn(new File(singleFileDir).toPath()).when(source).getConvertDir();
-//            doReturn(outDir).when(source).getOutputDir();
         }
         @Test
         void test_ValidateAndRebase_getFilePathsForConvertedFiles_ReturnsExpectedFile() throws IOException {

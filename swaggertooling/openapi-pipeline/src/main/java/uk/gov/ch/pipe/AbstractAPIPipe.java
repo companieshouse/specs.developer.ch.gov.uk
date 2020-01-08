@@ -1,10 +1,9 @@
 package uk.gov.ch.pipe;
 
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.ch.args.ISource;
-
-import java.util.Optional;
 
 public abstract class AbstractAPIPipe {
 
@@ -72,4 +71,5 @@ public abstract class AbstractAPIPipe {
     public void setAbort(boolean b) {
         this.abort = b;
     }
+
 }

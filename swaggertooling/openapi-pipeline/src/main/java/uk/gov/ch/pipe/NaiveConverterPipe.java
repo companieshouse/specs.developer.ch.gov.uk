@@ -1,10 +1,14 @@
 package uk.gov.ch.pipe;
 
+import java.nio.file.Path;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.gov.ch.swagger.VersionConverter;
 
-import java.nio.file.Path;
-
 public class NaiveConverterPipe extends AbstractAPIPipe {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NaiveConverterPipe.class);
+
     @Override
     protected void handle() {
         try {
@@ -12,12 +16,13 @@ public class NaiveConverterPipe extends AbstractAPIPipe {
                     getArgs().getConvertDir()
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
             abort();
         }
     }
 
     void convert(Path fixedDir, Path convertDir) throws Exception {
-        VersionConverter.main("-i", fixedDir.toFile().getCanonicalPath(), "-o", convertDir.toFile().getCanonicalPath());
+        VersionConverter.main("-i", fixedDir.toFile().getCanonicalPath(), "-o",
+                convertDir.toFile().getCanonicalPath());
     }
 }

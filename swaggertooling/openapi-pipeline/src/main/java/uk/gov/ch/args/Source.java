@@ -5,16 +5,24 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Source implements ISource {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Source.class);
 
+    private final String extension = ".json";
     private String outputDir = "";
     private Collection<File> inputs;
-    private final String extension = ".json";
     private Path workingDir;
     private Path fixedDir;
     private Path convertDir;
@@ -43,7 +51,7 @@ public class Source implements ISource {
                         + "' so output not possible");
             }
         } else {
-            System.out.println("Creating output directory");
+            LOGGER.info("Creating output directory");
             if (!path.mkdir()) {
                 throw new IOException(
                         "Unable to create output directory '" + path.getAbsolutePath() + "'");
@@ -71,7 +79,7 @@ public class Source implements ISource {
                 throw new IOException("Input path '" + path.getAbsolutePath() + "' not found");
             }
             if (path.isDirectory()) {
-                final boolean fileList = files.addAll(getInputFilesInDir(path)
+                files.addAll(getInputFilesInDir(path)
                         .collect(Collectors.toList()));
             } else {
                 files.add(path);
@@ -103,11 +111,6 @@ public class Source implements ISource {
         if (fixedDir == null) {
             fixedDir = Files.createTempDirectory("fixedJson");
             fixedDir.toFile().deleteOnExit();
-//            File fixedDirFile = workingDir.resolve("apitoolfixed").toFile();
-//            if (!fixedDirFile.exists()) {
-//                fixedDirFile.mkdir();
-//            }
-//            fixedDir = fixedDirFile.toPath();
         }
         return fixedDir;
     }
@@ -116,11 +119,6 @@ public class Source implements ISource {
         if (convertDir == null) {
             convertDir = Files.createTempDirectory("convertedJson");
             convertDir.toFile().deleteOnExit();
-//            File convertDirFile = workingDir.resolve("apitoolconverted").toFile();
-//            if (!convertDirFile.exists()) {
-//                convertDirFile.mkdir();
-//            }
-//            convertDir = convertDirFile.toPath();
         }
         return convertDir;
     }
@@ -140,36 +138,6 @@ public class Source implements ISource {
         if (!ret.isEmpty()) {
             throw new IllegalArgumentException(ret);
         }
-    }
-
-    @Override
-    public String[] getArgs(final String... s) throws IOException {
-        final ArrayList<String> ret = new ArrayList<>();
-        ArgParser parser = new ArgParser(s);
-        if (parser.has("-i")) {
-            ret.add("-i");
-            ret.addAll(getInputFiles().stream()
-                    .map(File::getPath)
-                    .collect(Collectors.toList()));
-        } else if (parser.has("-i:t1")) {
-            ret.add("-i");
-            ret.add(getFixedDir().toFile().getCanonicalPath());
-        } else if (parser.has("-i:t2")) {
-            ret.add("-i");
-            ret.add(getConvertDir().toFile().getCanonicalPath());
-        }
-
-        if (parser.has("-o")) {
-            ret.add("-o");
-            ret.add(getOutputDir());
-        } else if (parser.has("-o:t1")) {
-            ret.add("-o");
-            ret.add(getFixedDir().toFile().getCanonicalPath());
-        } else if (parser.has("-o:t2")) {
-            ret.add("-o");
-            ret.add(getConvertDir().toFile().getCanonicalPath());
-        }
-        return ret.toArray(new String[]{});
     }
 
 }

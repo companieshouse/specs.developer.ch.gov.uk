@@ -1,8 +1,13 @@
 package uk.gov.ch.args;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class ArgParser {
+
     private final Map<String, List<String>> params = new HashMap<>();
 
     ArgParser(final String[] args) {

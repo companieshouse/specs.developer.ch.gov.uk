@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 
 public interface ISource {
+
     Collection<File> getInputFiles();
 
     void setInputFiles(Collection<String> strings) throws IOException;
@@ -23,6 +24,4 @@ public interface ISource {
     Path getConvertDir() throws IOException;
 
     void validateArgs() throws IllegalArgumentException;
-
-    String[] getArgs(String... s) throws IOException;
 }

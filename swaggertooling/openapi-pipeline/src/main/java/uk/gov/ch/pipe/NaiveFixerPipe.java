@@ -1,21 +1,24 @@
 package uk.gov.ch.pipe;
 
-import uk.gov.ch.tools.swagger.Fix1_2;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.gov.ch.tools.swagger.Fix1_2;
 
 public class NaiveFixerPipe extends AbstractAPIPipe {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NaiveFixerPipe.class);
 
     static private String getCanonicalPathNoThrow(File p) {
         try {
             return p.getCanonicalPath();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
             return null;
         }
     }
