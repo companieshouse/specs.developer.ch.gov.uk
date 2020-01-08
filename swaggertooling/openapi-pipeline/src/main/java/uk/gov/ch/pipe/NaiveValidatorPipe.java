@@ -10,6 +10,6 @@ public class NaiveValidatorPipe extends AbstractAPIPipe {
 
     @Override
     protected void handle() {
-        validate("o", getArgs().getOutputDir());
+        validate("-o", getArgs().getOutputDir());
     }
 }

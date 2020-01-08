@@ -1,5 +1,10 @@
 package uk.gov.ch.pipe;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -8,33 +13,23 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.ch.args.ISource;
 
-import java.io.IOException;
-
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 class NaiveValidatorPipeTest {
+
+    private final String outputDir = "outputDir";
+    private final String[] args = new String[]{"-o", outputDir};
     @Mock
     ISource source;
     @Spy
     @InjectMocks
     NaiveValidatorPipe pipe;
-    private final String[] args = new String[]{"-o", "outputDir"};
 
     @Test
-    void pipeMethodFunctions_test() throws Exception {
+    void pipeMethodFunctions_test() {
         doNothing().when(pipe).validate(args);
-        when(source.getArgs("-o")).thenReturn(args);
+        when(source.getOutputDir()).thenReturn(outputDir);
         pipe.pipe();
-        verify(source, times(1)).getArgs("-o");
-        verify(pipe, times(1)).validate(args);
-    }
-
-    @Test
-    void pipeMethodFunctions_invokesAbort_ifItErrors() throws Exception {
-        doThrow(new IOException()).when(source).getArgs("-o");
-        pipe.pipe();
-        verify(source, times(1)).getArgs("-o");
-        AbstractAPIPipelineVerifiers.verifyAbortWasCalled(pipe);
+        verify(source, times(1)).getOutputDir();
+        verify(pipe, times(1)).validate("-o", outputDir);
     }
 }
