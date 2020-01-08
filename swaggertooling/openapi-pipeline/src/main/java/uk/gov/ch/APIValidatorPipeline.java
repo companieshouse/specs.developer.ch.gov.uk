@@ -19,7 +19,7 @@ public class APIValidatorPipeline {
         buildPipe(pipes);
     }
 
-    APIValidatorPipeline(SingleFileFixerPipe fixer, SingleFileConverterPipe converter, ValidateAndRebasePipe validator) {
+    private APIValidatorPipeline(SingleFileFixerPipe fixer, SingleFileConverterPipe converter, ValidateAndRebasePipe validator) {
         this(new AbstractAPIPipe[]{fixer, converter, validator});
     }
 
@@ -43,11 +43,6 @@ public class APIValidatorPipeline {
                 e.printStackTrace();
             }
         });
-//        try {
-//            cleanUpAbandonedFiles(packedArgs);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void resetPipe() {
@@ -61,7 +56,6 @@ public class APIValidatorPipeline {
     private ArgsPacker readArguments(final String... args) {
         final ArgsPacker packed = new ArgsPacker(args);
         startPipe.setSource(packed.getSource());
-//        return packed.getSource().getInputFiles();
         return packed;
     }
 

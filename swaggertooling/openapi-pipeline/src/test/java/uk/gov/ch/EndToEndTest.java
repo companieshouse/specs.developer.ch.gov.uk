@@ -1,9 +1,8 @@
 package uk.gov.ch;
 
 import org.junit.jupiter.api.Test;
-import uk.gov.ch.pipe.SingleFileConverterPipe;
-import uk.gov.ch.pipe.SingleFileFixerPipe;
-import uk.gov.ch.pipe.ValidateAndRebasePipe;
+import uk.gov.ch.openapi.validator.OpenAPI3Validator;
+import uk.gov.ch.openapi.validator.ValidationResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EndToEndTest {
 
@@ -23,12 +21,7 @@ class EndToEndTest {
         File workingFile = new File("target/test-classes");
         String specOut = "specsOutput";
 
-        APIValidatorPipeline pipeline = new APIValidatorPipeline(
-                new SingleFileFixerPipe(),
-                new SingleFileConverterPipe(),
-                new ValidateAndRebasePipe()
-        );
-        pipeline.processDocs("-i", spec, "-o", specOut, "-w", workingFile.getCanonicalPath());
+        APIValidatorPipeline.main("-i", spec, "-o", specOut, "-w", workingFile.getCanonicalPath());
 
 
         File specOutDir = workingFile.toPath().resolve(specOut).toFile();
@@ -47,15 +40,29 @@ class EndToEndTest {
                 (tempAllFiles);
         final List<File> specFiles = Arrays.asList(specsDir.listFiles());
         assertEquals(specFiles.size(), allFiles.size());
-        for (File f : specFiles) {
-            assertTrue(matchesInGoodOrBad(f, allFiles));
-        }
-//        for(file in specOutDir){
-//            assert(valid)
-//        }
-//        for(file in specOut.bad){
-//            assert(notValid)
-//        }
+        specFiles.forEach(file -> assertTrue(matchesInGoodOrBad(file, allFiles)));
+        goodFiles.forEach(file -> {
+            if (!file.isDirectory()) {
+                try {
+                    final String canonicalPath = file.getCanonicalPath();
+                    final int validationResult = OpenAPI3Validator.main("-i", canonicalPath);
+                    assertEquals(ValidationResult.PASS.resultValue, validationResult);
+                } catch (IOException e) {
+                    fail(e);
+                }
+            }
+        });
+        badFiles.forEach(file -> {
+            if (!file.isDirectory()) {
+                try {
+                    final String canonicalPath = file.getCanonicalPath();
+                    final int validationResult = OpenAPI3Validator.main("-i", canonicalPath);
+                    assertNotEquals(ValidationResult.PASS.resultValue, validationResult);
+                } catch (IOException e) {
+                    fail(e);
+                }
+            }
+        });
     }
 
     private boolean matchesInGoodOrBad(File f, List<File> allFiles) {
