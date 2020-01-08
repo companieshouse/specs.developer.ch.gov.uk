@@ -33,7 +33,6 @@ public class Source implements ISource {
 
     @Override
     public String getOutputDir() {
-
         return outputDir;
     }
 

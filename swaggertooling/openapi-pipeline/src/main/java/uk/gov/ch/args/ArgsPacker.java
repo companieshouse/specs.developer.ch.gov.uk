@@ -13,9 +13,6 @@ public class ArgsPacker {
 
     private final static String OUTPUT_DIR_PARAM = "-o";
     private static final String INPUT_DIR_PARAM = "-i";
-    /**
-     * Working Dir is never passed to the pipeline job as Source resolves all paths to absolutes.
-     */
     private static final String WORKING_DIR_PARAM = "-w";
     private final ISource source = new Source();
 

@@ -1,5 +1,6 @@
 package uk.gov.ch.pipe;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,12 @@ public class NaiveConverterPipe extends AbstractAPIPipe {
             convert(getArgs().getFixedDir(),
                     getArgs().getConvertDir()
             );
+        } catch (IOException ioE) {
+            LOGGER.error("Error reading parameters ", ioE);
+            abort();
+
         } catch (Exception e) {
-            LOGGER.error("", e);
+            LOGGER.error("Error in Conversion process ", e);
             abort();
         }
     }

@@ -15,13 +15,17 @@ public class SingleFileConverterPipe extends AbstractAPIPipe {
 
     @Override
     protected void handle() {
+        final String fileName = new File(getInputName()).getName();
         try {
-            final String fileName = new File(getInputName()).getName();
             final Path fixedDir = getArgs().getFixedDir();
             final Path convertDir = getArgs().getConvertDir();
             convert(fileName, fixedDir, convertDir);
+        } catch (IOException ioE) {
+            LOGGER.error("Error reading parameters when processing " + fileName, ioE);
+            abort();
+
         } catch (Exception e) {
-            LOGGER.error("", e);
+            LOGGER.error("Error in Conversion process when processing " + fileName, e);
             abort();
         }
     }

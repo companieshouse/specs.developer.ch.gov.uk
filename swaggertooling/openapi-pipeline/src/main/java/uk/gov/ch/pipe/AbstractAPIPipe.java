@@ -34,10 +34,10 @@ public abstract class AbstractAPIPipe {
 
     public void pipe() {
         handle();
-        if (!abort) {
-            Optional.ofNullable(next).ifPresent(AbstractAPIPipe::pipe);
-        } else {
+        if (abort) {
             handleAbort();
+        } else {
+            Optional.ofNullable(next).ifPresent(AbstractAPIPipe::pipe);
         }
     }
 

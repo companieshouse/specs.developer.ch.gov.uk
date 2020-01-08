@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.gov.ch.openapi.validator.OpenAPI3Validator;
@@ -21,18 +20,17 @@ public class ValidateAndRebasePipe extends AbstractAPIPipe {
         String[] filesToValidate;
         try {
             filesToValidate = getFilePathsForConvertedFiles();
-        } catch (IOException e) {
-            LOGGER.error("", e);
-            abort();
-            return;
-        }
-        Stream.of(filesToValidate).forEach(f -> {
-            try {
-                validateAndMove(f);
-            } catch (IOException e) {
-                LOGGER.error("", e);
+            for (String fName : filesToValidate) {
+                try {
+                    validateAndMove(fName);
+                } catch (IOException e) {
+                    LOGGER.warn("Error when moving " + fName, e);
+                }
             }
-        });
+        } catch (IOException e) {
+            LOGGER.error("Error reading parameters.", e);
+            abort();
+        }
     }
 
     String[] getFilePathsForConvertedFiles() throws IOException {
@@ -42,14 +40,14 @@ public class ValidateAndRebasePipe extends AbstractAPIPipe {
             final String fileName = new File(getInputName()).getName();
             final String inputPath = getArgs().getConvertDir().resolve(fileName).toFile()
                     .getCanonicalPath();
-            return new String[]{inputPath};
+            filesToValidate = new String[]{inputPath};
+        } else {
+            final File[] files = getArgs().getConvertDir().toFile().listFiles();
+            filesToValidate = Arrays.stream(files)
+                    .filter(f -> !f.isDirectory())
+                    .map(File::getPath)
+                    .toArray(String[]::new);
         }
-
-        filesToValidate = Arrays.stream(getArgs().getConvertDir().toFile().listFiles())
-                .filter(f -> !f.isDirectory())
-                .map(File::getPath)
-                .toArray(String[]::new);
-
         return filesToValidate;
     }
 

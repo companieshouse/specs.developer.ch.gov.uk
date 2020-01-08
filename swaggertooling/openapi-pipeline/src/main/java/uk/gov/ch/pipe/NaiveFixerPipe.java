@@ -14,13 +14,14 @@ public class NaiveFixerPipe extends AbstractAPIPipe {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NaiveFixerPipe.class);
 
-    static private String getCanonicalPathNoThrow(File p) {
+    static private String getCanonicalPathNoThrow(final File p) {
+        String ret = null;
         try {
-            return p.getCanonicalPath();
+            ret = p.getCanonicalPath();
         } catch (IOException e) {
-            LOGGER.error("", e);
-            return null;
+            LOGGER.error("Could obtain Canonical Path for " + p, e);
         }
+        return ret;
     }
 
     void fix(final List<String> inFiles, final String outDir, final String workingDir) {
@@ -43,11 +44,9 @@ public class NaiveFixerPipe extends AbstractAPIPipe {
                     .collect(Collectors.toList());
             final String outputPath = getArgs().getFixedDir().toFile().getCanonicalPath();
             final String workingDir = getArgs().getWorkingDir().toFile().getCanonicalPath();
-            fix(
-                    inputs, outputPath, workingDir
-            );
+            fix(inputs, outputPath, workingDir);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Unable to read Parameters", e);
             abort();
         }
     }

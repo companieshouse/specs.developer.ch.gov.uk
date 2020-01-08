@@ -13,13 +13,17 @@ public class SingleFileFixerPipe extends AbstractAPIPipe {
 
     @Override
     protected void handle() {
+        final String inputs = this.getInputName();
         try {
-            final String inputs = this.getInputName();
             final String outputPath = getArgs().getFixedDir().toFile().getCanonicalPath();
             final String workingDir = getArgs().getWorkingDir().toFile().getCanonicalPath();
             fix(inputs, outputPath, workingDir);
         } catch (IOException e) {
-            LOGGER.error("", e);
+            LOGGER.error(
+                    "Error reading parameters from output or working directory when processing "
+                            + inputs,
+                    e
+            );
             abort();
         }
     }

@@ -17,16 +17,20 @@ class ArgParser {
                 key = arg;
                 params.computeIfAbsent(key, k -> new ArrayList<>());
             } else {
-                params.compute(key, (k, v) -> {
-                    if (v == null) {
-                        return Collections.singletonList(arg);
-                    } else {
-                        v.add(arg);
-                        return v;
-                    }
-                });
+                params.compute(key, (k, v) -> appendToArgs(arg, v));
             }
         }
+    }
+
+    private List<String> appendToArgs(String arg, List<String> v) {
+        List<String> result;
+        if (v == null) {
+            result = Collections.singletonList(arg);
+        } else {
+            v.add(arg);
+            result = v;
+        }
+        return result;
     }
 
     List<String> get(final String key) {
