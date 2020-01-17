@@ -1,0 +1,68 @@
+{
+  "models": {
+    "validationError": {
+      "id": "error",
+      "properties": {
+        "errors": {
+          "type": "Array",
+          "items": {
+            "$ref": "errorDetail"
+          },
+          "description": "A list of errors found"
+        },
+        "persisted": {
+          "type": "boolean",
+          "description": "If true, indicates that the created or updated resource was persisted as requested, despite there being missing required fields."
+        }
+      }
+    },
+    "errorDetail": {
+      "id": "errorDetail",
+      "required": [
+        "field",
+        "failures"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The field name in the submitted document to which the error relates"
+        },
+        "rules": {
+          "type": "Array",
+          "items": {
+            "$ref": "rules"
+          },
+          "description": "The list of rules that failed for the field"
+        }
+      }
+    },
+    "rules": {
+      "id": "rules",
+      "required": [
+        "rule"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the rule that failed. This is a reference into the <code>rules_url</code> resource."
+        },
+        "arguments": {
+          "type": "List",
+          "description": "A collection of argument name and value pairs which, when substituted into the error string, provide the full description of the error. As many name/value pairs as necessary to complete the error discription are returned. See <a href=\"\">example</a>.",
+          "items": {
+            "$ref": "rule_args"
+          }
+        }
+      }
+    },
+    "rule_args": {
+      "id": "rule_args",
+      "properties": {
+        "<argument>": {
+          "type": "<value>",
+          "description": "The element name and value pair required to complete the error description. Will repeat as necessary."
+        }
+      }
+    }
+  }
+}
