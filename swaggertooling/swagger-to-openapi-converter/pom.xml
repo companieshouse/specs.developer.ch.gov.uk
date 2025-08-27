@@ -36,7 +36,7 @@
     <dependency>
       <artifactId>commons-beanutils</artifactId>
       <groupId>commons-beanutils</groupId>
-      <version>1.9.4</version>
+      <version>1.11.0</version>
     </dependency>
   </dependencies>
 
